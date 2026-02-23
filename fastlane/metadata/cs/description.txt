@@ -1,0 +1,24 @@
+Pocitej s detmi dela z procvicovani matematiky zabavu! S barevnymi motivy, nastavitelnou obtiznosti a prehledem vysledku bude vase dite rado pocitat scitani, odcitani, nasobeni i deleni.
+
+FUNKCE:
+
+- Ctyri operace: scitani, odcitani, nasobeni a deleni
+- Nastavitelne rozsahy: do 10, 20, 100 nebo 1000
+- Volitelny pocet prikladu na stranku (1-10)
+- Casovy limit pro vetsi vyzvu
+- Okamzita zpetna vazba se spravnymi odpovedi
+- Oslava "Cisty list" za bezchybny vykon
+
+TRI HRAVE MOTIVY:
+Vybirejte z motivu Dinosaurus, Jednorozec nebo Tucnak — kazdy s vlastnimi barvami a maskotem.
+
+PREHLED VYSLEDKU:
+Sledujte pokroky v case pomoci grafickych grafu zobrazujicich prumerny pocet chyb, prumerny cas a serie bezchybnych vysledku. Filtrovani podle dne, tydne, mesice nebo roku.
+
+TRI JAZYKY:
+Plna podpora anglictiny, cestiny a hebrejstiny.
+
+SOUKROMI NA PRVNIM MISTE:
+Zadny sber dat, zadne reklamy, neni potreba pripojeni k internetu. Veskery pokrok je ulozen lokalne na zarizeni.
+
+Navrzeno pro deti od 4 let. Jednoduche a prehledne rozhrani, ktere deti nerusi od uceni.

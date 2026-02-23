@@ -1,0 +1,24 @@
+Count with Kids makes math practice fun and engaging for children! With colorful themes, customizable difficulty, and a built-in performance dashboard, your child will love practicing addition, subtraction, multiplication, and division.
+
+FEATURES:
+
+- Four operations: addition, subtraction, multiplication, and division
+- Adjustable counting ranges: up to 10, 20, 100, or 1000
+- Configurable number of problems per session (1-10)
+- Optional countdown timer to add a fun challenge
+- Instant feedback with correct answers shown for mistakes
+- "Clean Sheet" celebrations for perfect scores
+
+THREE PLAYFUL THEMES:
+Choose from Dinosaur, Unicorn, or Penguin themes — each with unique colors and mascot to keep kids motivated.
+
+PERFORMANCE DASHBOARD:
+Track progress over time with visual bar charts showing average errors, average time, and clean sheet streaks. Filter by day, week, month, or year.
+
+THREE LANGUAGES:
+Full support for English, Czech, and Hebrew — including right-to-left layout for Hebrew.
+
+PRIVACY FIRST:
+No data collection, no ads, no internet connection required. All progress is stored locally on the device.
+
+Designed for children ages 4 and up. Simple, distraction-free interface that lets kids focus on learning.

@@ -1,0 +1,40 @@
+default_platform(:ios)
+
+platform :ios do
+  desc "Capture localized screenshots"
+  lane :screenshots do
+    capture_screenshots(scheme: "CountWithKids")
+  end
+
+  desc "Build the app"
+  lane :build do
+    build_app(
+      scheme: "CountWithKids",
+      export_method: "app-store",
+      clean: true,
+      output_directory: "./build",
+      output_name: "CountWithKids.ipa"
+    )
+  end
+
+  desc "Upload to TestFlight"
+  lane :beta do
+    build
+    upload_to_testflight(
+      skip_waiting_for_build_processing: true
+    )
+  end
+
+  desc "Upload to App Store"
+  lane :release do
+    build
+    deliver(
+      submit_for_review: false,
+      force: true,
+      metadata_path: "./fastlane/metadata",
+      screenshots_path: "./fastlane/screenshots",
+      price_tier: 1,
+      app_rating_config_path: "./fastlane/rating_config.json"
+    )
+  end
+end

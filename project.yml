@@ -12,6 +12,8 @@ settings:
     CURRENT_PROJECT_VERSION: 1
     TARGETED_DEVICE_FAMILY: "1"
     SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD: "NO"
+    CODE_SIGN_STYLE: Automatic
+    DEVELOPMENT_TEAM: XXXXXXXXXX  # Replace with your Apple Developer Team ID
 targets:
   CountWithKids:
     type: application
