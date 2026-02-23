@@ -1,0 +1,288 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "Practice" : {
+      "localizations" : {
+        "cs" : { "stringUnit" : { "state" : "translated", "value" : "Počítání" } },
+        "he" : { "stringUnit" : { "state" : "translated", "value" : "תרגול" } }
+      }
+    },
+    "Dashboard" : {
+      "localizations" : {
+        "cs" : { "stringUnit" : { "state" : "translated", "value" : "Přehled" } },
+        "he" : { "stringUnit" : { "state" : "translated", "value" : "לוח בקרה" } }
+      }
+    },
+    "Settings" : {
+      "localizations" : {
+        "cs" : { "stringUnit" : { "state" : "translated", "value" : "Nastavení" } },
+        "he" : { "stringUnit" : { "state" : "translated", "value" : "הגדרות" } }
+      }
+    },
+    "Ready to practice?" : {
+      "localizations" : {
+        "cs" : { "stringUnit" : { "state" : "translated", "value" : "Připraveni počítat?" } },
+        "he" : { "stringUnit" : { "state" : "translated", "value" : "?מוכנים לתרגל" } }
+      }
+    },
+    "Start!" : {
+      "localizations" : {
+        "cs" : { "stringUnit" : { "state" : "translated", "value" : "Start!" } },
+        "he" : { "stringUnit" : { "state" : "translated", "value" : "!התחל" } }
+      }
+    },
+    "Check All" : {
+      "localizations" : {
+        "cs" : { "stringUnit" : { "state" : "translated", "value" : "Zkontrolovat vše" } },
+        "he" : { "stringUnit" : { "state" : "translated", "value" : "בדוק הכל" } }
+      }
+    },
+    "Clean Sheet!" : {
+      "localizations" : {
+        "cs" : { "stringUnit" : { "state" : "translated", "value" : "Bez chyby!" } },
+        "he" : { "stringUnit" : { "state" : "translated", "value" : "!ללא שגיאות" } }
+      }
+    },
+    "Time's up!" : {
+      "localizations" : {
+        "cs" : { "stringUnit" : { "state" : "translated", "value" : "Čas vypršel!" } },
+        "he" : { "stringUnit" : { "state" : "translated", "value" : "!נגמר הזמן" } }
+      }
+    },
+    "Time" : {
+      "localizations" : {
+        "cs" : { "stringUnit" : { "state" : "translated", "value" : "Čas" } },
+        "he" : { "stringUnit" : { "state" : "translated", "value" : "זמן" } }
+      }
+    },
+    "Errors" : {
+      "localizations" : {
+        "cs" : { "stringUnit" : { "state" : "translated", "value" : "Chyby" } },
+        "he" : { "stringUnit" : { "state" : "translated", "value" : "שגיאות" } }
+      }
+    },
+    "Correct" : {
+      "localizations" : {
+        "cs" : { "stringUnit" : { "state" : "translated", "value" : "Správně" } },
+        "he" : { "stringUnit" : { "state" : "translated", "value" : "נכון" } }
+      }
+    },
+    "Try Again" : {
+      "localizations" : {
+        "cs" : { "stringUnit" : { "state" : "translated", "value" : "Zkusit znovu" } },
+        "he" : { "stringUnit" : { "state" : "translated", "value" : "נסה שוב" } }
+      }
+    },
+    "Done" : {
+      "localizations" : {
+        "cs" : { "stringUnit" : { "state" : "translated", "value" : "Hotovo" } },
+        "he" : { "stringUnit" : { "state" : "translated", "value" : "סיום" } }
+      }
+    },
+    "No data yet" : {
+      "localizations" : {
+        "cs" : { "stringUnit" : { "state" : "translated", "value" : "Zatím žádná data" } },
+        "he" : { "stringUnit" : { "state" : "translated", "value" : "אין נתונים עדיין" } }
+      }
+    },
+    "No practice sessions yet" : {
+      "localizations" : {
+        "cs" : { "stringUnit" : { "state" : "translated", "value" : "Zatím žádná cvičení" } },
+        "he" : { "stringUnit" : { "state" : "translated", "value" : "אין אימונים עדיין" } }
+      }
+    },
+    "Complete a practice page to see your stats!" : {
+      "localizations" : {
+        "cs" : { "stringUnit" : { "state" : "translated", "value" : "Dokončete stránku s příklady a uvidíte své statistiky!" } },
+        "he" : { "stringUnit" : { "state" : "translated", "value" : "!השלם דף תרגול כדי לראות את הסטטיסטיקות שלך" } }
+      }
+    },
+    "Average Errors" : {
+      "localizations" : {
+        "cs" : { "stringUnit" : { "state" : "translated", "value" : "Průměrné chyby" } },
+        "he" : { "stringUnit" : { "state" : "translated", "value" : "שגיאות ממוצעות" } }
+      }
+    },
+    "Average Time" : {
+      "localizations" : {
+        "cs" : { "stringUnit" : { "state" : "translated", "value" : "Průměrný čas" } },
+        "he" : { "stringUnit" : { "state" : "translated", "value" : "זמן ממוצע" } }
+      }
+    },
+    "Clean Sheets" : {
+      "localizations" : {
+        "cs" : { "stringUnit" : { "state" : "translated", "value" : "Bez chyb" } },
+        "he" : { "stringUnit" : { "state" : "translated", "value" : "ללא שגיאות" } }
+      }
+    },
+    "seconds per page" : {
+      "localizations" : {
+        "cs" : { "stringUnit" : { "state" : "translated", "value" : "sekund na stránku" } },
+        "he" : { "stringUnit" : { "state" : "translated", "value" : "שניות לעמוד" } }
+      }
+    },
+    "pages with zero errors" : {
+      "localizations" : {
+        "cs" : { "stringUnit" : { "state" : "translated", "value" : "stránky bez chyb" } },
+        "he" : { "stringUnit" : { "state" : "translated", "value" : "עמודים ללא שגיאות" } }
+      }
+    },
+    "Difficulty" : {
+      "localizations" : {
+        "cs" : { "stringUnit" : { "state" : "translated", "value" : "Obtížnost" } },
+        "he" : { "stringUnit" : { "state" : "translated", "value" : "רמת קושי" } }
+      }
+    },
+    "Counting range" : {
+      "localizations" : {
+        "cs" : { "stringUnit" : { "state" : "translated", "value" : "Rozsah počítání" } },
+        "he" : { "stringUnit" : { "state" : "translated", "value" : "טווח ספירה" } }
+      }
+    },
+    "Operations" : {
+      "localizations" : {
+        "cs" : { "stringUnit" : { "state" : "translated", "value" : "Operace" } },
+        "he" : { "stringUnit" : { "state" : "translated", "value" : "פעולות" } }
+      }
+    },
+    "Theme" : {
+      "localizations" : {
+        "cs" : { "stringUnit" : { "state" : "translated", "value" : "Motiv" } },
+        "he" : { "stringUnit" : { "state" : "translated", "value" : "ערכת נושא" } }
+      }
+    },
+    "Dinosaur" : {
+      "localizations" : {
+        "cs" : { "stringUnit" : { "state" : "translated", "value" : "Dinosaurus" } },
+        "he" : { "stringUnit" : { "state" : "translated", "value" : "דינוזאור" } }
+      }
+    },
+    "Unicorn" : {
+      "localizations" : {
+        "cs" : { "stringUnit" : { "state" : "translated", "value" : "Jednorožec" } },
+        "he" : { "stringUnit" : { "state" : "translated", "value" : "חד קרן" } }
+      }
+    },
+    "Penguin" : {
+      "localizations" : {
+        "cs" : { "stringUnit" : { "state" : "translated", "value" : "Tučňák" } },
+        "he" : { "stringUnit" : { "state" : "translated", "value" : "פינגווין" } }
+      }
+    },
+    "Language" : {
+      "localizations" : {
+        "cs" : { "stringUnit" : { "state" : "translated", "value" : "Jazyk" } },
+        "he" : { "stringUnit" : { "state" : "translated", "value" : "שפה" } }
+      }
+    },
+    "Appearance" : {
+      "localizations" : {
+        "cs" : { "stringUnit" : { "state" : "translated", "value" : "Vzhled" } },
+        "he" : { "stringUnit" : { "state" : "translated", "value" : "מראה" } }
+      }
+    },
+    "About" : {
+      "localizations" : {
+        "cs" : { "stringUnit" : { "state" : "translated", "value" : "O aplikaci" } },
+        "he" : { "stringUnit" : { "state" : "translated", "value" : "אודות" } }
+      }
+    },
+    "Version" : {
+      "localizations" : {
+        "cs" : { "stringUnit" : { "state" : "translated", "value" : "Verze" } },
+        "he" : { "stringUnit" : { "state" : "translated", "value" : "גרסה" } }
+      }
+    },
+    "Day" : {
+      "localizations" : {
+        "cs" : { "stringUnit" : { "state" : "translated", "value" : "Den" } },
+        "he" : { "stringUnit" : { "state" : "translated", "value" : "יום" } }
+      }
+    },
+    "Week" : {
+      "localizations" : {
+        "cs" : { "stringUnit" : { "state" : "translated", "value" : "Týden" } },
+        "he" : { "stringUnit" : { "state" : "translated", "value" : "שבוע" } }
+      }
+    },
+    "Month" : {
+      "localizations" : {
+        "cs" : { "stringUnit" : { "state" : "translated", "value" : "Měsíc" } },
+        "he" : { "stringUnit" : { "state" : "translated", "value" : "חודש" } }
+      }
+    },
+    "Year" : {
+      "localizations" : {
+        "cs" : { "stringUnit" : { "state" : "translated", "value" : "Rok" } },
+        "he" : { "stringUnit" : { "state" : "translated", "value" : "שנה" } }
+      }
+    },
+    "Period" : {
+      "localizations" : {
+        "cs" : { "stringUnit" : { "state" : "translated", "value" : "Období" } },
+        "he" : { "stringUnit" : { "state" : "translated", "value" : "תקופה" } }
+      }
+    },
+    "Time limit:" : {
+      "localizations" : {
+        "cs" : { "stringUnit" : { "state" : "translated", "value" : "Časový limit:" } },
+        "he" : { "stringUnit" : { "state" : "translated", "value" : "מגבלת זמן:" } }
+      }
+    },
+    "s left" : {
+      "localizations" : {
+        "cs" : { "stringUnit" : { "state" : "translated", "value" : "s zbývá" } },
+        "he" : { "stringUnit" : { "state" : "translated", "value" : "שניות נותרו" } }
+      }
+    },
+    "Examples per page:" : {
+      "localizations" : {
+        "cs" : { "stringUnit" : { "state" : "translated", "value" : "Příkladů na stránku:" } },
+        "he" : { "stringUnit" : { "state" : "translated", "value" : "תרגילים בעמוד:" } }
+      }
+    },
+    "Deadline:" : {
+      "localizations" : {
+        "cs" : { "stringUnit" : { "state" : "translated", "value" : "Časový limit:" } },
+        "he" : { "stringUnit" : { "state" : "translated", "value" : "מגבלת זמן:" } }
+      }
+    },
+    "Deadline: Off" : {
+      "localizations" : {
+        "cs" : { "stringUnit" : { "state" : "translated", "value" : "Časový limit: Vypnuto" } },
+        "he" : { "stringUnit" : { "state" : "translated", "value" : "מגבלת זמן: כבוי" } }
+      }
+    },
+    "Page must be completed in" : {
+      "localizations" : {
+        "cs" : { "stringUnit" : { "state" : "translated", "value" : "Stránku je třeba dokončit za" } },
+        "he" : { "stringUnit" : { "state" : "translated", "value" : "יש להשלים את העמוד תוך" } }
+      }
+    },
+    "seconds" : {
+      "localizations" : {
+        "cs" : { "stringUnit" : { "state" : "translated", "value" : "sekund" } },
+        "he" : { "stringUnit" : { "state" : "translated", "value" : "שניות" } }
+      }
+    },
+    "To" : {
+      "localizations" : {
+        "cs" : { "stringUnit" : { "state" : "translated", "value" : "Do" } },
+        "he" : { "stringUnit" : { "state" : "translated", "value" : "עד" } }
+      }
+    },
+    "per page" : {
+      "localizations" : {
+        "cs" : { "stringUnit" : { "state" : "translated", "value" : "na stránku" } },
+        "he" : { "stringUnit" : { "state" : "translated", "value" : "לעמוד" } }
+      }
+    },
+    "sessions" : {
+      "localizations" : {
+        "cs" : { "stringUnit" : { "state" : "translated", "value" : "cvičení" } },
+        "he" : { "stringUnit" : { "state" : "translated", "value" : "אימונים" } }
+      }
+    }
+  },
+  "version" : "1.0"
+}
