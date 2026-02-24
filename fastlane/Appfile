@@ -1,6 +1,6 @@
 app_identifier("com.countwithkids.app")
-apple_id("your@email.com") # Replace with your Apple ID
-team_id("XXXXXXXXXX") # Replace with your Apple Developer Team ID
+apple_id("jiri.landovsky@gmail.com")
+team_id("7PL4QQ4G6R")
 
 # For App Store Connect API (recommended)
 # app_store_connect_api_key(

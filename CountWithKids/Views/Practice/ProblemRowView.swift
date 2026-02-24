@@ -47,6 +47,7 @@ struct ProblemRowView: View {
                 }
 
                 TextField("?", text: $answer)
+                    .accessibilityLabel("Answer for problem \(index)")
                     .playfulFont(size: 24)
                     .keyboardType(.numberPad)
                     .multilineTextAlignment(.center)

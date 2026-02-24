@@ -1,1 +1,1 @@
-matematika,deti,pocitani,scitani,odcitani,nasobeni,vzdelavani,uceni,skola,priklady
+matematika,děti,počítání,sčítání,odčítání,násobení,vzdělávání,učení,škola,příklady

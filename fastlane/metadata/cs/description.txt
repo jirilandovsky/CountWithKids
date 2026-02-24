@@ -1,24 +1,24 @@
-Pocitej s detmi dela z procvicovani matematiky zabavu! S barevnymi motivy, nastavitelnou obtiznosti a prehledem vysledku bude vase dite rado pocitat scitani, odcitani, nasobeni i deleni.
+Počítej s dětmi dělá z procvičování matematiky zábavu! S barevnými motivy, nastavitelnou obtížností a přehledem výsledků bude vaše dítě rádo počítat sčítání, odčítání, násobení i dělení.
 
 FUNKCE:
 
-- Ctyri operace: scitani, odcitani, nasobeni a deleni
-- Nastavitelne rozsahy: do 10, 20, 100 nebo 1000
-- Volitelny pocet prikladu na stranku (1-10)
-- Casovy limit pro vetsi vyzvu
-- Okamzita zpetna vazba se spravnymi odpovedi
-- Oslava "Cisty list" za bezchybny vykon
+- Čtyři operace: sčítání, odčítání, násobení a dělení
+- Nastavitelné rozsahy: do 10, 20, 100 nebo 1000
+- Volitelný počet příkladů na stránku (1-10)
+- Časový limit pro větší výzvu
+- Okamžitá zpětná vazba se správnými odpověďmi
+- Oslava "Čistý list" za bezchybný výkon
 
-TRI HRAVE MOTIVY:
-Vybirejte z motivu Dinosaurus, Jednorozec nebo Tucnak — kazdy s vlastnimi barvami a maskotem.
+TŘI HRAVÉ MOTIVY:
+Vybírejte z motivů Dinosaurus, Jednorožec nebo Tučňák — každý s vlastními barvami a maskotem.
 
-PREHLED VYSLEDKU:
-Sledujte pokroky v case pomoci grafickych grafu zobrazujicich prumerny pocet chyb, prumerny cas a serie bezchybnych vysledku. Filtrovani podle dne, tydne, mesice nebo roku.
+PŘEHLED VÝSLEDKŮ:
+Sledujte pokroky v čase pomocí grafických grafů zobrazujících průměrný počet chyb, průměrný čas a série bezchybných výsledků. Filtrování podle dne, týdne, měsíce nebo roku.
 
-TRI JAZYKY:
-Plna podpora anglictiny, cestiny a hebrejstiny.
+TŘI JAZYKY:
+Plná podpora angličtiny, češtiny a hebrejštiny.
 
-SOUKROMI NA PRVNIM MISTE:
-Zadny sber dat, zadne reklamy, neni potreba pripojeni k internetu. Veskery pokrok je ulozen lokalne na zarizeni.
+SOUKROMÍ NA PRVNÍM MÍSTĚ:
+Žádný sběr dat, žádné reklamy, není potřeba připojení k internetu. Veškerý pokrok je uložen lokálně na zařízení.
 
-Navrzeno pro deti od 4 let. Jednoduche a prehledne rozhrani, ktere deti nerusi od uceni.
+Navrženo pro děti od 4 let. Jednoduché a přehledné rozhraní, které děti neruší od učení.

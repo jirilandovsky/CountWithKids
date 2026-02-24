@@ -132,8 +132,13 @@ struct DashboardAggregator {
             // Bucket by week
             var buckets: [(String, [PracticeSession])] = []
             for i in 0..<4 {
-                let weekStart = Date().daysAgo((3 - i) * 7)
-                let weekEnd = Date().daysAgo(max(0, (2 - i) * 7))
+                let weekStart = calendar.startOfDay(for: Date().daysAgo((3 - i) * 7))
+                let weekEnd: Date
+                if i == 3 {
+                    weekEnd = calendar.date(byAdding: .day, value: 1, to: calendar.startOfDay(for: Date()))!
+                } else {
+                    weekEnd = calendar.startOfDay(for: Date().daysAgo((2 - i) * 7))
+                }
                 let sessionsInBucket = sessions.filter {
                     $0.completedAt >= weekStart && $0.completedAt < weekEnd
                 }
@@ -145,12 +150,13 @@ struct DashboardAggregator {
             // Bucket by month
             var buckets: [(String, [PracticeSession])] = []
             for i in 0..<12 {
-                let monthStart = Date().monthsAgo(11 - i)
-                let monthEnd = Date().monthsAgo(max(0, 10 - i))
+                let monthDate = Date().monthsAgo(11 - i)
+                let monthStart = monthDate.startOfMonth
+                let monthEnd = calendar.date(byAdding: .month, value: 1, to: monthStart)!
                 let sessionsInBucket = sessions.filter {
-                    $0.completedAt >= monthStart.startOfMonth && $0.completedAt < monthEnd.startOfMonth
+                    $0.completedAt >= monthStart && $0.completedAt < monthEnd
                 }
-                buckets.append((monthStart.shortMonthName, sessionsInBucket))
+                buckets.append((monthDate.shortMonthName, sessionsInBucket))
             }
             return buckets.map { ChartBucket(label: $0.0, value: valueExtractor($0.1)) }
         }

@@ -2,9 +2,9 @@
 
 ## Prerequisites
 
-- [ ] **Enroll in Apple Developer Program** ($99/year) at [developer.apple.com](https://developer.apple.com)
-- [ ] **Note your Team ID** — found in Membership section of your developer account
-- [ ] **Replace placeholder Team ID** in `project.yml` and `fastlane/Appfile`
+- [X] **Enroll in Apple Developer Program** ($99/year) at [developer.apple.com](https://developer.apple.com)
+- [X] **Note your Team ID** — 7PL4QQ4G6R
+- [X] **Replace placeholder Team ID** in `project.yml` and `fastlane/Appfile`
 
 ## App Store Connect Setup
 
@@ -25,11 +25,11 @@
 
 ## App Icon
 
-- [ ] **Design app icon** — 1024x1024px PNG, no alpha/transparency
+- [X] **Design app icon** — 1024x1024px PNG, no alpha/transparency
   - Kid-friendly math concept (numbers, +/- symbols)
   - Dinosaur theme colors (teal #1ABC9C, coral #FF6B6B, cream #FFF9F0)
   - Rounded, playful style
-- [ ] **Place** `AppIcon.png` in `CountWithKids/Resources/Assets.xcassets/AppIcon.appiconset/`
+- [X] **Place** `AppIcon.png` in `CountWithKids/Resources/Assets.xcassets/AppIcon.appiconset/`
 
 ## Screenshots
 
@@ -40,7 +40,7 @@
 
 ## Metadata
 
-- [ ] **Verify all metadata files** in `fastlane/metadata/` for en-US, cs, and he
+- [X] **Verify all metadata files** in `fastlane/metadata/` for en-US, cs, and he
 - [ ] **Update placeholder URLs** in `privacy_url.txt` and `support_url.txt`
 
 ## Privacy
@@ -51,8 +51,9 @@
 
 ## Signing & Build
 
-- [ ] **Configure signing** in Xcode — Automatic, select your Team
-- [ ] **Verify** project builds and runs on a real device
+- [X] **Configure signing** in Xcode — Automatic, Team 7PL4QQ4G6R
+- [X] **Verify** project builds successfully
+- [ ] **Test on real device**
 - [ ] **Archive** via Xcode (Product > Archive) or `fastlane build`
 - [ ] **Upload** via Xcode Organizer or `fastlane beta` (TestFlight) / `fastlane release` (App Store)
 

@@ -9,5 +9,11 @@ xcuserdata/
 *.swp
 *~
 
+# SSH keys
+key_gmail_git
+key_gmail_git.pub
+*.pem
+*.p8
+
 # Claude
 .claude/
