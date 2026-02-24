@@ -1,24 +1,28 @@
-Count with Kids makes math practice fun and engaging for children! With colorful themes, customizable difficulty, and a built-in performance dashboard, your child will love practicing addition, subtraction, multiplication, and division.
+Turn math practice into a fun daily habit! Count with Kids helps children build confidence with addition, subtraction, multiplication, and division through colorful, distraction-free exercises.
 
-FEATURES:
+Set the difficulty to match your child's level — from simple sums up to 10 all the way to challenging problems up to 1000. Choose how many problems per session, add an optional countdown timer, and watch your child improve day by day.
 
-- Four operations: addition, subtraction, multiplication, and division
-- Adjustable counting ranges: up to 10, 20, 100, or 1000
-- Configurable number of problems per session (1-10)
-- Optional countdown timer to add a fun challenge
-- Instant feedback with correct answers shown for mistakes
-- "Clean Sheet" celebrations for perfect scores
+WHAT MAKES IT SPECIAL:
 
-THREE PLAYFUL THEMES:
-Choose from Dinosaur, Unicorn, or Penguin themes — each with unique colors and mascot to keep kids motivated.
+- Instant feedback — correct answers appear right away so kids learn from mistakes
+- "Clean Sheet" celebrations when they get every answer right
+- Three fun themes — Dinosaur, Unicorn, or Penguin — to keep kids engaged
+- Built-in dashboard with charts to track progress over time
+
+DESIGNED FOR PARENTS AND KIDS:
+
+Pick from four operations, adjust the counting range, and set the number of problems. Whether your child is just starting with numbers or already tackling multiplication tables, Count with Kids grows with them.
 
 PERFORMANCE DASHBOARD:
-Track progress over time with visual bar charts showing average errors, average time, and clean sheet streaks. Filter by day, week, month, or year.
+
+See how your child is doing at a glance. Bar charts show average errors, completion time, and clean sheet streaks — filtered by day, week, month, or year.
 
 THREE LANGUAGES:
-Full support for English, Czech, and Hebrew — including right-to-left layout for Hebrew.
 
-PRIVACY FIRST:
-No data collection, no ads, no internet connection required. All progress is stored locally on the device.
+Fully localized in English, Czech, and Hebrew with right-to-left support.
 
-Designed for children ages 4 and up. Simple, distraction-free interface that lets kids focus on learning.
+100% PRIVATE:
+
+No ads. No tracking. No internet required. No in-app purchases. All data stays on the device. Designed with children's privacy in mind — fully COPPA compliant.
+
+Built for children ages 4 and up.

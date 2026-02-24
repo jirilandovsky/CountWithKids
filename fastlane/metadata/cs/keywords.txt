@@ -1,1 +1,1 @@
-matematika,děti,počítání,sčítání,odčítání,násobení,vzdělávání,učení,škola,příklady
+matematika,děti,počítání,sčítání,odčítání,násobení,dělení,příklady,škola,učení,procvičování

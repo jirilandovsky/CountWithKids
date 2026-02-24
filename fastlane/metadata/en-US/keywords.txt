@@ -1,1 +1,1 @@
-math,kids,practice,addition,subtraction,multiplication,education,learning,children,counting
+math,kids,practice,addition,subtraction,multiplication,division,counting,learning,school,homework

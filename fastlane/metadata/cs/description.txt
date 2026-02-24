@@ -1,24 +1,28 @@
-Počítej s dětmi dělá z procvičování matematiky zábavu! S barevnými motivy, nastavitelnou obtížností a přehledem výsledků bude vaše dítě rádo počítat sčítání, odčítání, násobení i dělení.
+Udělejte z procvičování matematiky zábavný denní rituál! Počítej s dětmi pomáhá dětem získat jistotu ve sčítání, odčítání, násobení a dělení pomocí barevných cvičení bez rušivých prvků.
 
-FUNKCE:
+Nastavte obtížnost podle úrovně vašeho dítěte — od jednoduchých součtů do 10 až po náročné příklady do 1000. Zvolte počet příkladů na stránku, přidejte volitelný odpočet a sledujte, jak se vaše dítě den za dnem zlepšuje.
 
-- Čtyři operace: sčítání, odčítání, násobení a dělení
-- Nastavitelné rozsahy: do 10, 20, 100 nebo 1000
-- Volitelný počet příkladů na stránku (1-10)
-- Časový limit pro větší výzvu
-- Okamžitá zpětná vazba se správnými odpověďmi
-- Oslava "Čistý list" za bezchybný výkon
+CO DĚLÁ APLIKACI VÝJIMEČNOU:
 
-TŘI HRAVÉ MOTIVY:
-Vybírejte z motivů Dinosaurus, Jednorožec nebo Tučňák — každý s vlastními barvami a maskotem.
+- Okamžitá zpětná vazba — správné odpovědi se zobrazí ihned, aby se děti učily z chyb
+- Oslava "Čistého listu" za bezchybný výsledek
+- Tři zábavné motivy — Dinosaurus, Jednorožec nebo Tučňák — které děti zaujmou
+- Vestavěný přehled s grafy pro sledování pokroků v čase
+
+NAVRŽENO PRO RODIČE I DĚTI:
+
+Vybírejte ze čtyř operací, upravte rozsah počítání a nastavte počet příkladů. Ať vaše dítě teprve začíná s čísly nebo už zvládá násobilku, Počítej s dětmi roste spolu s ním.
 
 PŘEHLED VÝSLEDKŮ:
-Sledujte pokroky v čase pomocí grafických grafů zobrazujících průměrný počet chyb, průměrný čas a série bezchybných výsledků. Filtrování podle dne, týdne, měsíce nebo roku.
+
+Podívejte se na výsledky na první pohled. Sloupcové grafy zobrazují průměrný počet chyb, čas dokončení a série bezchybných výsledků — s filtrováním podle dne, týdne, měsíce nebo roku.
 
 TŘI JAZYKY:
-Plná podpora angličtiny, češtiny a hebrejštiny.
 
-SOUKROMÍ NA PRVNÍM MÍSTĚ:
-Žádný sběr dat, žádné reklamy, není potřeba připojení k internetu. Veškerý pokrok je uložen lokálně na zařízení.
+Plně lokalizováno do angličtiny, češtiny a hebrejštiny s podporou psaní zprava doleva.
 
-Navrženo pro děti od 4 let. Jednoduché a přehledné rozhraní, které děti neruší od učení.
+100% SOUKROMÍ:
+
+Žádné reklamy. Žádné sledování. Není potřeba internet. Žádné nákupy v aplikaci. Všechna data zůstávají na zařízení. Navrženo s ohledem na soukromí dětí — plně v souladu s COPPA.
+
+Vytvořeno pro děti od 4 let.
