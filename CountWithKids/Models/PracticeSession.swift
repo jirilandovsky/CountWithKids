@@ -13,6 +13,8 @@ final class PracticeSession {
     var operationsRaw: [String] = ["+"]
     var examplesPerPage: Int = 5
 
+    init() {}
+
     init(duration: Double, errors: Int, total: Int, settings: AppSettings) {
         self.durationSeconds = duration
         self.errorCount = errors

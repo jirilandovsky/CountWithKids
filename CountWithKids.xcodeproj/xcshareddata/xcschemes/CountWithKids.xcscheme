@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
    LastUpgradeVersion = "1500"
-   version = "1.8">
+   version = "1.7">
    <BuildAction
       parallelizeBuildables = "YES"
-      buildImplicitDependencies = "YES">
+      buildImplicitDependencies = "YES"
+      runPostActionsOnFailure = "NO">
       <BuildActionEntries>
          <BuildActionEntry
             buildForTesting = "YES"
@@ -14,9 +15,37 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "F1000001"
-               BuildableName = "Count with Kids.app"
+               BlueprintIdentifier = "804A3E6EF96E150541A8BC69"
+               BuildableName = "CountWithKids.app"
                BlueprintName = "CountWithKids"
+               ReferencedContainer = "container:CountWithKids.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "BA4254E5D3AA3121753AFA39"
+               BuildableName = "CountWithKidsTests.xctest"
+               BlueprintName = "CountWithKidsTests"
+               ReferencedContainer = "container:CountWithKids.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "ACEB99751CDF1351BCF18BC9"
+               BuildableName = "CountWithKidsUITests.xctest"
+               BlueprintName = "CountWithKidsUITests"
                ReferencedContainer = "container:CountWithKids.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -27,7 +56,42 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES"
-      shouldAutocreateTestPlan = "YES">
+      onlyGenerateCoverageForSpecifiedTargets = "NO">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "804A3E6EF96E150541A8BC69"
+            BuildableName = "CountWithKids.app"
+            BlueprintName = "CountWithKids"
+            ReferencedContainer = "container:CountWithKids.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
+      <Testables>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "BA4254E5D3AA3121753AFA39"
+               BuildableName = "CountWithKidsTests.xctest"
+               BlueprintName = "CountWithKidsTests"
+               ReferencedContainer = "container:CountWithKids.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "ACEB99751CDF1351BCF18BC9"
+               BuildableName = "CountWithKidsUITests.xctest"
+               BlueprintName = "CountWithKidsUITests"
+               ReferencedContainer = "container:CountWithKids.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+      </Testables>
+      <CommandLineArguments>
+      </CommandLineArguments>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
@@ -40,16 +104,17 @@
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
       <BuildableProductRunnable
-         reuseRunningBuildableExecutable = "YES"
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "F1000001"
-            BuildableName = "Count with Kids.app"
+            BlueprintIdentifier = "804A3E6EF96E150541A8BC69"
+            BuildableName = "CountWithKids.app"
             BlueprintName = "CountWithKids"
             ReferencedContainer = "container:CountWithKids.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <CommandLineArguments>
+      </CommandLineArguments>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -58,12 +123,11 @@
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
       <BuildableProductRunnable
-         reuseRunningBuildableExecutable = "YES"
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "F1000001"
-            BuildableName = "Count with Kids.app"
+            BlueprintIdentifier = "804A3E6EF96E150541A8BC69"
+            BuildableName = "CountWithKids.app"
             BlueprintName = "CountWithKids"
             ReferencedContainer = "container:CountWithKids.xcodeproj">
          </BuildableReference>

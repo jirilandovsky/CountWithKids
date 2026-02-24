@@ -14,6 +14,22 @@ settings:
     SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD: "NO"
     CODE_SIGN_STYLE: Automatic
     DEVELOPMENT_TEAM: 7PL4QQ4G6R
+schemes:
+  CountWithKids:
+    build:
+      targets:
+        CountWithKids: all
+        CountWithKidsTests: [test]
+        CountWithKidsUITests: [test]
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets:
+        - CountWithKidsTests
+        - CountWithKidsUITests
+    archive:
+      config: Release
 targets:
   CountWithKids:
     type: application
@@ -36,3 +52,32 @@ targets:
         INFOPLIST_KEY_UISupportedInterfaceOrientations: "UIInterfaceOrientationPortrait"
         INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad: "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown"
         SWIFT_EMIT_LOC_STRINGS: "YES"
+  CountWithKidsTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: CountWithKidsTests
+        excludes:
+          - "**/.DS_Store"
+    dependencies:
+      - target: CountWithKids
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.countwithkids.app.tests
+        GENERATE_INFOPLIST_FILE: "YES"
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/Count with Kids.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Count with Kids"
+        BUNDLE_LOADER: "$(TEST_HOST)"
+  CountWithKidsUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - path: CountWithKidsUITests
+        excludes:
+          - "**/.DS_Store"
+    dependencies:
+      - target: CountWithKids
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.countwithkids.app.uitests
+        GENERATE_INFOPLIST_FILE: "YES"
+        TEST_TARGET_NAME: CountWithKids
