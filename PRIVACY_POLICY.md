@@ -37,7 +37,7 @@ If we make changes to this privacy policy, we will update the "Last updated" dat
 
 If you have questions about this privacy policy, please contact us at:
 
-**Email:** jiri.landovsky@gmail.com
+**Email:** jiri.landovsky@icloud.com
 **Website:** https://jirilandovsky.github.io/CountWithKids/
 
 ---
