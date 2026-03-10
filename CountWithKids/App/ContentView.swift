@@ -44,12 +44,21 @@ struct ContentView: View {
         }
         .id(languageRefreshId)
         .tint(theme.primaryColor)
+        .preferredColorScheme(preferredColorScheme)
         .environment(\.appTheme, theme)
         .environment(\.locale, locale)
         .environment(\.appLanguage, settings.languageRaw)
         .onChange(of: settings.languageRaw) { _, newLang in
             AppLanguageManager.shared.currentLanguage = newLang
             languageRefreshId = UUID()
+        }
+    }
+
+    private var preferredColorScheme: ColorScheme? {
+        switch settings.appearanceModeRaw {
+        case "light": return .light
+        case "dark": return .dark
+        default: return nil  // system default
         }
     }
 

@@ -124,6 +124,13 @@ struct SettingsView: View {
                 .tag("penguin")
             }
             .playfulFont(size: 16, weight: .medium)
+
+            Picker(loc("Mode"), selection: $settings.appearanceModeRaw) {
+                Text(loc("System")).tag("system")
+                Text(loc("Light")).tag("light")
+                Text(loc("Dark")).tag("dark")
+            }
+            .playfulFont(size: 16, weight: .medium)
         } header: {
             Text(loc("Appearance"))
                 .playfulFont(size: 14, weight: .bold)
@@ -150,7 +157,7 @@ struct SettingsView: View {
                 Text(loc("Version"))
                     .playfulFont(size: 16, weight: .medium)
                 Spacer()
-                Text("1.0.0")
+                Text("1.1.0")
                     .foregroundColor(.secondary)
             }
         } header: {

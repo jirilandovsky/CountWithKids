@@ -99,33 +99,42 @@ struct PracticeView: View {
             }
 
             // Problems list
-            ScrollView {
-                VStack(spacing: 12) {
-                    ForEach(Array(viewModel.problems.enumerated()), id: \.element.id) { index, problem in
-                        ProblemRowView(
-                            problem: problem,
-                            index: index + 1,
-                            answer: Binding(
-                                get: { viewModel.answers[problem.id, default: ""] },
-                                set: { viewModel.answers[problem.id] = $0 }
-                            ),
-                            isNegative: viewModel.isNegative[problem.id, default: false],
-                            isFocused: focusedProblemId == problem.id,
-                            result: viewModel.results[problem.id],
-                            onToggleNegative: { viewModel.toggleNegative(for: problem.id) },
-                            onSubmit: {
-                                viewModel.checkAnswer(for: problem)
-                                // Auto-advance to next problem
-                                if index + 1 < viewModel.problems.count {
-                                    focusedProblemId = viewModel.problems[index + 1].id
-                                }
-                            },
-                            onFocus: { focusedProblemId = problem.id }
-                        )
-                        .focused($focusedProblemId, equals: problem.id)
+            ScrollViewReader { proxy in
+                ScrollView {
+                    VStack(spacing: 12) {
+                        ForEach(Array(viewModel.problems.enumerated()), id: \.element.id) { index, problem in
+                            ProblemRowView(
+                                problem: problem,
+                                index: index + 1,
+                                answer: Binding(
+                                    get: { viewModel.answers[problem.id, default: ""] },
+                                    set: { viewModel.answers[problem.id] = $0 }
+                                ),
+                                isNegative: viewModel.isNegative[problem.id, default: false],
+                                isFocused: focusedProblemId == problem.id,
+                                result: viewModel.results[problem.id],
+                                onToggleNegative: { viewModel.toggleNegative(for: problem.id) },
+                                onSubmit: {
+                                    viewModel.checkAnswer(for: problem)
+                                    // Auto-advance to next problem
+                                    if index + 1 < viewModel.problems.count {
+                                        focusedProblemId = viewModel.problems[index + 1].id
+                                    }
+                                },
+                                onFocus: { focusedProblemId = problem.id }
+                            )
+                            .id(problem.id)
+                            .focused($focusedProblemId, equals: problem.id)
+                        }
+                    }
+                    .padding()
+                }
+                .onChange(of: focusedProblemId) { _, newId in
+                    guard let newId else { return }
+                    withAnimation(.easeInOut(duration: 0.2)) {
+                        proxy.scrollTo(newId, anchor: .top)
                     }
                 }
-                .padding()
             }
 
             // Submit button

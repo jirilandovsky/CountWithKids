@@ -1,0 +1,3 @@
+- Dark mode support: the app now adapts to your system appearance, or choose Light/Dark/System in Settings
+- Auto-scroll during practice: the focused problem row automatically scrolls into view above the keyboard
+- Bug fix: text is now readable when the device is in dark mode

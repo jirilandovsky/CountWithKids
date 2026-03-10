@@ -1,0 +1,3 @@
+- Podpora tmavého režimu: aplikace se nyní přizpůsobí nastavení systému, nebo si v Nastavení zvolte Světlý/Tmavý/Systém
+- Automatické posouvání při cvičení: aktuální příklad se automaticky posune nad klávesnici
+- Oprava: text je nyní čitelný při zapnutém tmavém režimu

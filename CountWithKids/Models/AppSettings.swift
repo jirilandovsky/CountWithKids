@@ -8,6 +8,7 @@ final class AppSettings {
     var examplesPerPage: Int = 5
     var deadlineSeconds: Int = 60
     var themeRaw: String = "dinosaur"
+    var appearanceModeRaw: String = "system"
     var languageRaw: String = "en"
     var createdAt: Date = Date()
 
