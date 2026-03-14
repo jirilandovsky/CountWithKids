@@ -3,9 +3,11 @@ import SwiftData
 
 struct DashboardView: View {
     @Environment(\.appTheme) var theme
+    @Environment(\.modelContext) private var modelContext
     @Bindable var settings: AppSettings
     @Query(sort: \PracticeSession.completedAt, order: .reverse) private var sessions: [PracticeSession]
     @State private var viewModel = DashboardViewModel()
+    @State private var showResetConfirmation = false
 
     var body: some View {
         NavigationStack {
@@ -20,6 +22,24 @@ struct DashboardView: View {
             }
             .navigationTitle(loc("Dashboard"))
             .navigationBarTitleDisplayMode(.large)
+            .toolbar {
+                if !sessions.isEmpty {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button(loc("Reset")) {
+                            showResetConfirmation = true
+                        }
+                        .foregroundColor(.red)
+                    }
+                }
+            }
+            .alert(loc("Are you sure you really want to delete all results?"), isPresented: $showResetConfirmation) {
+                Button(loc("Delete All"), role: .destructive) {
+                    for session in sessions {
+                        modelContext.delete(session)
+                    }
+                }
+                Button(loc("Cancel"), role: .cancel) { }
+            }
             .onAppear { viewModel.refresh(sessions: sessions, currentSettings: settings) }
             .onChange(of: viewModel.selectedDifficultyKey) { _, _ in
                 viewModel.refresh(sessions: sessions, currentSettings: settings)

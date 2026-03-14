@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import UIKit
 
 struct PracticeView: View {
     @Environment(\.appTheme) var theme
@@ -7,6 +8,11 @@ struct PracticeView: View {
     @Bindable var settings: AppSettings
     @State private var viewModel = PracticeViewModel()
     @FocusState private var focusedProblemId: UUID?
+    @State private var showScanner = false
+    @State private var scanProblems: [MathProblem]?
+    @State private var scanDetectedAnswers: [Int?]?
+    @State private var showScanResult = false
+    @State private var showScanError = false
 
     var body: some View {
         NavigationStack {
@@ -66,9 +72,51 @@ struct PracticeView: View {
             }
             .buttonStyle(PlayfulButtonStyle())
 
+            HStack(spacing: 16) {
+                Button {
+                    printPracticePage()
+                } label: {
+                    Label(loc("Print"), systemImage: "printer")
+                }
+                .buttonStyle(PlayfulButtonStyle(color: theme.accentColor))
+
+                Button {
+                    showScanner = true
+                } label: {
+                    Label(loc("Scan"), systemImage: "doc.viewfinder")
+                }
+                .buttonStyle(PlayfulButtonStyle(color: theme.secondaryColor))
+            }
+
             Spacer()
         }
         .padding()
+        .sheet(isPresented: $showScanner) {
+            ScannerView(
+                onScanCompleted: { images in
+                    processScan(images: images)
+                },
+                onCancelled: {
+                    showScanner = false
+                }
+            )
+        }
+        .sheet(isPresented: $showScanResult) {
+            if let problems = scanProblems {
+                ScanResultView(
+                    problems: problems,
+                    detectedAnswers: scanDetectedAnswers ?? Array(repeating: nil, count: problems.count),
+                    onDismiss: {
+                        showScanResult = false
+                        scanProblems = nil
+                        scanDetectedAnswers = nil
+                    }
+                )
+            }
+        }
+        .alert(loc("Could not read the printed page. Make sure the QR code is visible."), isPresented: $showScanError) {
+            Button(loc("OK"), role: .cancel) { }
+        }
     }
 
     private var inProgressView: some View {
@@ -161,6 +209,46 @@ struct PracticeView: View {
         saveSession()
         focusedProblemId = nil
         viewModel.reset()
+    }
+
+    private func printPracticePage() {
+        let problems = ProblemGenerator.generate(
+            count: settings.examplesPerPage,
+            range: settings.countingRange,
+            operations: settings.operations
+        )
+        let renderer = PrintablePageRenderer(
+            problems: problems,
+            settings: settings,
+            title: loc("Math Practice")
+        )
+        let pdfData = renderer.generatePDF()
+
+        let printController = UIPrintInteractionController.shared
+        printController.printingItem = pdfData
+
+        let printInfo = UIPrintInfo(dictionary: nil)
+        printInfo.jobName = loc("Math Practice")
+        printInfo.outputType = .general
+        printController.printInfo = printInfo
+
+        printController.present(animated: true)
+    }
+
+    private func processScan(images: [UIImage]) {
+        Task {
+            if let result = await ScanEvaluator.evaluate(images: images) {
+                await MainActor.run {
+                    scanProblems = result.problems
+                    scanDetectedAnswers = result.detectedAnswers
+                    showScanResult = true
+                }
+            } else {
+                await MainActor.run {
+                    showScanError = true
+                }
+            }
+        }
     }
 
     private func saveSession() {

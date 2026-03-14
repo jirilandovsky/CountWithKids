@@ -35,6 +35,10 @@
 		F4764BD22CD7D67C0B9595BC /* PracticeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8120997F6E84C8035C2921 /* PracticeViewModel.swift */; };
 		F7986085C952AFC82F0BFC29 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83187B456F8563B20738886B /* AppSettings.swift */; };
 		FF09F3FC617EB5FC771ABD5B /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 084E1F87FBA1293402F35F8A /* AppTheme.swift */; };
+		AA1111111111111111111111 /* PrintablePageRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB1111111111111111111111 /* PrintablePageRenderer.swift */; };
+		AA2222222222222222222222 /* ScanEvaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2222222222222222222222 /* ScanEvaluator.swift */; };
+		AA3333333333333333333333 /* ScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3333333333333333333333 /* ScannerView.swift */; };
+		AA4444444444444444444444 /* ScanResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4444444444444444444444 /* ScanResultView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,6 +90,10 @@
 		F4DD3E82128A6716948B81C8 /* LocalizedString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizedString.swift; sourceTree = "<group>"; };
 		F78C6A0D9E428DCBEE69ABC3 /* MetricCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricCardView.swift; sourceTree = "<group>"; };
 		FA6CD75ADC7142CAD0F07C98 /* DashboardAggregator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardAggregator.swift; sourceTree = "<group>"; };
+		BB1111111111111111111111 /* PrintablePageRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrintablePageRenderer.swift; sourceTree = "<group>"; };
+		BB2222222222222222222222 /* ScanEvaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanEvaluator.swift; sourceTree = "<group>"; };
+		BB3333333333333333333333 /* ScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerView.swift; sourceTree = "<group>"; };
+		BB4444444444444444444444 /* ScanResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanResultView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -142,7 +150,9 @@
 			isa = PBXGroup;
 			children = (
 				FA6CD75ADC7142CAD0F07C98 /* DashboardAggregator.swift */,
+				BB1111111111111111111111 /* PrintablePageRenderer.swift */,
 				E5BCE62D8A8EB747B96D6EB4 /* ProblemGenerator.swift */,
+				BB2222222222222222222222 /* ScanEvaluator.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -224,6 +234,8 @@
 				01E053BCA7FFFF053A171E75 /* PracticeResultView.swift */,
 				F02E2175653C64E613AD301A /* PracticeView.swift */,
 				B9A993AB2868E05E3D6CA2CF /* ProblemRowView.swift */,
+				BB4444444444444444444444 /* ScanResultView.swift */,
+				BB3333333333333333333333 /* ScannerView.swift */,
 			);
 			path = Practice;
 			sourceTree = "<group>";
@@ -411,8 +423,12 @@
 				EC4CA02988FB3DE5906FCC70 /* PracticeSession.swift in Sources */,
 				D3CE66DC4DC16CB0D6B85FB7 /* PracticeView.swift in Sources */,
 				F4764BD22CD7D67C0B9595BC /* PracticeViewModel.swift in Sources */,
+				AA1111111111111111111111 /* PrintablePageRenderer.swift in Sources */,
 				86A80C3276931ABF5DD0992E /* ProblemGenerator.swift in Sources */,
 				242151C15E9D02C40C049737 /* ProblemRowView.swift in Sources */,
+				AA2222222222222222222222 /* ScanEvaluator.swift in Sources */,
+				AA3333333333333333333333 /* ScannerView.swift in Sources */,
+				AA4444444444444444444444 /* ScanResultView.swift in Sources */,
 				9A18D15A860152B212AFA555 /* SettingsView.swift in Sources */,
 				76A8523D3D13D29C2B2D20CF /* ThemeEnvironment.swift in Sources */,
 			);
@@ -644,6 +660,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Camera is used to scan printed practice pages for evaluation.";
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -670,6 +687,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Camera is used to scan printed practice pages for evaluation.";
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
