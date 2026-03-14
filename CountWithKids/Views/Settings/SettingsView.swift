@@ -157,7 +157,7 @@ struct SettingsView: View {
                 Text(loc("Version"))
                     .playfulFont(size: 16, weight: .medium)
                 Spacer()
-                Text("1.1.0")
+                Text("1.2.0")
                     .foregroundColor(.secondary)
             }
         } header: {
