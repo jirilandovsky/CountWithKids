@@ -106,6 +106,7 @@ struct PracticeView: View {
                 ScanResultView(
                     problems: problems,
                     detectedAnswers: scanDetectedAnswers ?? Array(repeating: nil, count: problems.count),
+                    settings: settings,
                     onDismiss: {
                         showScanResult = false
                         scanProblems = nil

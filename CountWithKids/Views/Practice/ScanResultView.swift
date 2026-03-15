@@ -1,14 +1,18 @@
 import SwiftUI
+import SwiftData
 
 struct ScanResultView: View {
     @Environment(\.appTheme) var theme
+    @Environment(\.modelContext) private var modelContext
     let problems: [MathProblem]
+    let settings: AppSettings
     @State private var answers: [String]
     @State private var evaluated = false
     let onDismiss: () -> Void
 
-    init(problems: [MathProblem], detectedAnswers: [Int?], onDismiss: @escaping () -> Void) {
+    init(problems: [MathProblem], detectedAnswers: [Int?], settings: AppSettings, onDismiss: @escaping () -> Void) {
         self.problems = problems
+        self.settings = settings
         self.onDismiss = onDismiss
         _answers = State(initialValue: detectedAnswers.map { val in
             val.map(String.init) ?? ""
@@ -69,6 +73,7 @@ struct ScanResultView: View {
 
             Button(loc("Evaluate")) {
                 withAnimation { evaluated = true }
+                saveSession()
             }
             .buttonStyle(PlayfulButtonStyle())
             .padding(.bottom, 24)
@@ -156,6 +161,16 @@ struct ScanResultView: View {
                 .padding(.bottom, 32)
         }
         .padding()
+    }
+
+    private func saveSession() {
+        let session = PracticeSession(
+            duration: 0,
+            errors: errorCount,
+            total: problems.count,
+            settings: settings
+        )
+        modelContext.insert(session)
     }
 
     private func resultRow(index: Int, problem: MathProblem) -> some View {

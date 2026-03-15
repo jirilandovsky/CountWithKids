@@ -68,33 +68,89 @@ struct ScanEvaluator {
                     return
                 }
 
-                // Collect all recognized text with their vertical positions
-                var textItems: [(text: String, y: CGFloat)] = []
-                for observation in results {
-                    if let candidate = observation.topCandidates(1).first {
-                        // In Vision coordinates, y=0 is bottom, y=1 is top
-                        let midY = observation.boundingBox.midY
-                        textItems.append((candidate.string, midY))
-                    }
+                // Separate observations into equation lines and potential answer candidates
+                struct TextItem {
+                    let text: String
+                    let box: CGRect // Vision normalized coordinates
                 }
 
-                // Sort top to bottom (highest y first in Vision coordinates)
-                textItems.sort { $0.y > $1.y }
+                var equationLines: [TextItem] = []
+                var answerCandidates: [TextItem] = []
 
-                // Look for answers after "=" signs
-                var answers: [Int?] = []
-                for item in textItems {
-                    let text = item.text
-                    // Look for patterns like "5 + 3 = 8" or just standalone numbers after equation lines
-                    if let eqRange = text.range(of: "=") {
-                        let afterEq = text[eqRange.upperBound...].trimmingCharacters(in: .whitespaces)
-                        if let num = Int(afterEq.filter { $0.isNumber || $0 == "-" }) {
-                            answers.append(num)
+                for observation in results {
+                    guard let candidate = observation.topCandidates(1).first else { continue }
+                    let item = TextItem(text: candidate.string, box: observation.boundingBox)
+
+                    if candidate.string.contains("=") || candidate.string.contains("+")
+                        || candidate.string.contains("-") || candidate.string.contains("×")
+                        || candidate.string.contains("÷") {
+                        equationLines.append(item)
+                    } else {
+                        // Check if it looks like a number (digits, possibly with minus)
+                        let cleaned = candidate.string.trimmingCharacters(in: .whitespaces)
+                        let digits = cleaned.filter { $0.isNumber || $0 == "-" }
+                        if !digits.isEmpty, Int(digits) != nil {
+                            answerCandidates.append(item)
                         }
                     }
                 }
 
-                // Pad with nils if we didn't find enough
+                // Sort equation lines top to bottom (highest y first in Vision coords)
+                equationLines.sort { $0.box.midY > $1.box.midY }
+
+                // For each equation line, find the best matching answer candidate:
+                // - Similar vertical position (within tolerance)
+                // - To the right of the equation (higher minX)
+                var answers: [Int?] = []
+                var usedCandidates: Set<Int> = []
+
+                for eqLine in equationLines {
+                    var bestMatch: Int? = nil
+                    var bestDistance: CGFloat = .greatestFiniteMagnitude
+
+                    for (idx, candidate) in answerCandidates.enumerated() {
+                        if usedCandidates.contains(idx) { continue }
+
+                        // Must be at roughly the same vertical level (within 5% of page height)
+                        let yDistance = abs(candidate.box.midY - eqLine.box.midY)
+                        if yDistance > 0.05 { continue }
+
+                        // Prefer candidates to the right of the equation
+                        let xDistance = candidate.box.minX - eqLine.box.maxX
+                        // Allow some overlap but prefer rightward
+                        if xDistance < -0.1 { continue }
+
+                        let totalDistance = yDistance + abs(xDistance) * 0.5
+                        if totalDistance < bestDistance {
+                            bestDistance = totalDistance
+                            bestMatch = idx
+                        }
+                    }
+
+                    if let matchIdx = bestMatch {
+                        usedCandidates.insert(matchIdx)
+                        let digits = answerCandidates[matchIdx].text
+                            .trimmingCharacters(in: .whitespaces)
+                            .filter { $0.isNumber || $0 == "-" }
+                        answers.append(Int(digits))
+                    } else {
+                        // Also try: answer might be part of the equation line text (after "=")
+                        if let eqRange = eqLine.text.range(of: "=") {
+                            let afterEq = eqLine.text[eqRange.upperBound...]
+                                .trimmingCharacters(in: .whitespaces)
+                            let digits = afterEq.filter { $0.isNumber || $0 == "-" }
+                            if let num = Int(digits), !digits.isEmpty {
+                                answers.append(num)
+                            } else {
+                                answers.append(nil)
+                            }
+                        } else {
+                            answers.append(nil)
+                        }
+                    }
+                }
+
+                // Pad with nils if we didn't find enough equations
                 while answers.count < expectedCount {
                     answers.append(nil)
                 }
@@ -104,7 +160,6 @@ struct ScanEvaluator {
 
             request.recognitionLevel = .accurate
             request.usesLanguageCorrection = false
-            // Recognize digits and math symbols
             request.customWords = ["-", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
             let handler = VNImageRequestHandler(cgImage: cgImage, options: [:])
