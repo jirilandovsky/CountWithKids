@@ -6,11 +6,32 @@ struct PrintablePageRenderer {
     let settings: AppSettings
     let title: String
 
+    // Fixed layout constants for answer box positions (normalized 0–1 relative to page)
+    static let answerBoxX: CGFloat = 300      // Fixed X position for answer boxes
+    static let answerBoxWidth: CGFloat = 80
+    static let answerBoxHeight: CGFloat = 36
+    static let pageWidth: CGFloat = 595       // A4
+    static let pageHeight: CGFloat = 842
+    static let margin: CGFloat = 50
+    static let headerHeight: CGFloat = 90     // title + subtitle + separator
+    static let lineHeight: CGFloat = 50
+
+    /// Returns normalized rect (0–1) for the answer box of problem at given index
+    static func answerBoxNormalized(index: Int) -> CGRect {
+        let y = margin + headerHeight + CGFloat(index) * lineHeight + 7
+        return CGRect(
+            x: answerBoxX / pageWidth,
+            y: y / pageHeight,
+            width: answerBoxWidth / pageWidth,
+            height: answerBoxHeight / pageHeight
+        )
+    }
+
     func generatePDF() -> Data {
-        let pageWidth: CGFloat = 595   // A4
-        let pageHeight: CGFloat = 842
-        let margin: CGFloat = 50
-        let contentWidth = pageWidth - margin * 2
+        let pageWidth = Self.pageWidth
+        let pageHeight = Self.pageHeight
+        let margin = Self.margin
+        let lineHeight = Self.lineHeight
 
         let renderer = UIGraphicsPDFRenderer(bounds: CGRect(x: 0, y: 0, width: pageWidth, height: pageHeight))
 
@@ -50,7 +71,6 @@ struct PrintablePageRenderer {
             let numberFont = UIFont.systemFont(ofSize: 18, weight: .regular)
             let problemAttrs: [NSAttributedString.Key: Any] = [.font: problemFont, .foregroundColor: UIColor.black]
             let numberAttrs: [NSAttributedString.Key: Any] = [.font: numberFont, .foregroundColor: UIColor.gray]
-            let lineHeight: CGFloat = 50
 
             for (index, problem) in problems.enumerated() {
                 let numberStr = "\(index + 1)."
@@ -59,16 +79,17 @@ struct PrintablePageRenderer {
                 let problemStr = problem.displayString
                 (problemStr as NSString).draw(at: CGPoint(x: margin + 40, y: y), withAttributes: problemAttrs)
 
-                // Answer line
-                let eqSize = (problemStr as NSString).size(withAttributes: problemAttrs)
-                let lineStartX = margin + 40 + eqSize.width + 10
-                let lineEndX = min(lineStartX + 120, pageWidth - margin)
-                let linePath = UIBezierPath()
-                linePath.move(to: CGPoint(x: lineStartX, y: y + lineHeight - 10))
-                linePath.addLine(to: CGPoint(x: lineEndX, y: y + lineHeight - 10))
-                UIColor.gray.setStroke()
-                linePath.lineWidth = 1
-                linePath.stroke()
+                // Answer box — rounded rectangle
+                let boxRect = CGRect(
+                    x: Self.answerBoxX,
+                    y: y + 7,
+                    width: Self.answerBoxWidth,
+                    height: Self.answerBoxHeight
+                )
+                let boxPath = UIBezierPath(roundedRect: boxRect, cornerRadius: 6)
+                UIColor(white: 0.85, alpha: 1.0).setStroke()
+                boxPath.lineWidth = 1.5
+                boxPath.stroke()
 
                 y += lineHeight
             }
@@ -109,13 +130,13 @@ struct PrintablePageRenderer {
         let encoded: [[String: Any]] = problems.map { p in
             ["a": p.operand1, "b": p.operand2, "op": p.operation.rawValue, "ans": p.correctAnswer]
         }
-        let payload: [String: Any] = ["v": 1, "p": encoded]
+        let payload: [String: Any] = ["v": 2, "p": encoded, "n": problems.count]
         return try? JSONSerialization.data(withJSONObject: payload)
     }
 
     static func decodeProblems(from data: Data) -> [MathProblem]? {
         guard let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
-              let version = json["v"] as? Int, version == 1,
+              let version = json["v"] as? Int, (version == 1 || version == 2),
               let problemsArray = json["p"] as? [[String: Any]] else {
             return nil
         }

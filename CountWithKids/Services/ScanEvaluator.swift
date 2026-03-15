@@ -59,111 +59,58 @@ struct ScanEvaluator {
         }
     }
 
-    private static func recognizeAnswers(from cgImage: CGImage, expectedCount: Int) async -> [Int?] {
-        await withCheckedContinuation { continuation in
+    /// Recognize answer for a single problem by cropping the known answer box region
+    private static func recognizeAnswerInRegion(cgImage: CGImage, index: Int) async -> Int? {
+        // Get the normalized answer box position from the print layout
+        let normBox = PrintablePageRenderer.answerBoxNormalized(index: index)
+
+        // Convert from PDF coordinates (origin top-left) to Vision coordinates (origin bottom-left)
+        // Also add padding around the box to catch handwriting that extends outside
+        let padding: CGFloat = 0.03
+        let visionRect = CGRect(
+            x: max(0, normBox.minX - padding),
+            y: max(0, 1.0 - normBox.maxY - padding),
+            width: min(1.0, normBox.width + padding * 2),
+            height: min(1.0, normBox.height + padding * 2)
+        )
+
+        return await withCheckedContinuation { continuation in
             let request = VNRecognizeTextRequest { request, error in
                 guard error == nil,
                       let results = request.results as? [VNRecognizedTextObservation] else {
-                    continuation.resume(returning: Array(repeating: nil, count: expectedCount))
+                    continuation.resume(returning: nil)
                     return
                 }
 
-                // Separate observations into equation lines and potential answer candidates
-                struct TextItem {
-                    let text: String
-                    let box: CGRect // Vision normalized coordinates
-                }
-
-                var equationLines: [TextItem] = []
-                var answerCandidates: [TextItem] = []
-
+                // Find the best number candidate in this region
                 for observation in results {
                     guard let candidate = observation.topCandidates(1).first else { continue }
-                    let item = TextItem(text: candidate.string, box: observation.boundingBox)
-
-                    if candidate.string.contains("=") || candidate.string.contains("+")
-                        || candidate.string.contains("-") || candidate.string.contains("×")
-                        || candidate.string.contains("÷") {
-                        equationLines.append(item)
-                    } else {
-                        // Check if it looks like a number (digits, possibly with minus)
-                        let cleaned = candidate.string.trimmingCharacters(in: .whitespaces)
-                        let digits = cleaned.filter { $0.isNumber || $0 == "-" }
-                        if !digits.isEmpty, Int(digits) != nil {
-                            answerCandidates.append(item)
-                        }
+                    let cleaned = candidate.string.trimmingCharacters(in: .whitespaces)
+                    let digits = cleaned.filter { $0.isNumber || $0 == "-" }
+                    if !digits.isEmpty, let num = Int(digits) {
+                        continuation.resume(returning: num)
+                        return
                     }
                 }
-
-                // Sort equation lines top to bottom (highest y first in Vision coords)
-                equationLines.sort { $0.box.midY > $1.box.midY }
-
-                // For each equation line, find the best matching answer candidate:
-                // - Similar vertical position (within tolerance)
-                // - To the right of the equation (higher minX)
-                var answers: [Int?] = []
-                var usedCandidates: Set<Int> = []
-
-                for eqLine in equationLines {
-                    var bestMatch: Int? = nil
-                    var bestDistance: CGFloat = .greatestFiniteMagnitude
-
-                    for (idx, candidate) in answerCandidates.enumerated() {
-                        if usedCandidates.contains(idx) { continue }
-
-                        // Must be at roughly the same vertical level (within 5% of page height)
-                        let yDistance = abs(candidate.box.midY - eqLine.box.midY)
-                        if yDistance > 0.05 { continue }
-
-                        // Prefer candidates to the right of the equation
-                        let xDistance = candidate.box.minX - eqLine.box.maxX
-                        // Allow some overlap but prefer rightward
-                        if xDistance < -0.1 { continue }
-
-                        let totalDistance = yDistance + abs(xDistance) * 0.5
-                        if totalDistance < bestDistance {
-                            bestDistance = totalDistance
-                            bestMatch = idx
-                        }
-                    }
-
-                    if let matchIdx = bestMatch {
-                        usedCandidates.insert(matchIdx)
-                        let digits = answerCandidates[matchIdx].text
-                            .trimmingCharacters(in: .whitespaces)
-                            .filter { $0.isNumber || $0 == "-" }
-                        answers.append(Int(digits))
-                    } else {
-                        // Also try: answer might be part of the equation line text (after "=")
-                        if let eqRange = eqLine.text.range(of: "=") {
-                            let afterEq = eqLine.text[eqRange.upperBound...]
-                                .trimmingCharacters(in: .whitespaces)
-                            let digits = afterEq.filter { $0.isNumber || $0 == "-" }
-                            if let num = Int(digits), !digits.isEmpty {
-                                answers.append(num)
-                            } else {
-                                answers.append(nil)
-                            }
-                        } else {
-                            answers.append(nil)
-                        }
-                    }
-                }
-
-                // Pad with nils if we didn't find enough equations
-                while answers.count < expectedCount {
-                    answers.append(nil)
-                }
-
-                continuation.resume(returning: Array(answers.prefix(expectedCount)))
+                continuation.resume(returning: nil)
             }
 
             request.recognitionLevel = .accurate
             request.usesLanguageCorrection = false
-            request.customWords = ["-", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+            request.customWords = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+            request.regionOfInterest = visionRect
 
             let handler = VNImageRequestHandler(cgImage: cgImage, options: [:])
             try? handler.perform([request])
         }
+    }
+
+    private static func recognizeAnswers(from cgImage: CGImage, expectedCount: Int) async -> [Int?] {
+        var answers: [Int?] = []
+        for index in 0..<expectedCount {
+            let answer = await recognizeAnswerInRegion(cgImage: cgImage, index: index)
+            answers.append(answer)
+        }
+        return answers
     }
 }
