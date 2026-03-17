@@ -31,21 +31,16 @@ struct ScannerView: UIViewControllerRepresentable {
             for i in 0..<scan.pageCount {
                 images.append(scan.imageOfPage(at: i))
             }
-            controller.dismiss(animated: true) {
-                self.onScanCompleted(images)
-            }
+            // Don't dismiss here — let SwiftUI handle sheet dismissal
+            onScanCompleted(images)
         }
 
         func documentCameraViewControllerDidCancel(_ controller: VNDocumentCameraViewController) {
-            controller.dismiss(animated: true) {
-                self.onCancelled()
-            }
+            onCancelled()
         }
 
         func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFailWithError error: Error) {
-            controller.dismiss(animated: true) {
-                self.onCancelled()
-            }
+            onCancelled()
         }
     }
 }

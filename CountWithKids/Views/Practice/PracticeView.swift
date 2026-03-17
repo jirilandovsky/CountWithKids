@@ -8,12 +8,21 @@ struct PracticeView: View {
     @Bindable var settings: AppSettings
     @State private var viewModel = PracticeViewModel()
     @FocusState private var focusedProblemId: UUID?
-    @State private var showScanner = false
+    @State private var activeSheet: ActiveSheet?
     @State private var scanProblems: [MathProblem]?
     @State private var scanDetectedAnswers: [Int?]?
-    @State private var showScanResult = false
     @State private var showScanError = false
-    @State private var pendingScanResult = false
+
+    private enum ActiveSheet: Identifiable {
+        case scanner
+        case scanResult
+        var id: Int {
+            switch self {
+            case .scanner: return 0
+            case .scanResult: return 1
+            }
+        }
+    }
 
     var body: some View {
         NavigationStack {
@@ -36,42 +45,34 @@ struct PracticeView: View {
             }
             .navigationTitle(loc("Practice"))
             .navigationBarTitleDisplayMode(.large)
-            .sheet(isPresented: $showScanner) {
-                ScannerView(
-                    onScanCompleted: { images in
-                        processScan(images: images)
-                    },
-                    onCancelled: {
-                        showScanner = false
-                    }
-                )
-            }
-            .sheet(isPresented: $showScanResult) {
-                if let problems = scanProblems {
-                    ScanResultView(
-                        problems: problems,
-                        detectedAnswers: scanDetectedAnswers ?? Array(repeating: nil, count: problems.count),
-                        settings: settings,
-                        onDismiss: {
-                            showScanResult = false
-                            scanProblems = nil
-                            scanDetectedAnswers = nil
+            .sheet(item: $activeSheet) { sheet in
+                switch sheet {
+                case .scanner:
+                    ScannerView(
+                        onScanCompleted: { images in
+                            processScan(images: images)
+                        },
+                        onCancelled: {
+                            activeSheet = nil
                         }
                     )
+                case .scanResult:
+                    if let problems = scanProblems {
+                        ScanResultView(
+                            problems: problems,
+                            detectedAnswers: scanDetectedAnswers ?? Array(repeating: nil, count: problems.count),
+                            settings: settings,
+                            onDismiss: {
+                                activeSheet = nil
+                                scanProblems = nil
+                                scanDetectedAnswers = nil
+                            }
+                        )
+                    }
                 }
             }
             .alert(loc("Could not read the printed page. Make sure the QR code is visible."), isPresented: $showScanError) {
                 Button(loc("OK"), role: .cancel) { }
-            }
-            .onChange(of: showScanner) { _, isShowing in
-                if !isShowing && pendingScanResult {
-                    pendingScanResult = false
-                    if scanProblems != nil {
-                        showScanResult = true
-                    } else {
-                        showScanError = true
-                    }
-                }
             }
         }
     }
@@ -119,7 +120,7 @@ struct PracticeView: View {
                 .buttonStyle(PlayfulButtonStyle(color: theme.accentColor))
 
                 Button {
-                    showScanner = true
+                    activeSheet = .scanner
                 } label: {
                     Label(loc("Scan"), systemImage: "doc.viewfinder")
                 }
@@ -257,18 +258,20 @@ struct PracticeView: View {
     }
 
     private func processScan(images: [UIImage]) {
+        // Dismiss scanner first, then process and show results
+        activeSheet = nil
         Task {
             let result = await ScanEvaluator.evaluate(images: images)
+            // Wait for scanner sheet dismissal animation to complete
+            try? await Task.sleep(nanoseconds: 500_000_000)
             await MainActor.run {
                 if let result {
                     scanProblems = result.problems
                     scanDetectedAnswers = result.detectedAnswers
+                    activeSheet = .scanResult
                 } else {
-                    scanProblems = nil
+                    showScanError = true
                 }
-                // Signal that we have a result ready, present after scanner dismisses
-                pendingScanResult = true
-                showScanner = false
             }
         }
     }
@@ -282,7 +285,7 @@ struct PracticeView: View {
         )
         scanProblems = problems
         scanDetectedAnswers = problems.map { _ in Int.random(in: 0...20) }
-        showScanResult = true
+        activeSheet = .scanResult
     }
     #endif
 
