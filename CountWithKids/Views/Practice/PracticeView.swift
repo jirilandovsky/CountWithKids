@@ -8,20 +8,13 @@ struct PracticeView: View {
     @Bindable var settings: AppSettings
     @State private var viewModel = PracticeViewModel()
     @FocusState private var focusedProblemId: UUID?
-    @State private var activeSheet: ActiveSheet?
+    @State private var showScanner = false
     @State private var scanProblems: [MathProblem]?
     @State private var scanDetectedAnswers: [Int?]?
     @State private var showScanError = false
 
-    private enum ActiveSheet: Identifiable {
-        case scanner
-        case scanResult
-        var id: Int {
-            switch self {
-            case .scanner: return 0
-            case .scanResult: return 1
-            }
-        }
+    private var showingScanResult: Bool {
+        scanProblems != nil
     }
 
     var body: some View {
@@ -29,47 +22,43 @@ struct PracticeView: View {
             ZStack {
                 theme.backgroundColor.ignoresSafeArea()
 
-                switch viewModel.state {
-                case .ready:
-                    readyView
-                case .inProgress:
-                    inProgressView
-                case .finished:
-                    PracticeResultView(
-                        viewModel: viewModel,
+                if showingScanResult {
+                    ScanResultView(
+                        problems: scanProblems!,
+                        detectedAnswers: scanDetectedAnswers ?? Array(repeating: nil, count: scanProblems!.count),
                         settings: settings,
-                        onSaveAndRestart: saveAndRestart,
-                        onSaveAndFinish: saveAndFinish
-                    )
-                }
-            }
-            .navigationTitle(loc("Practice"))
-            .navigationBarTitleDisplayMode(.large)
-            .sheet(item: $activeSheet) { sheet in
-                switch sheet {
-                case .scanner:
-                    ScannerView(
-                        onScanCompleted: { images in
-                            processScan(images: images)
-                        },
-                        onCancelled: {
-                            activeSheet = nil
+                        onDismiss: {
+                            scanProblems = nil
+                            scanDetectedAnswers = nil
                         }
                     )
-                case .scanResult:
-                    if let problems = scanProblems {
-                        ScanResultView(
-                            problems: problems,
-                            detectedAnswers: scanDetectedAnswers ?? Array(repeating: nil, count: problems.count),
+                } else {
+                    switch viewModel.state {
+                    case .ready:
+                        readyView
+                    case .inProgress:
+                        inProgressView
+                    case .finished:
+                        PracticeResultView(
+                            viewModel: viewModel,
                             settings: settings,
-                            onDismiss: {
-                                activeSheet = nil
-                                scanProblems = nil
-                                scanDetectedAnswers = nil
-                            }
+                            onSaveAndRestart: saveAndRestart,
+                            onSaveAndFinish: saveAndFinish
                         )
                     }
                 }
+            }
+            .navigationTitle(loc(showingScanResult ? "Scan Results" : "Practice"))
+            .navigationBarTitleDisplayMode(.large)
+            .sheet(isPresented: $showScanner) {
+                ScannerView(
+                    onScanCompleted: { images in
+                        processScan(images: images)
+                    },
+                    onCancelled: {
+                        showScanner = false
+                    }
+                )
             }
             .alert(loc("Could not read the printed page. Make sure the QR code is visible."), isPresented: $showScanError) {
                 Button(loc("OK"), role: .cancel) { }
@@ -102,7 +91,6 @@ struct PracticeView: View {
 
             Button(loc("Start!")) {
                 viewModel.startPractice(settings: settings)
-                // Auto-focus the first problem after a brief delay
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                     if let firstId = viewModel.problems.first?.id {
                         focusedProblemId = firstId
@@ -120,7 +108,7 @@ struct PracticeView: View {
                 .buttonStyle(PlayfulButtonStyle(color: theme.accentColor))
 
                 Button {
-                    activeSheet = .scanner
+                    showScanner = true
                 } label: {
                     Label(loc("Scan"), systemImage: "doc.viewfinder")
                 }
@@ -143,7 +131,6 @@ struct PracticeView: View {
 
     private var inProgressView: some View {
         VStack(spacing: 0) {
-            // Timer header
             HStack {
                 Image(systemName: "clock")
                     .foregroundColor(theme.primaryColor)
@@ -168,7 +155,6 @@ struct PracticeView: View {
                     .padding(.horizontal)
             }
 
-            // Problems list
             ScrollViewReader { proxy in
                 ScrollView {
                     VStack(spacing: 12) {
@@ -186,7 +172,6 @@ struct PracticeView: View {
                                 onToggleNegative: { viewModel.toggleNegative(for: problem.id) },
                                 onSubmit: {
                                     viewModel.checkAnswer(for: problem)
-                                    // Auto-advance to next problem
                                     if index + 1 < viewModel.problems.count {
                                         focusedProblemId = viewModel.problems[index + 1].id
                                     }
@@ -207,7 +192,6 @@ struct PracticeView: View {
                 }
             }
 
-            // Submit button
             Button(loc("Check All")) {
                 focusedProblemId = nil
                 viewModel.submitAll()
@@ -258,17 +242,13 @@ struct PracticeView: View {
     }
 
     private func processScan(images: [UIImage]) {
-        // Dismiss scanner first, then process and show results
-        activeSheet = nil
+        showScanner = false
         Task {
             let result = await ScanEvaluator.evaluate(images: images)
-            // Wait for scanner sheet dismissal animation to complete
-            try? await Task.sleep(nanoseconds: 500_000_000)
             await MainActor.run {
                 if let result {
                     scanProblems = result.problems
                     scanDetectedAnswers = result.detectedAnswers
-                    activeSheet = .scanResult
                 } else {
                     showScanError = true
                 }
@@ -285,7 +265,6 @@ struct PracticeView: View {
         )
         scanProblems = problems
         scanDetectedAnswers = problems.map { _ in Int.random(in: 0...20) }
-        activeSheet = .scanResult
     }
     #endif
 

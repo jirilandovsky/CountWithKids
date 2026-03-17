@@ -29,32 +29,25 @@ struct ScanResultView: View {
     private var isCleanSheet: Bool { evaluated && errorCount == 0 }
 
     var body: some View {
-        NavigationStack {
-            ZStack {
-                theme.backgroundColor.ignoresSafeArea()
-
-                if evaluated {
-                    resultsSummary
-                } else {
-                    answersReview
-                }
-            }
-            .navigationTitle(loc("Scan Results"))
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Button(loc("Done")) { onDismiss() }
-                }
-            }
+        if evaluated {
+            resultsSummary
+        } else {
+            answersReview
         }
     }
 
     private var answersReview: some View {
         VStack(spacing: 16) {
+            HStack {
+                Button(loc("Cancel")) { onDismiss() }
+                    .foregroundColor(theme.primaryColor)
+                Spacer()
+            }
+            .padding(.horizontal)
+
             Text(loc("Review answers"))
                 .playfulFont(size: 20)
                 .foregroundColor(theme.primaryColor)
-                .padding(.top)
 
             Text(loc("Correct any answers the scanner may have misread"))
                 .playfulFont(size: 14, weight: .regular)
