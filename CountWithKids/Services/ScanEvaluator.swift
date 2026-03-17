@@ -23,17 +23,17 @@ struct ScanEvaluator {
         }
 
         // Step 1: Find and decode QR code
-        guard let problems = await decodeQRCode(from: cgImage) else {
+        guard let decoded = await decodeQRCode(from: cgImage) else {
             return nil
         }
 
-        // Step 2: OCR to find handwritten answers
-        let answers = await recognizeAnswers(from: cgImage, expectedCount: problems.count)
+        // Step 2: OCR to find handwritten answers using known box positions
+        let answers = await recognizeAnswers(from: cgImage, expectedCount: decoded.problems.count, normalizedBoxX: decoded.normalizedBoxX)
 
-        return (problems, answers)
+        return (decoded.problems, answers)
     }
 
-    private static func decodeQRCode(from cgImage: CGImage) async -> [MathProblem]? {
+    private static func decodeQRCode(from cgImage: CGImage) async -> PrintablePageRenderer.DecodedPage? {
         await withCheckedContinuation { continuation in
             let request = VNDetectBarcodesRequest { request, error in
                 guard error == nil,
@@ -46,8 +46,8 @@ struct ScanEvaluator {
                     if barcode.symbology == .qr,
                        let payload = barcode.payloadStringValue,
                        let data = payload.data(using: .utf8),
-                       let problems = PrintablePageRenderer.decodeProblems(from: data) {
-                        continuation.resume(returning: problems)
+                       let decoded = PrintablePageRenderer.decode(from: data) {
+                        continuation.resume(returning: decoded)
                         return
                     }
                 }
@@ -60,9 +60,13 @@ struct ScanEvaluator {
     }
 
     /// Recognize answer for a single problem by cropping the known answer box region
-    private static func recognizeAnswerInRegion(cgImage: CGImage, index: Int) async -> Int? {
-        // Get the normalized answer box position from the print layout
-        let normBox = PrintablePageRenderer.answerBoxNormalized(index: index)
+    private static func recognizeAnswerInRegion(cgImage: CGImage, index: Int, normalizedBoxX: CGFloat?) async -> Int? {
+        // Build normalized answer box rect from layout constants
+        let boxX = normalizedBoxX ?? (PrintablePageRenderer.problemTextX + 170) / PrintablePageRenderer.pageWidth
+        let boxW = PrintablePageRenderer.answerBoxWidth / PrintablePageRenderer.pageWidth
+        let boxH = PrintablePageRenderer.answerBoxHeight / PrintablePageRenderer.pageHeight
+        let boxY = (PrintablePageRenderer.margin + PrintablePageRenderer.headerHeight + CGFloat(index) * PrintablePageRenderer.lineHeight + 7) / PrintablePageRenderer.pageHeight
+        let normBox = CGRect(x: boxX, y: boxY, width: boxW, height: boxH)
 
         // Convert from PDF coordinates (origin top-left) to Vision coordinates (origin bottom-left)
         // Also add padding around the box to catch handwriting that extends outside
@@ -105,10 +109,10 @@ struct ScanEvaluator {
         }
     }
 
-    private static func recognizeAnswers(from cgImage: CGImage, expectedCount: Int) async -> [Int?] {
+    private static func recognizeAnswers(from cgImage: CGImage, expectedCount: Int, normalizedBoxX: CGFloat?) async -> [Int?] {
         var answers: [Int?] = []
         for index in 0..<expectedCount {
-            let answer = await recognizeAnswerInRegion(cgImage: cgImage, index: index)
+            let answer = await recognizeAnswerInRegion(cgImage: cgImage, index: index, normalizedBoxX: normalizedBoxX)
             answers.append(answer)
         }
         return answers

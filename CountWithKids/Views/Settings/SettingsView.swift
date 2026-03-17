@@ -3,7 +3,9 @@ import SwiftData
 
 struct SettingsView: View {
     @Environment(\.appTheme) var theme
+    @Environment(\.modelContext) private var modelContext
     @Bindable var settings: AppSettings
+    @State private var showResetConfirmation = false
 
     private let countingRanges = [10, 20, 100, 1000]
     private let languages = [
@@ -22,6 +24,7 @@ struct SettingsView: View {
                     appearanceSection
                     languageSection
                     aboutSection
+                    resetSection
                 }
                 .scrollContentBackground(.hidden)
             }
@@ -163,6 +166,31 @@ struct SettingsView: View {
         } header: {
             Text(loc("About"))
                 .playfulFont(size: 14, weight: .bold)
+        }
+    }
+
+    private var resetSection: some View {
+        Section {
+            Button(role: .destructive) {
+                showResetConfirmation = true
+            } label: {
+                HStack {
+                    Spacer()
+                    Text(loc("Reset All Results"))
+                        .playfulFont(size: 16, weight: .medium)
+                    Spacer()
+                }
+            }
+            .alert(loc("Are you sure you really want to delete all results?"), isPresented: $showResetConfirmation) {
+                Button(loc("Delete All"), role: .destructive) {
+                    do {
+                        try modelContext.delete(model: PracticeSession.self)
+                    } catch {
+                        // silently fail
+                    }
+                }
+                Button(loc("Cancel"), role: .cancel) { }
+            }
         }
     }
 }

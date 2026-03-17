@@ -6,24 +6,34 @@ struct PrintablePageRenderer {
     let settings: AppSettings
     let title: String
 
-    // Fixed layout constants for answer box positions (normalized 0–1 relative to page)
-    static let answerBoxX: CGFloat = 300      // Fixed X position for answer boxes
+    // Fixed layout constants
     static let answerBoxWidth: CGFloat = 80
     static let answerBoxHeight: CGFloat = 36
     static let pageWidth: CGFloat = 595       // A4
     static let pageHeight: CGFloat = 842
     static let margin: CGFloat = 50
+    static let problemTextX: CGFloat = 90     // margin(50) + number column(40)
     static let headerHeight: CGFloat = 90     // title + subtitle + separator
     static let lineHeight: CGFloat = 50
+    static let answerBoxGap: CGFloat = 10     // gap between "=" and the answer box
+
+    /// Compute the X position for answer boxes based on the widest equation
+    func answerBoxX() -> CGFloat {
+        let problemFont = UIFont.systemFont(ofSize: 24, weight: .medium)
+        let attrs: [NSAttributedString.Key: Any] = [.font: problemFont]
+        let maxWidth = problems.map { ($0.displayString as NSString).size(withAttributes: attrs).width }.max() ?? 100
+        return Self.problemTextX + maxWidth + Self.answerBoxGap
+    }
 
     /// Returns normalized rect (0–1) for the answer box of problem at given index
-    static func answerBoxNormalized(index: Int) -> CGRect {
-        let y = margin + headerHeight + CGFloat(index) * lineHeight + 7
+    func answerBoxNormalized(index: Int) -> CGRect {
+        let boxX = answerBoxX()
+        let y = Self.margin + Self.headerHeight + CGFloat(index) * Self.lineHeight + 7
         return CGRect(
-            x: answerBoxX / pageWidth,
-            y: y / pageHeight,
-            width: answerBoxWidth / pageWidth,
-            height: answerBoxHeight / pageHeight
+            x: boxX / Self.pageWidth,
+            y: y / Self.pageHeight,
+            width: Self.answerBoxWidth / Self.pageWidth,
+            height: Self.answerBoxHeight / Self.pageHeight
         )
     }
 
@@ -79,9 +89,10 @@ struct PrintablePageRenderer {
                 let problemStr = problem.displayString
                 (problemStr as NSString).draw(at: CGPoint(x: margin + 40, y: y), withAttributes: problemAttrs)
 
-                // Answer box — rounded rectangle
+                // Answer box — rounded rectangle, positioned right after the equation
+                let boxX = self.answerBoxX()
                 let boxRect = CGRect(
-                    x: Self.answerBoxX,
+                    x: boxX,
                     y: y + 7,
                     width: Self.answerBoxWidth,
                     height: Self.answerBoxHeight
@@ -130,18 +141,25 @@ struct PrintablePageRenderer {
         let encoded: [[String: Any]] = problems.map { p in
             ["a": p.operand1, "b": p.operand2, "op": p.operation.rawValue, "ans": p.correctAnswer]
         }
-        let payload: [String: Any] = ["v": 2, "p": encoded, "n": problems.count]
+        // Encode box X as normalized value so scanner knows where answer boxes are
+        let normBoxX = answerBoxX() / Self.pageWidth
+        let payload: [String: Any] = ["v": 2, "p": encoded, "n": problems.count, "bx": Double(normBoxX)]
         return try? JSONSerialization.data(withJSONObject: payload)
     }
 
-    static func decodeProblems(from data: Data) -> [MathProblem]? {
+    struct DecodedPage {
+        let problems: [MathProblem]
+        let normalizedBoxX: CGFloat? // nil for v1 QR codes
+    }
+
+    static func decode(from data: Data) -> DecodedPage? {
         guard let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
               let version = json["v"] as? Int, (version == 1 || version == 2),
               let problemsArray = json["p"] as? [[String: Any]] else {
             return nil
         }
 
-        return problemsArray.compactMap { dict in
+        let problems = problemsArray.compactMap { dict -> MathProblem? in
             guard let a = dict["a"] as? Int,
                   let b = dict["b"] as? Int,
                   let opStr = dict["op"] as? String,
@@ -151,5 +169,13 @@ struct PrintablePageRenderer {
             }
             return MathProblem(operand1: a, operand2: b, operation: op, correctAnswer: ans)
         }
+
+        let boxX = (json["bx"] as? Double).map { CGFloat($0) }
+        return DecodedPage(problems: problems, normalizedBoxX: boxX)
+    }
+
+    // Keep backward compat
+    static func decodeProblems(from data: Data) -> [MathProblem]? {
+        decode(from: data)?.problems
     }
 }

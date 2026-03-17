@@ -238,14 +238,15 @@ struct PracticeView: View {
 
     private func processScan(images: [UIImage]) {
         Task {
-            if let result = await ScanEvaluator.evaluate(images: images) {
-                await MainActor.run {
+            let result = await ScanEvaluator.evaluate(images: images)
+            // Wait for scanner sheet to fully dismiss before presenting result sheet
+            try? await Task.sleep(nanoseconds: 600_000_000)
+            await MainActor.run {
+                if let result {
                     scanProblems = result.problems
                     scanDetectedAnswers = result.detectedAnswers
                     showScanResult = true
-                }
-            } else {
-                await MainActor.run {
+                } else {
                     showScanError = true
                 }
             }

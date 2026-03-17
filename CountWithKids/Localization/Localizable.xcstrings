@@ -745,6 +745,22 @@
         }
       }
     },
+    "Reset All Results" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Smazat všechny výsledky"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "מחק את כל התוצאות"
+          }
+        }
+      }
+    },
     "Review answers" : {
       "localizations" : {
         "cs" : {
