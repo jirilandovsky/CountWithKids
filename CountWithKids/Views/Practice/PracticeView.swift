@@ -1,11 +1,15 @@
 import SwiftUI
 import SwiftData
+import StoreKit
 import UIKit
 
 struct PracticeView: View {
     @Environment(\.appTheme) var theme
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    @Environment(\.requestReview) private var requestReview
     @Bindable var settings: AppSettings
+    @Query(sort: \PracticeSession.completedAt, order: .reverse) private var sessions: [PracticeSession]
     @State private var viewModel = PracticeViewModel()
     @FocusState private var focusedProblemId: UUID?
     @State private var showScanner = false
@@ -15,6 +19,20 @@ struct PracticeView: View {
 
     private var showingScanResult: Bool {
         scanProblems != nil
+    }
+
+    /// Streak including the current (not yet saved) practice result.
+    private var effectiveStreak: StreakResult {
+        guard viewModel.state == .finished else {
+            return StreakCalculator.compute(sessions: sessions)
+        }
+        let tempSession = PracticeSession(
+            duration: viewModel.elapsedSeconds,
+            errors: viewModel.errorCount,
+            total: viewModel.problems.count,
+            settings: settings
+        )
+        return StreakCalculator.compute(sessions: [tempSession] + sessions)
     }
 
     var body: some View {
@@ -33,23 +51,15 @@ struct PracticeView: View {
                         }
                     )
                 } else {
-                    switch viewModel.state {
-                    case .ready:
+                    if viewModel.state == .ready {
                         readyView
-                    case .inProgress:
+                    } else {
                         inProgressView
-                    case .finished:
-                        PracticeResultView(
-                            viewModel: viewModel,
-                            settings: settings,
-                            onSaveAndRestart: saveAndRestart,
-                            onSaveAndFinish: saveAndFinish
-                        )
                     }
                 }
             }
-            .navigationTitle(loc(showingScanResult ? "Scan Results" : "Practice"))
-            .navigationBarTitleDisplayMode(.large)
+            .navigationTitle(viewModel.state == .inProgress || viewModel.state == .finished ? "" : loc(showingScanResult ? "Scan Results" : "Practice"))
+            .navigationBarTitleDisplayMode(viewModel.state == .inProgress || viewModel.state == .finished ? .inline : .large)
             .sheet(isPresented: $showScanner) {
                 ScannerView(
                     onScanCompleted: { images in
@@ -89,6 +99,9 @@ struct PracticeView: View {
                 }
             }
 
+            StreakBannerView(streak: StreakCalculator.compute(sessions: sessions))
+                .padding(.horizontal)
+
             Button(loc("Start!")) {
                 viewModel.startPractice(settings: settings)
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
@@ -115,49 +128,31 @@ struct PracticeView: View {
                 .buttonStyle(PlayfulButtonStyle(color: theme.secondaryColor))
             }
 
-            #if targetEnvironment(simulator)
-            Button {
-                debugSimulateScan()
-            } label: {
-                Label("Test Scan", systemImage: "ladybug")
-            }
-            .buttonStyle(PlayfulButtonStyle(color: .gray))
-            #endif
-
             Spacer()
         }
         .padding()
+        .frame(maxWidth: horizontalSizeClass == .regular ? 600 : .infinity)
+        .frame(maxWidth: .infinity)
     }
+
+    private var isCompactHeight: Bool {
+        horizontalSizeClass == .regular
+    }
+
+    private var isFinished: Bool { viewModel.state == .finished }
 
     private var inProgressView: some View {
         VStack(spacing: 0) {
-            HStack {
-                Image(systemName: "clock")
-                    .foregroundColor(theme.primaryColor)
-                Text(viewModel.timeString)
-                    .playfulFont(size: 22)
-                    .foregroundColor(theme.primaryColor)
-                    .monospacedDigit()
-
-                Spacer()
-
-                if viewModel.deadlineSeconds > 0 {
-                    Text("\(viewModel.remainingSeconds) " + loc("s left"))
-                        .playfulFont(size: 16)
-                        .foregroundColor(viewModel.deadlineProgress > 0.8 ? theme.secondaryColor : .secondary)
-                }
-            }
-            .padding()
-
-            if viewModel.deadlineSeconds > 0 {
-                ProgressView(value: viewModel.deadlineProgress)
-                    .tint(viewModel.deadlineProgress > 0.8 ? theme.secondaryColor : theme.primaryColor)
-                    .padding(.horizontal)
+            // Header: timer or results summary
+            if isFinished {
+                finishedHeaderView
+            } else {
+                timerHeaderView
             }
 
             ScrollViewReader { proxy in
                 ScrollView {
-                    VStack(spacing: 12) {
+                    VStack(spacing: isCompactHeight ? 8 : 12) {
                         ForEach(Array(viewModel.problems.enumerated()), id: \.element.id) { index, problem in
                             ProblemRowView(
                                 problem: problem,
@@ -169,6 +164,7 @@ struct PracticeView: View {
                                 isNegative: viewModel.isNegative[problem.id, default: false],
                                 isFocused: focusedProblemId == problem.id,
                                 result: viewModel.results[problem.id],
+                                isLocked: isFinished,
                                 onToggleNegative: { viewModel.toggleNegative(for: problem.id) },
                                 onSubmit: {
                                     viewModel.checkAnswer(for: problem)
@@ -181,6 +177,11 @@ struct PracticeView: View {
                             .id(problem.id)
                             .focused($focusedProblemId, equals: problem.id)
                         }
+
+                        if isFinished {
+                            StreakBannerView(streak: effectiveStreak)
+                                .padding(.top, 8)
+                        }
                     }
                     .padding()
                 }
@@ -192,13 +193,103 @@ struct PracticeView: View {
                 }
             }
 
-            Button(loc("Check All")) {
-                focusedProblemId = nil
-                viewModel.submitAll()
+            // Bottom buttons
+            if isFinished {
+                VStack(spacing: 12) {
+                    Button(loc("Try Again")) {
+                        saveAndRestart()
+                    }
+                    .buttonStyle(PlayfulButtonStyle())
+
+                    Button(loc("Done")) {
+                        saveAndFinish()
+                    }
+                    .buttonStyle(PlayfulButtonStyle(color: theme.secondaryColor))
+                }
+                .padding(.horizontal)
+                .padding(.vertical, isCompactHeight ? 6 : 16)
+            } else {
+                Button(loc("Check All")) {
+                    focusedProblemId = nil
+                    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                    viewModel.submitAll()
+                }
+                .buttonStyle(PlayfulButtonStyle(color: theme.secondaryColor))
+                .padding(.horizontal)
+                .padding(.vertical, isCompactHeight ? 6 : 16)
             }
-            .buttonStyle(PlayfulButtonStyle(color: theme.secondaryColor))
-            .padding()
         }
+        .frame(maxWidth: horizontalSizeClass == .regular ? 700 : .infinity)
+        .frame(maxWidth: .infinity)
+    }
+
+    private var timerHeaderView: some View {
+        HStack {
+            Image(systemName: "clock")
+                .foregroundColor(theme.primaryColor)
+                .font(isCompactHeight ? .footnote : .body)
+            Text(viewModel.timeString)
+                .playfulFont(size: isCompactHeight ? 16 : 22)
+                .foregroundColor(theme.primaryColor)
+                .monospacedDigit()
+
+            if viewModel.deadlineSeconds > 0 {
+                ProgressView(value: viewModel.deadlineProgress)
+                    .tint(viewModel.deadlineProgress > 0.8 ? theme.secondaryColor : theme.primaryColor)
+                    .frame(maxWidth: isCompactHeight ? 200 : .infinity)
+            }
+
+            Spacer()
+
+            if viewModel.deadlineSeconds > 0 {
+                Text("\(viewModel.remainingSeconds) " + loc("s left"))
+                    .playfulFont(size: isCompactHeight ? 13 : 16)
+                    .foregroundColor(viewModel.deadlineProgress > 0.8 ? theme.secondaryColor : .secondary)
+            }
+        }
+        .padding(.horizontal)
+        .padding(.vertical, isCompactHeight ? 6 : 16)
+    }
+
+    private var finishedHeaderView: some View {
+        VStack(spacing: 8) {
+            if viewModel.errorCount == 0 {
+                Text(theme.celebrationEmoji)
+                    .font(.system(size: 50))
+                Text(loc("Clean Sheet!"))
+                    .playfulFont(size: 24)
+                    .foregroundColor(theme.accentColor)
+            }
+
+            if viewModel.showDeadlineExpired {
+                Text(loc("Time's up!"))
+                    .playfulFont(size: 18)
+                    .foregroundColor(theme.secondaryColor)
+            }
+
+            HStack(spacing: 24) {
+                HStack(spacing: 6) {
+                    Image(systemName: "clock")
+                        .foregroundColor(theme.primaryColor)
+                    Text(viewModel.timeString)
+                        .playfulFont(size: 18)
+                        .foregroundColor(theme.primaryColor)
+                        .monospacedDigit()
+                }
+
+                HStack(spacing: 6) {
+                    Image(systemName: viewModel.errorCount == 0 ? "checkmark.circle" : "xmark.circle")
+                        .foregroundColor(viewModel.errorCount == 0 ? .green : theme.secondaryColor)
+                    Text(loc("Errors") + ": \(viewModel.errorCount) / \(viewModel.problems.count)")
+                        .playfulFont(size: 18)
+                        .foregroundColor(.primary)
+                }
+            }
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.horizontal)
+        .padding(.vertical, 12)
+        .background(theme.cardBackgroundColor)
     }
 
     private func saveAndRestart() {
@@ -213,8 +304,18 @@ struct PracticeView: View {
 
     private func saveAndFinish() {
         saveSession()
+        requestReviewIfAppropriate()
         focusedProblemId = nil
         viewModel.reset()
+    }
+
+    private func requestReviewIfAppropriate() {
+        let key = "completedSessionCount"
+        let count = UserDefaults.standard.integer(forKey: key) + 1
+        UserDefaults.standard.set(count, forKey: key)
+        if count == 3 || count % 15 == 0 {
+            requestReview()
+        }
     }
 
     private func printPracticePage() {
@@ -255,18 +356,6 @@ struct PracticeView: View {
             }
         }
     }
-
-    #if targetEnvironment(simulator)
-    private func debugSimulateScan() {
-        let problems = ProblemGenerator.generate(
-            count: settings.examplesPerPage,
-            range: settings.countingRange,
-            operations: settings.operations
-        )
-        scanProblems = problems
-        scanDetectedAnswers = problems.map { _ in Int.random(in: 0...20) }
-    }
-    #endif
 
     private func saveSession() {
         let session = PracticeSession(

@@ -5,6 +5,7 @@ struct SettingsView: View {
     @Environment(\.appTheme) var theme
     @Environment(\.modelContext) private var modelContext
     @Bindable var settings: AppSettings
+    @Query(sort: \PracticeSession.completedAt, order: .reverse) private var sessions: [PracticeSession]
     @State private var showResetConfirmation = false
 
     private let countingRanges = [10, 20, 100, 1000]
@@ -27,6 +28,7 @@ struct SettingsView: View {
                     resetSection
                 }
                 .scrollContentBackground(.hidden)
+                .formStyle(.grouped)
             }
             .navigationTitle(loc("Settings"))
             .navigationBarTitleDisplayMode(.large)
@@ -125,6 +127,14 @@ struct SettingsView: View {
                     Text(loc("Penguin"))
                 }
                 .tag("penguin")
+
+                if StreakCalculator.compute(sessions: sessions).lionUnlocked {
+                    HStack {
+                        Text("🦁")
+                        Text(loc("Lion"))
+                    }
+                    .tag("lion")
+                }
             }
             .playfulFont(size: 16, weight: .medium)
 
@@ -160,7 +170,7 @@ struct SettingsView: View {
                 Text(loc("Version"))
                     .playfulFont(size: 16, weight: .medium)
                 Spacer()
-                Text("1.2.0")
+                Text("1.4.0")
                     .foregroundColor(.secondary)
             }
         } header: {

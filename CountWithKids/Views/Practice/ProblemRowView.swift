@@ -8,6 +8,7 @@ struct ProblemRowView: View {
     let isNegative: Bool
     let isFocused: Bool
     var result: Bool?
+    var isLocked: Bool = false
     let onToggleNegative: () -> Void
     let onSubmit: () -> Void
     let onFocus: () -> Void
@@ -36,6 +37,7 @@ struct ProblemRowView: View {
                                 .fill(isNegative ? theme.secondaryColor.opacity(0.15) : Color.gray.opacity(0.1))
                         )
                 }
+                .disabled(isLocked)
             }
 
             // Answer field
@@ -54,12 +56,13 @@ struct ProblemRowView: View {
                     .frame(width: 70, height: 44)
                     .background(
                         RoundedRectangle(cornerRadius: 10)
-                            .fill(isFocused ? theme.primaryColor.opacity(0.15) : resultBackgroundColor)
+                            .fill(isFocused && !isLocked ? theme.primaryColor.opacity(0.15) : resultBackgroundColor)
                     )
                     .overlay(
                         RoundedRectangle(cornerRadius: 10)
-                            .stroke(isFocused ? theme.primaryColor : resultBorderColor, lineWidth: isFocused ? 3 : 2)
+                            .stroke(isFocused && !isLocked ? theme.primaryColor : resultBorderColor, lineWidth: isFocused && !isLocked ? 3 : 2)
                     )
+                    .disabled(isLocked)
                     .onSubmit(onSubmit)
                     .onChange(of: answer) { _, newValue in
                         answer = newValue.filter { $0.isNumber }
@@ -96,7 +99,7 @@ struct ProblemRowView: View {
         .animation(.easeInOut(duration: 0.2), value: isFocused)
         .animation(.easeInOut(duration: 0.2), value: result)
         .contentShape(Rectangle())
-        .onTapGesture { onFocus() }
+        .onTapGesture { if !isLocked { onFocus() } }
     }
 
     private var resultBackgroundColor: Color {

@@ -3,6 +3,7 @@ import SwiftData
 
 struct DashboardView: View {
     @Environment(\.appTheme) var theme
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @Bindable var settings: AppSettings
     @Query(sort: \PracticeSession.completedAt, order: .reverse) private var sessions: [PracticeSession]
     @State private var viewModel = DashboardViewModel()
@@ -73,39 +74,53 @@ struct DashboardView: View {
                 }
                 .padding(.horizontal)
 
-                // Metric cards
-                MetricCardView(
-                    title: loc("Average Errors"),
-                    value: String(format: "%.1f", viewModel.metrics.averageErrors),
-                    subtitle: "\(viewModel.metrics.totalSessions) " + loc("sessions"),
-                    chartData: viewModel.metrics.errorChartData,
-                    chartColor: theme.secondaryColor,
-                    chartUnit: "Errors"
-                )
-                .padding(.horizontal)
-
-                MetricCardView(
-                    title: loc("Average Time"),
-                    value: formatTime(viewModel.metrics.averageTime),
-                    subtitle: loc("seconds per page"),
-                    chartData: viewModel.metrics.timeChartData,
-                    chartColor: theme.primaryColor,
-                    chartUnit: "Seconds"
-                )
-                .padding(.horizontal)
-
-                MetricCardView(
-                    title: loc("Clean Sheets"),
-                    value: "\(viewModel.metrics.cleanSheetCount)",
-                    subtitle: loc("pages with zero errors"),
-                    chartData: viewModel.metrics.cleanSheetChartData,
-                    chartColor: theme.accentColor,
-                    chartUnit: "Count"
-                )
-                .padding(.horizontal)
+                // Metric cards — grid on iPad, stack on iPhone
+                if horizontalSizeClass == .regular {
+                    LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 16) {
+                        metricCards
+                    }
+                    .padding(.horizontal)
+                } else {
+                    VStack(spacing: 16) {
+                        metricCards
+                    }
+                    .padding(.horizontal)
+                }
             }
             .padding(.vertical)
+            .frame(maxWidth: horizontalSizeClass == .regular ? 900 : .infinity)
+            .frame(maxWidth: .infinity)
         }
+    }
+
+    @ViewBuilder
+    private var metricCards: some View {
+        MetricCardView(
+            title: loc("Average Errors"),
+            value: String(format: "%.1f", viewModel.metrics.averageErrors),
+            subtitle: "\(viewModel.metrics.totalSessions) " + loc("sessions"),
+            chartData: viewModel.metrics.errorChartData,
+            chartColor: theme.secondaryColor,
+            chartUnit: "Errors"
+        )
+
+        MetricCardView(
+            title: loc("Average Time"),
+            value: formatTime(viewModel.metrics.averageTime),
+            subtitle: loc("seconds per page"),
+            chartData: viewModel.metrics.timeChartData,
+            chartColor: theme.primaryColor,
+            chartUnit: "Seconds"
+        )
+
+        MetricCardView(
+            title: loc("Clean Sheets"),
+            value: "\(viewModel.metrics.cleanSheetCount)",
+            subtitle: loc("pages with zero errors"),
+            chartData: viewModel.metrics.cleanSheetChartData,
+            chartColor: theme.accentColor,
+            chartUnit: "Count"
+        )
     }
 
     private func formatTime(_ seconds: Double) -> String {

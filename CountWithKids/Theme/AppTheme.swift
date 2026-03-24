@@ -84,6 +84,27 @@ struct AppTheme: Equatable {
         tabSettingsIcon: "gearshape.fill"
     )
 
+    // Lion theme - unlockable reward (5 gold cups)
+    static let lion = AppTheme(
+        name: "lion",
+        primaryColor: Color(red: 0.85, green: 0.55, blue: 0.1),    // Warm amber
+        secondaryColor: Color(red: 0.75, green: 0.2, blue: 0.15),  // Deep red-brown
+        accentColor: Color(red: 1.0, green: 0.84, blue: 0.0),      // Gold
+        backgroundColor: adaptiveColor(
+            light: UIColor(red: 1.0, green: 0.98, blue: 0.94, alpha: 1),  // Warm cream
+            dark: UIColor(red: 0.13, green: 0.11, blue: 0.09, alpha: 1)   // Warm dark
+        ),
+        cardBackgroundColor: adaptiveColor(
+            light: .white,
+            dark: UIColor(red: 0.19, green: 0.17, blue: 0.15, alpha: 1)
+        ),
+        mascotEmoji: "🦁",
+        celebrationEmoji: "👑",
+        tabPracticeIcon: "pencil.and.list.clipboard",
+        tabDashboardIcon: "chart.bar.fill",
+        tabSettingsIcon: "gearshape.fill"
+    )
+
     static func == (lhs: AppTheme, rhs: AppTheme) -> Bool {
         lhs.name == rhs.name
     }

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 63;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -24,8 +24,16 @@
 		8D86813F10B4FE619DF38151 /* MetricCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F78C6A0D9E428DCBEE69ABC3 /* MetricCardView.swift */; };
 		9A18D15A860152B212AFA555 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 612D349DBB20590D9AD0EFE9 /* SettingsView.swift */; };
 		A309AA03076AA39EED8AB55C /* ProblemGeneratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBBFB4FF555F00787FF1FA86 /* ProblemGeneratorTests.swift */; };
+		AA1111111111111111111111 /* PrintablePageRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB1111111111111111111111 /* PrintablePageRenderer.swift */; };
+		AA2222222222222222222222 /* ScanEvaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2222222222222222222222 /* ScanEvaluator.swift */; };
+		AA3333333333333333333333 /* ScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3333333333333333333333 /* ScannerView.swift */; };
+		AA4444444444444444444444 /* ScanResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4444444444444444444444 /* ScanResultView.swift */; };
 		B8A5EAF2BEE9958CE5DB8A0B /* DashboardAggregatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65461AD870FE2949EF367B5D /* DashboardAggregatorTests.swift */; };
 		C1D20A1FC2245C9DAEF0B3AA /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F14B728F4B2B7D5F28D83982 /* ContentView.swift */; };
+		C3A332762F71EBF7001A9A98 /* StreakCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A332752F71EBF7001A9A98 /* StreakCalculator.swift */; };
+		C3A332792F71EC10001A9A98 /* TrophyShelfView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A332782F71EC10001A9A98 /* TrophyShelfView.swift */; };
+		C3A3327A2F71EC10001A9A98 /* CupShelfView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A332772F71EC10001A9A98 /* CupShelfView.swift */; };
+		C3A3327E2F71EC25001A9A98 /* StreakBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A3327C2F71EC25001A9A98 /* StreakBannerView.swift */; };
 		CA8CBFE6F5771D588C1701DB /* DashboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFFF015C1D217B32818C4E6 /* DashboardViewModel.swift */; };
 		D1D081ED60F8FC94E0FF2D90 /* LocalizedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4DD3E82128A6716948B81C8 /* LocalizedString.swift */; };
 		D3CE66DC4DC16CB0D6B85FB7 /* PracticeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02E2175653C64E613AD301A /* PracticeView.swift */; };
@@ -35,10 +43,6 @@
 		F4764BD22CD7D67C0B9595BC /* PracticeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8120997F6E84C8035C2921 /* PracticeViewModel.swift */; };
 		F7986085C952AFC82F0BFC29 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83187B456F8563B20738886B /* AppSettings.swift */; };
 		FF09F3FC617EB5FC771ABD5B /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 084E1F87FBA1293402F35F8A /* AppTheme.swift */; };
-		AA1111111111111111111111 /* PrintablePageRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB1111111111111111111111 /* PrintablePageRenderer.swift */; };
-		AA2222222222222222222222 /* ScanEvaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2222222222222222222222 /* ScanEvaluator.swift */; };
-		AA3333333333333333333333 /* ScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3333333333333333333333 /* ScannerView.swift */; };
-		AA4444444444444444444444 /* ScanResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4444444444444444444444 /* ScanResultView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,7 +69,7 @@
 		1ABA7A294D105B5DB053FF1B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2845A266CE764D7081777551 /* PracticeSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeSession.swift; sourceTree = "<group>"; };
 		309C0F87358DCA96D4BCD587 /* SnapshotHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapshotHelper.swift; sourceTree = "<group>"; };
-		3A8B9822CC568E198D181C43 /* CountWithKids.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = CountWithKids.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3A8B9822CC568E198D181C43 /* CountWithKids.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; name = CountWithKids.app; path = "Count with Kids.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A5F37A5D68167A4181B2B80 /* BarChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChartView.swift; sourceTree = "<group>"; };
 		612D349DBB20590D9AD0EFE9 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		65461AD870FE2949EF367B5D /* DashboardAggregatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardAggregatorTests.swift; sourceTree = "<group>"; };
@@ -75,9 +79,17 @@
 		9A7C2D43B473D21DFE79A104 /* CountWithKidsUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = CountWithKidsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACA8F1D4A4850D13F689ACD3 /* CountWithKidsTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = CountWithKidsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9A993AB2868E05E3D6CA2CF /* ProblemRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemRowView.swift; sourceTree = "<group>"; };
+		BB1111111111111111111111 /* PrintablePageRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrintablePageRenderer.swift; sourceTree = "<group>"; };
+		BB2222222222222222222222 /* ScanEvaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanEvaluator.swift; sourceTree = "<group>"; };
+		BB3333333333333333333333 /* ScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerView.swift; sourceTree = "<group>"; };
+		BB4444444444444444444444 /* ScanResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanResultView.swift; sourceTree = "<group>"; };
 		BBBFB4FF555F00787FF1FA86 /* ProblemGeneratorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemGeneratorTests.swift; sourceTree = "<group>"; };
 		C03271E940A5548265484F6E /* ScreenshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotTests.swift; sourceTree = "<group>"; };
 		C28CFBFD606EAF82CFB3A1E3 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
+		C3A332752F71EBF7001A9A98 /* StreakCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakCalculator.swift; sourceTree = "<group>"; };
+		C3A332772F71EC10001A9A98 /* CupShelfView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CupShelfView.swift; sourceTree = "<group>"; };
+		C3A332782F71EC10001A9A98 /* TrophyShelfView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrophyShelfView.swift; sourceTree = "<group>"; };
+		C3A3327C2F71EC25001A9A98 /* StreakBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakBannerView.swift; sourceTree = "<group>"; };
 		C7B91E99487432060FA348CE /* CaptureScreenshots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureScreenshots.swift; sourceTree = "<group>"; };
 		DA8120997F6E84C8035C2921 /* PracticeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeViewModel.swift; sourceTree = "<group>"; };
 		DAD012D846D9DFD454D357B4 /* CountWithKidsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountWithKidsApp.swift; sourceTree = "<group>"; };
@@ -90,10 +102,6 @@
 		F4DD3E82128A6716948B81C8 /* LocalizedString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizedString.swift; sourceTree = "<group>"; };
 		F78C6A0D9E428DCBEE69ABC3 /* MetricCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricCardView.swift; sourceTree = "<group>"; };
 		FA6CD75ADC7142CAD0F07C98 /* DashboardAggregator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardAggregator.swift; sourceTree = "<group>"; };
-		BB1111111111111111111111 /* PrintablePageRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrintablePageRenderer.swift; sourceTree = "<group>"; };
-		BB2222222222222222222222 /* ScanEvaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanEvaluator.swift; sourceTree = "<group>"; };
-		BB3333333333333333333333 /* ScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerView.swift; sourceTree = "<group>"; };
-		BB4444444444444444444444 /* ScanResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanResultView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -149,6 +157,7 @@
 		678D14C02697EF5F657DC222 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				C3A332752F71EBF7001A9A98 /* StreakCalculator.swift */,
 				FA6CD75ADC7142CAD0F07C98 /* DashboardAggregator.swift */,
 				BB1111111111111111111111 /* PrintablePageRenderer.swift */,
 				E5BCE62D8A8EB747B96D6EB4 /* ProblemGenerator.swift */,
@@ -163,8 +172,18 @@
 				45D59F61AE3A42F61F2F9144 /* Dashboard */,
 				B842C882806DB43A313B7463 /* Practice */,
 				F638657036C041D2B0F90436 /* Settings */,
+				AABB00112233445566778899 /* TrophyShelf */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		AABB00112233445566778899 /* TrophyShelf */ = {
+			isa = PBXGroup;
+			children = (
+				C3A332772F71EC10001A9A98 /* CupShelfView.swift */,
+				C3A332782F71EC10001A9A98 /* TrophyShelfView.swift */,
+			);
+			path = TrophyShelf;
 			sourceTree = "<group>";
 		};
 		74456FEB56525EBC38F0BB16 /* Localization */ = {
@@ -236,6 +255,7 @@
 				B9A993AB2868E05E3D6CA2CF /* ProblemRowView.swift */,
 				BB4444444444444444444444 /* ScanResultView.swift */,
 				BB3333333333333333333333 /* ScannerView.swift */,
+				C3A3327C2F71EC25001A9A98 /* StreakBannerView.swift */,
 			);
 			path = Practice;
 			sourceTree = "<group>";
@@ -359,7 +379,6 @@
 			);
 			mainGroup = 0DB1ED645C1E4C510FDCB78D;
 			minimizedProjectReferenceProxies = 1;
-			preferredProjectObjectVersion = 77;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -414,6 +433,8 @@
 				09DDFAC1270747F276856C3F /* CountWithKidsApp.swift in Sources */,
 				5E50FC545FF73D5F25F5538B /* DashboardAggregator.swift in Sources */,
 				629D8C41850375ED68EE2FBF /* DashboardView.swift in Sources */,
+				C3A332792F71EC10001A9A98 /* TrophyShelfView.swift in Sources */,
+				C3A3327A2F71EC10001A9A98 /* CupShelfView.swift in Sources */,
 				CA8CBFE6F5771D588C1701DB /* DashboardViewModel.swift in Sources */,
 				81E18BCC585B326532C5C3D8 /* Date+Helpers.swift in Sources */,
 				D1D081ED60F8FC94E0FF2D90 /* LocalizedString.swift in Sources */,
@@ -425,10 +446,12 @@
 				F4764BD22CD7D67C0B9595BC /* PracticeViewModel.swift in Sources */,
 				AA1111111111111111111111 /* PrintablePageRenderer.swift in Sources */,
 				86A80C3276931ABF5DD0992E /* ProblemGenerator.swift in Sources */,
+				C3A332762F71EBF7001A9A98 /* StreakCalculator.swift in Sources */,
 				242151C15E9D02C40C049737 /* ProblemRowView.swift in Sources */,
 				AA2222222222222222222222 /* ScanEvaluator.swift in Sources */,
 				AA3333333333333333333333 /* ScannerView.swift in Sources */,
 				AA4444444444444444444444 /* ScanResultView.swift in Sources */,
+				C3A3327E2F71EC25001A9A98 /* StreakBannerView.swift in Sources */,
 				9A18D15A860152B212AFA555 /* SettingsView.swift in Sources */,
 				76A8523D3D13D29C2B2D20CF /* ThemeEnvironment.swift in Sources */,
 			);
@@ -485,7 +508,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 11;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 7PL4QQ4G6R;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -505,17 +528,17 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.4.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.9;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -531,7 +554,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.countwithkids.app.tests;
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Count with Kids.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Count with Kids";
 			};
 			name = Debug;
@@ -571,7 +594,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 11;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 7PL4QQ4G6R;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -585,16 +608,16 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.4.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.9;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -610,7 +633,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.countwithkids.app.uitests;
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = CountWithKids;
 			};
 			name = Release;
@@ -627,7 +650,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.countwithkids.app.tests;
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Count with Kids.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Count with Kids";
 			};
 			name = Release;
@@ -644,7 +667,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.countwithkids.app.uitests;
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = CountWithKids;
 			};
 			name = Debug;
@@ -657,10 +680,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_GENERATION_MODE = GeneratedFile;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Camera is used to scan printed practice pages for evaluation.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -672,7 +695,7 @@
 				PRODUCT_NAME = "Count with Kids";
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -684,10 +707,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_GENERATION_MODE = GeneratedFile;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Camera is used to scan printed practice pages for evaluation.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -699,7 +722,7 @@
 				PRODUCT_NAME = "Count with Kids";
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

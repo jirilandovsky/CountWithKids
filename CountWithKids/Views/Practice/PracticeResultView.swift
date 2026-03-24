@@ -2,8 +2,10 @@ import SwiftUI
 
 struct PracticeResultView: View {
     @Environment(\.appTheme) var theme
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     let viewModel: PracticeViewModel
     let settings: AppSettings
+    let streak: StreakResult
     let onSaveAndRestart: () -> Void
     let onSaveAndFinish: () -> Void
 
@@ -59,6 +61,11 @@ struct PracticeResultView: View {
             )
             .padding(.horizontal)
 
+            if isCleanSheet {
+                StreakBannerView(streak: streak)
+                    .padding(.horizontal)
+            }
+
             Spacer()
 
             // Action buttons
@@ -76,6 +83,8 @@ struct PracticeResultView: View {
             .padding(.bottom, 32)
         }
         .padding()
+        .frame(maxWidth: horizontalSizeClass == .regular ? 600 : .infinity)
+        .frame(maxWidth: .infinity)
     }
 
     private func resultRow(icon: String, label: String, value: String) -> some View {

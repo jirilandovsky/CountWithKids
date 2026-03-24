@@ -1,10 +1,11 @@
 import Foundation
 import SwiftUI
+import UIKit
 import Combine
 
 @Observable
 class PracticeViewModel {
-    enum PracticeState {
+    enum PracticeState: Equatable {
         case ready
         case inProgress
         case finished
@@ -68,7 +69,7 @@ class PracticeViewModel {
 
             if self.deadlineSeconds > 0 && self.elapsedSeconds >= Double(self.deadlineSeconds) {
                 self.showDeadlineExpired = true
-                self.finishPractice()
+                self.submitAll()
             }
         }
     }
@@ -107,6 +108,7 @@ class PracticeViewModel {
         timer = nil
         errorCount = results.values.filter { !$0 }.count
         state = .finished
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 
     func reset() {
