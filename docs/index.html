@@ -3,28 +3,581 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Count with Kids</title>
+    <title>Count with Kids — Fun Math Practice for Kids</title>
+    <meta name="description" content="Help your child master math with fun themes, instant feedback, and progress tracking. No ads, no data collection — just pure learning. Perfect for ages 4+.">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #FFF9F0; color: #333; line-height: 1.6; }
-        .container { max-width: 680px; margin: 0 auto; padding: 40px 20px; }
-        h1 { color: #1ABC9C; font-size: 2em; margin-bottom: 8px; }
-        .subtitle { color: #666; font-size: 1.1em; margin-bottom: 32px; }
-        .links { display: flex; gap: 16px; flex-wrap: wrap; }
-        .links a { display: inline-block; padding: 12px 24px; background: #1ABC9C; color: white; text-decoration: none; border-radius: 10px; font-weight: 600; transition: background 0.2s; }
-        .links a:hover { background: #16a085; }
-        .links a.secondary { background: #FF6B6B; }
-        .links a.secondary:hover { background: #e55d5d; }
+        /* ========== Reset & Base ========== */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --primary: #1ABC9C;
+            --primary-dark: #16a085;
+            --secondary: #FF6B6B;
+            --secondary-dark: #e55d5d;
+            --accent: #FFD93D;
+            --bg: #FFF9F0;
+            --bg-card: #FFFFFF;
+            --text: #333333;
+            --text-muted: #666666;
+            --radius: 16px;
+            --radius-sm: 10px;
+            --shadow: 0 4px 24px rgba(0,0,0,0.08);
+            --shadow-sm: 0 2px 12px rgba(0,0,0,0.06);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ========== Layout ========== */
+        .container {
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        section {
+            padding: 64px 0;
+        }
+
+        /* ========== Hero ========== */
+        .hero {
+            text-align: center;
+            padding: 80px 0 48px;
+        }
+
+        .hero-icon {
+            width: 128px;
+            height: 128px;
+            border-radius: 28px;
+            box-shadow: var(--shadow);
+            margin-bottom: 24px;
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 8px;
+            letter-spacing: -0.02em;
+        }
+
+        .hero .tagline {
+            font-size: 1.3rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            margin-bottom: 16px;
+        }
+
+        .hero .description {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            max-width: 560px;
+            margin: 0 auto 32px;
+        }
+
+        /* ========== Buttons ========== */
+        .cta-group {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 28px;
+            border-radius: var(--radius-sm);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: transform 0.15s, box-shadow 0.15s, background 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-primary {
+            background: #000;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: #222;
+        }
+
+        .btn-primary svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            color: #fff;
+        }
+
+        .btn-secondary:hover {
+            background: var(--secondary-dark);
+        }
+
+        /* ========== Star Badge ========== */
+        .star-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg-card);
+            border: 2px solid var(--accent);
+            border-radius: 50px;
+            padding: 8px 20px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .star-badge .stars {
+            color: var(--accent);
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+        }
+
+        /* ========== Screenshots ========== */
+        .screenshots {
+            background: linear-gradient(180deg, var(--primary) 0%, var(--primary-dark) 100%);
+            padding: 64px 0;
+            overflow: hidden;
+        }
+
+        .screenshots h2 {
+            text-align: center;
+            color: #fff;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 40px;
+        }
+
+        .screenshots-scroll {
+            display: flex;
+            gap: 24px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            padding: 0 24px 24px;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            justify-content: center;
+        }
+
+        .screenshots-scroll::-webkit-scrollbar { display: none; }
+
+        .screenshot-item {
+            flex: 0 0 auto;
+            scroll-snap-align: center;
+        }
+
+        .screenshot-item img {
+            height: 520px;
+            width: auto;
+            border-radius: 24px;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.25);
+        }
+
+        .screenshot-label {
+            text-align: center;
+            color: rgba(255,255,255,0.85);
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-top: 12px;
+        }
+
+        /* ========== Features ========== */
+        .features h2 {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 48px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 28px;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 12px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+
+        .feature-card p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* ========== Privacy Section ========== */
+        .privacy-section {
+            background: var(--bg-card);
+        }
+
+        .privacy-inner {
+            text-align: center;
+            max-width: 640px;
+            margin: 0 auto;
+        }
+
+        .privacy-inner h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 16px;
+        }
+
+        .privacy-inner .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 32px;
+        }
+
+        .privacy-badges {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .privacy-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg);
+            border-radius: 50px;
+            padding: 10px 20px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .privacy-badge .icon {
+            font-size: 1.2rem;
+        }
+
+        /* ========== Recognition ========== */
+        .recognition {
+            text-align: center;
+        }
+
+        .recognition-card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 40px;
+            box-shadow: var(--shadow);
+            max-width: 560px;
+            margin: 0 auto;
+            border-top: 4px solid var(--accent);
+        }
+
+        .recognition-card .stars-large {
+            font-size: 2rem;
+            letter-spacing: 4px;
+            color: var(--accent);
+            margin-bottom: 16px;
+        }
+
+        .recognition-card h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 12px;
+        }
+
+        .recognition-card p {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .recognition-card .btn {
+            font-size: 0.95rem;
+        }
+
+        /* ========== Footer ========== */
+        footer {
+            background: var(--text);
+            color: rgba(255,255,255,0.7);
+            padding: 32px 0;
+        }
+
+        .footer-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-brand img {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+        }
+
+        .footer-brand span {
+            font-weight: 600;
+            color: #fff;
+            font-size: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 24px;
+        }
+
+        .footer-links a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: #fff;
+        }
+
+        .footer-copy {
+            width: 100%;
+            text-align: center;
+            font-size: 0.85rem;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* ========== Responsive ========== */
+        @media (max-width: 768px) {
+            .hero { padding: 56px 0 32px; }
+            .hero h1 { font-size: 2rem; }
+            .hero .tagline { font-size: 1.1rem; }
+            .hero .description { font-size: 0.95rem; }
+
+            section { padding: 48px 0; }
+
+            .screenshot-item img { height: 400px; }
+
+            .features-grid { grid-template-columns: 1fr; }
+
+            .recognition-card { padding: 28px; }
+
+            .footer-inner { flex-direction: column; text-align: center; }
+            .footer-links { justify-content: center; }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 { font-size: 1.7rem; }
+            .hero-icon { width: 96px; height: 96px; border-radius: 22px; }
+            .screenshot-item img { height: 340px; }
+            .cta-group { flex-direction: column; align-items: center; }
+            .btn { width: 100%; max-width: 280px; justify-content: center; }
+            .privacy-badges { flex-direction: column; align-items: center; }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Count with Kids</h1>
-        <p class="subtitle">Fun math practice for children — addition, subtraction, multiplication, and division with colorful themes and progress tracking.</p>
-        <div class="links">
-            <a href="privacy.html">Privacy Policy</a>
-            <a href="support.html" class="secondary">Support</a>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container">
+            <img src="assets/app-icon.png" alt="Count with Kids app icon" class="hero-icon">
+            <h1>Count with Kids</h1>
+            <p class="tagline">Fun Math Practice for Kids</p>
+            <p class="description">Math doesn't have to be boring! Count with Kids turns everyday practice into a colorful adventure — with friendly dinosaurs, magical unicorns, and trophies to earn along the way. Watch your little one go from counting on fingers to solving problems like a pro, all while having a blast. No ads, no distractions — just pure learning fun for ages 4 and up.</p>
+
+            <div class="cta-group">
+                <a href="https://apps.apple.com/us/app/count-with-kids/id6759628377" class="btn btn-primary" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+                    Download on the App Store
+                </a>
+            </div>
         </div>
-    </div>
+    </section>
+
+    <!-- Screenshots -->
+    <section class="screenshots">
+        <h2>See It in Action</h2>
+        <div class="screenshots-scroll">
+            <div class="screenshot-item">
+                <img src="assets/screenshot-home.png" alt="Count with Kids home screen" loading="lazy">
+                <p class="screenshot-label">Home</p>
+            </div>
+            <div class="screenshot-item">
+                <img src="assets/screenshot-practice.png" alt="Math practice session in progress" loading="lazy">
+                <p class="screenshot-label">Practice</p>
+            </div>
+            <div class="screenshot-item">
+                <img src="assets/screenshot-dashboard.png" alt="Progress dashboard with charts" loading="lazy">
+                <p class="screenshot-label">Dashboard</p>
+            </div>
+            <div class="screenshot-item">
+                <img src="assets/screenshot-trophies.png" alt="Trophies and achievements" loading="lazy">
+                <p class="screenshot-label">Trophies</p>
+            </div>
+            <div class="screenshot-item">
+                <img src="assets/screenshot-settings.png" alt="App settings and customization" loading="lazy">
+                <p class="screenshot-label">Settings</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features">
+        <div class="container">
+            <h2>Everything Your Child Needs to Master Math</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">&#129518;</div>
+                    <h3>Four Math Operations</h3>
+                    <p>Addition, subtraction, multiplication, and division — pick any combination to practice.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">&#127922;</div>
+                    <h3>Adjustable Difficulty</h3>
+                    <p>Counting ranges from 10 up to 1,000. The app grows with your child's abilities.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">&#9889;</div>
+                    <h3>Instant Feedback</h3>
+                    <p>Correct answers appear right away so kids learn from their mistakes in real time.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">&#127881;</div>
+                    <h3>Clean Sheet Celebrations</h3>
+                    <p>Get every answer right and earn a special celebration with confetti!</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">&#128200;</div>
+                    <h3>Progress Dashboard</h3>
+                    <p>Bar charts track average errors, completion time, and clean sheet streaks — by day, week, month, or year.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">&#129430;&#129412;&#128039;</div>
+                    <h3>Fun Themes</h3>
+                    <p>Choose from Dinosaur, Unicorn, Penguin, or unlock the premium Lion theme.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">&#127942;</div>
+                    <h3>Trophies &amp; Streaks</h3>
+                    <p>Earn gold cups, silver medals, and track daily streaks to stay motivated.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">&#9200;</div>
+                    <h3>Customizable Sessions</h3>
+                    <p>Set 1–10 problems per page with an optional countdown timer for extra challenge.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">&#127760;</div>
+                    <h3>Three Languages</h3>
+                    <p>Fully localized in English, Czech, and Hebrew with complete right-to-left support.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Privacy -->
+    <section class="privacy-section">
+        <div class="container">
+            <div class="privacy-inner">
+                <h2>Designed with Kids' Safety in Mind</h2>
+                <p class="subtitle">Your child's privacy is our top priority. Count with Kids is built to be a safe, distraction-free learning environment.</p>
+                <div class="privacy-badges">
+                    <div class="privacy-badge">
+                        <span class="icon">&#128274;</span> No Ads
+                    </div>
+                    <div class="privacy-badge">
+                        <span class="icon">&#128065;&#8205;&#128488;</span> No Tracking
+                    </div>
+                    <div class="privacy-badge">
+                        <span class="icon">&#128246;</span> No Internet Required
+                    </div>
+                    <div class="privacy-badge">
+                        <span class="icon">&#128176;</span> No In-App Purchases
+                    </div>
+                    <div class="privacy-badge">
+                        <span class="icon">&#9989;</span> COPPA Compliant
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recognition -->
+    <section class="recognition">
+        <div class="container">
+            <div class="recognition-card">
+                <div class="stars-large">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                <h2>Independently Evaluated. Five Stars.</h2>
+                <p>Count with Kids has been reviewed and awarded a 5-star rating by the Educational App Store — an independent organisation that evaluates educational apps for quality, engagement, and child safety.</p>
+                <a href="https://www.educationalappstore.com/app/count-with-kids" class="btn btn-secondary" target="_blank" rel="noopener">
+                    Read the Full Review
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-inner">
+                <div class="footer-brand">
+                    <img src="assets/app-icon.png" alt="Count with Kids">
+                    <span>Count with Kids</span>
+                </div>
+                <div class="footer-links">
+                    <a href="https://jirilandovsky.github.io/CountWithKids/privacy.html">Privacy Policy</a>
+                    <a href="https://jirilandovsky.github.io/CountWithKids/support.html">Support</a>
+                    <a href="https://apps.apple.com/us/app/count-with-kids/id6759628377" target="_blank" rel="noopener">App Store</a>
+                </div>
+                <p class="footer-copy">&copy; 2026 Count with Kids. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
 </body>
 </html>
