@@ -1,0 +1,59 @@
+Here's what I'd focus on, given your app's strengths (paid, no ads, privacy-first, 5-star independent review, 3 languages):
+
+  High-Impact, Low-Cost
+
+  1. App Store Optimization (ASO)
+  - Optimize your screenshots with captions/text overlays highlighting key benefits (currently they're raw screenshots)
+  - A/B test your app icon and subtitle in App Store Connect
+  - Add more localized keywords — you support Czech and Hebrew, so make sure your metadata is optimized in those markets too
+
+  2. Leverage the 5-Star Review
+  - Ask Educational App Store if they provide a badge/seal you can display on your product page and marketing materials
+  - Parents trust independent reviews — this is your strongest differentiator
+
+  3. Content Marketing
+  - Write a few blog posts on countwithkids.com (e.g., "How daily math practice helps kids build confidence") — this drives
+  organic Google traffic from parents searching for help
+  - Create a short demo video (30–60s) showing a kid using the app — post on YouTube, embed on product page
+
+  Social & Community
+
+  4. Parenting Communities
+  - Share genuinely in parenting subreddits (r/parenting, r/homeschool), Facebook groups, and forums — not as spam, but when
+  people ask for app recommendations
+  - Czech parenting forums/groups if you want to target that market specifically
+
+  5. Social Media
+  - Short-form video (Instagram Reels, TikTok) showing kids using the app works well for this category
+  - "Mom-tok" / parent influencers with small followings (1K–10K) are affordable and have high engagement
+
+  Paid (When Ready to Invest)
+
+  6. Apple Search Ads
+  - Start with a small budget ($5–10/day) targeting keywords like "math app for kids", "kids math practice"
+  - Very high intent — these people are already searching the App Store
+  - Best ROI for paid channels in your category
+
+  7. Micro-Influencers
+  - Education/parenting bloggers and YouTubers — offer free promo codes in exchange for honest reviews
+  - Teachers with social media presence are great advocates
+
+  Partnerships
+
+  8. Schools & Teachers
+  - Apple has Volume Purchase Program (VPP) for schools — make sure your app supports it
+  - Reach out to local schools, especially in Czech Republic where you have language advantage
+  - Teachers who recommend the app to parents drive consistent sales
+
+  Quick Wins Right Now
+
+  1. Add a demo video to your App Store listing and product page
+  2. Add text overlays to your screenshots (e.g., "No Ads. No Tracking. Just Learning.")
+  3. Start Apple Search Ads with $5/day
+  4. Post in 2–3 parenting communities where you're genuinely active
+
+  The privacy angle ("no ads, no tracking, COPPA compliant") is a strong selling point — many parents are frustrated with
+  ad-filled kids' apps. Lead with that in your messaging.
+
+  Would you like help with any of these — like adding a blog section to the product page, creating App Store screenshot
+  overlays, or setting up anything else?
