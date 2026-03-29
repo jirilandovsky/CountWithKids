@@ -16,6 +16,7 @@ struct PracticeView: View {
     @State private var scanProblems: [MathProblem]?
     @State private var scanDetectedAnswers: [Int?]?
     @State private var showScanError = false
+    @State private var milestoneInfo: MilestoneInfo?
 
     private var showingScanResult: Bool {
         scanProblems != nil
@@ -33,6 +34,15 @@ struct PracticeView: View {
             settings: settings
         )
         return StreakCalculator.compute(sessions: [tempSession] + sessions)
+    }
+
+    /// Returns milestone type if the current streak just hit a milestone (multiple of 5 or 10).
+    private var milestoneAchievement: MilestoneType? {
+        let streak = effectiveStreak.currentStreak
+        guard streak > 0, viewModel.errorCount == 0 else { return nil }
+        if streak.isMultiple(of: 10) { return .gold }
+        if streak.isMultiple(of: 5) { return .silver }
+        return nil
     }
 
     var body: some View {
@@ -72,6 +82,27 @@ struct PracticeView: View {
             }
             .alert(loc("Could not read the printed page. Make sure the QR code is visible."), isPresented: $showScanError) {
                 Button(loc("OK"), role: .cancel) { }
+            }
+            .onChange(of: viewModel.state) { _, newState in
+                if newState == .finished {
+                    DispatchQueue.main.async {
+                        if let type = milestoneAchievement {
+                            milestoneInfo = MilestoneInfo(
+                                type: type,
+                                streak: effectiveStreak.currentStreak
+                            )
+                        }
+                    }
+                }
+            }
+            .fullScreenCover(item: $milestoneInfo) { info in
+                MilestoneCelebrationView(
+                    info: info,
+                    onDismiss: {
+                        milestoneInfo = nil
+                    }
+                )
+                .environment(\.appTheme, theme)
             }
         }
     }

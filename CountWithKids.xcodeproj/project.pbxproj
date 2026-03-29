@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		05FB314D75B30AA271B5A7CD /* MathProblem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2628B7EC7AEE6A50E02339 /* MathProblem.swift */; };
 		08B532D958FA1EC63539D4DE /* TestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32BBD77EAD694F82B8D7C0C /* TestHelpers.swift */; };
+		CC0000000000000000000002 /* MilestoneCelebrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0000000000000000000001 /* MilestoneCelebrationView.swift */; };
 		09DDFAC1270747F276856C3F /* CountWithKidsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD012D846D9DFD454D357B4 /* CountWithKidsApp.swift */; };
 		09FA530FD59669AF3702D596 /* BarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5F37A5D68167A4181B2B80 /* BarChartView.swift */; };
 		0F26D38DABF9D3EEBF0333D5 /* CaptureScreenshots.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B91E99487432060FA348CE /* CaptureScreenshots.swift */; };
@@ -65,6 +66,7 @@
 /* Begin PBXFileReference section */
 		01E053BCA7FFFF053A171E75 /* PracticeResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeResultView.swift; sourceTree = "<group>"; };
 		084E1F87FBA1293402F35F8A /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
+		CC0000000000000000000001 /* MilestoneCelebrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MilestoneCelebrationView.swift; sourceTree = "<group>"; };
 		14CE3B064AE4CE78DCA8EF30 /* Date+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Helpers.swift"; sourceTree = "<group>"; };
 		1ABA7A294D105B5DB053FF1B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2845A266CE764D7081777551 /* PracticeSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeSession.swift; sourceTree = "<group>"; };
@@ -250,6 +252,7 @@
 		B842C882806DB43A313B7463 /* Practice */ = {
 			isa = PBXGroup;
 			children = (
+				CC0000000000000000000001 /* MilestoneCelebrationView.swift */,
 				01E053BCA7FFFF053A171E75 /* PracticeResultView.swift */,
 				F02E2175653C64E613AD301A /* PracticeView.swift */,
 				B9A993AB2868E05E3D6CA2CF /* ProblemRowView.swift */,
@@ -429,6 +432,7 @@
 				F7986085C952AFC82F0BFC29 /* AppSettings.swift in Sources */,
 				FF09F3FC617EB5FC771ABD5B /* AppTheme.swift in Sources */,
 				09FA530FD59669AF3702D596 /* BarChartView.swift in Sources */,
+				CC0000000000000000000002 /* MilestoneCelebrationView.swift in Sources */,
 				C1D20A1FC2245C9DAEF0B3AA /* ContentView.swift in Sources */,
 				09DDFAC1270747F276856C3F /* CountWithKidsApp.swift in Sources */,
 				5E50FC545FF73D5F25F5538B /* DashboardAggregator.swift in Sources */,
@@ -508,7 +512,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 12;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 7PL4QQ4G6R;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -594,7 +598,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 12;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 7PL4QQ4G6R;
 				ENABLE_NS_ASSERTIONS = NO;
