@@ -61,20 +61,16 @@ struct TrophyShelfView: View {
                 }
                 .padding(.horizontal)
 
-                // Cup shelf
-                CupShelfView(goldCups: streak.totalGoldCups, silverCups: streak.totalSilverCups)
-                    .padding(.horizontal)
-
-                // Next milestone
-                nextMilestoneView
+                // Emoji theme unlock progress (most ambitious goal — always visible)
+                emojiThemeProgressView
                     .padding(.horizontal)
 
                 // Lion unlock progress
                 lionProgressView
                     .padding(.horizontal)
 
-                // Emoji theme unlock progress
-                emojiThemeProgressView
+                // Cup shelf
+                CupShelfView(goldCups: streak.totalGoldCups, silverCups: streak.totalSilverCups)
                     .padding(.horizontal)
             }
             .padding(.vertical)

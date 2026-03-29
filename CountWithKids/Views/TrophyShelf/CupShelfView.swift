@@ -30,11 +30,20 @@ struct CupShelfView: View {
     }
 
     private func cupRow(emoji: String, count: Int, label: String) -> some View {
-        VStack(spacing: 8) {
+        let maxVisible = 10
+        let overflow = count > maxVisible ? count - maxVisible : 0
+        let visible = min(count, maxVisible)
+
+        return VStack(spacing: 8) {
             HStack(spacing: 4) {
-                ForEach(0..<count, id: \.self) { _ in
+                ForEach(0..<visible, id: \.self) { _ in
                     Text(emoji)
                         .font(.system(size: 36))
+                }
+                if overflow > 0 {
+                    Text("+\(overflow)")
+                        .playfulFont(size: 18, weight: .bold)
+                        .foregroundColor(.secondary)
                 }
             }
 

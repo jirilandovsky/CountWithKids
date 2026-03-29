@@ -109,7 +109,7 @@ struct AppTheme: Equatable {
     static func emoji(mascot: String) -> AppTheme {
         AppTheme(
             name: "emoji",
-            primaryColor: Color(red: 0.25, green: 0.25, blue: 0.30),     // Charcoal
+            primaryColor: Color(red: 0.45, green: 0.47, blue: 0.52),     // Medium gray
             secondaryColor: Color(red: 0.55, green: 0.55, blue: 0.60),   // Mid grey
             accentColor: Color(red: 0.95, green: 0.4, blue: 0.45),       // Soft coral pop
             backgroundColor: adaptiveColor(
@@ -129,6 +129,6 @@ struct AppTheme: Equatable {
     }
 
     static func == (lhs: AppTheme, rhs: AppTheme) -> Bool {
-        lhs.name == rhs.name
+        lhs.name == rhs.name && lhs.mascotEmoji == rhs.mascotEmoji
     }
 }
