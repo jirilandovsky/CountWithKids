@@ -248,6 +248,82 @@
             line-height: 1.5;
         }
 
+        /* ========== Print & Scan Section ========== */
+        .print-scan {
+            background: linear-gradient(135deg, #f0faf7 0%, #e8f8f5 100%);
+        }
+
+        .print-scan-inner {
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        .print-scan-text h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .print-scan-subtitle {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .print-scan-text > p {
+            font-size: 1rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+            margin-bottom: 32px;
+            text-align: center;
+        }
+
+        .print-scan-steps {
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .step {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            background: var(--bg-card);
+            border-radius: var(--radius-sm);
+            padding: 20px;
+            flex: 1 1 180px;
+            max-width: 220px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .step-icon {
+            font-size: 1.6rem;
+            flex-shrink: 0;
+        }
+
+        .step strong {
+            display: block;
+            font-size: 1rem;
+            margin-bottom: 4px;
+            color: var(--text);
+        }
+
+        .step p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+            margin: 0;
+        }
+
+        @media (max-width: 480px) {
+            .print-scan-steps { flex-direction: column; align-items: center; }
+            .step { max-width: 100%; }
+        }
+
         /* ========== Privacy Section ========== */
         .privacy-section {
             background: var(--bg-card);
@@ -447,23 +523,23 @@
         <div class="screenshots-scroll">
             <div class="screenshot-item">
                 <img src="assets/screenshot-home.png" alt="Count with Kids home screen" loading="lazy">
-                <p class="screenshot-label">Home</p>
+                <p class="screenshot-label">Ready, Set, Count!</p>
             </div>
             <div class="screenshot-item">
                 <img src="assets/screenshot-practice.png" alt="Math practice session in progress" loading="lazy">
-                <p class="screenshot-label">Practice</p>
+                <p class="screenshot-label">Instant Feedback on Every Answer</p>
             </div>
             <div class="screenshot-item">
                 <img src="assets/screenshot-dashboard.png" alt="Progress dashboard with charts" loading="lazy">
-                <p class="screenshot-label">Dashboard</p>
+                <p class="screenshot-label">Track Progress Day by Day</p>
             </div>
             <div class="screenshot-item">
                 <img src="assets/screenshot-trophies.png" alt="Trophies and achievements" loading="lazy">
-                <p class="screenshot-label">Trophies</p>
+                <p class="screenshot-label">Earn Trophies &amp; Build Streaks</p>
             </div>
             <div class="screenshot-item">
                 <img src="assets/screenshot-settings.png" alt="App settings and customization" loading="lazy">
-                <p class="screenshot-label">Settings</p>
+                <p class="screenshot-label">Grows with Your Child</p>
             </div>
         </div>
     </section>
@@ -491,7 +567,7 @@
                 <div class="feature-card">
                     <div class="feature-icon">&#127881;</div>
                     <h3>Clean Sheet Celebrations</h3>
-                    <p>Get every answer right and earn a special celebration with confetti!</p>
+                    <p>Get every answer right and earn a special celebration page — a rewarding moment your child will look forward to!</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">&#128200;</div>
@@ -501,7 +577,7 @@
                 <div class="feature-card">
                     <div class="feature-icon">&#129430;&#129412;&#128039;</div>
                     <h3>Fun Themes</h3>
-                    <p>Choose from Dinosaur, Unicorn, Penguin, or unlock the premium Lion theme.</p>
+                    <p>Choose from Dinosaur, Unicorn, Penguin, or unlock the premium Lion theme — and after that, create your own custom theme!</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">&#127942;</div>
@@ -517,6 +593,42 @@
                     <div class="feature-icon">&#127760;</div>
                     <h3>Three Languages</h3>
                     <p>Fully localized in English, Czech, and Hebrew with complete right-to-left support.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Print & Scan -->
+    <section class="print-scan">
+        <div class="container">
+            <div class="print-scan-inner">
+                <div class="print-scan-text">
+                    <h2>Print. Practice. Scan. Done.</h2>
+                    <p class="print-scan-subtitle">Math practice doesn't have to be screen time.</p>
+                    <p>With the unique <strong>Print &amp; Scan</strong> feature, your child can work on printed worksheets with a pencil — just like at school. When they're done, simply scan the sheet with the app's camera. The answers are checked automatically, scores are tracked, and rewards are earned — all without your child needing to sit in front of a screen.</p>
+                    <div class="print-scan-steps">
+                        <div class="step">
+                            <span class="step-icon">&#128424;</span>
+                            <div>
+                                <strong>Print</strong>
+                                <p>Generate a worksheet and print it out.</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <span class="step-icon">&#9997;&#65039;</span>
+                            <div>
+                                <strong>Solve</strong>
+                                <p>Your child writes answers by hand — screen-free practice.</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <span class="step-icon">&#128247;</span>
+                            <div>
+                                <strong>Scan</strong>
+                                <p>Point the camera at the completed sheet — results are recorded instantly.</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
