@@ -7,6 +7,7 @@ struct StreakResult {
     let totalSilverCups: Int
 
     var lionUnlocked: Bool { totalGoldCups >= 5 }
+    var emojiThemeUnlocked: Bool { totalGoldCups >= 15 }
 
     var cleanSheetsToNextSilver: Int {
         let nextFive = ((currentStreak / 5) + 1) * 5

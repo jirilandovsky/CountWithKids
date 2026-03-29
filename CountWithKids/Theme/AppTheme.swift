@@ -105,6 +105,29 @@ struct AppTheme: Equatable {
         tabSettingsIcon: "gearshape.fill"
     )
 
+    // Emoji theme - unlockable reward (15 gold cups), predominantly white
+    static func emoji(mascot: String) -> AppTheme {
+        AppTheme(
+            name: "emoji",
+            primaryColor: Color(red: 0.25, green: 0.25, blue: 0.30),     // Charcoal
+            secondaryColor: Color(red: 0.55, green: 0.55, blue: 0.60),   // Mid grey
+            accentColor: Color(red: 0.95, green: 0.4, blue: 0.45),       // Soft coral pop
+            backgroundColor: adaptiveColor(
+                light: UIColor(red: 0.98, green: 0.98, blue: 0.99, alpha: 1),  // Near white
+                dark: UIColor(red: 0.10, green: 0.10, blue: 0.11, alpha: 1)
+            ),
+            cardBackgroundColor: adaptiveColor(
+                light: .white,
+                dark: UIColor(red: 0.16, green: 0.16, blue: 0.17, alpha: 1)
+            ),
+            mascotEmoji: mascot,
+            celebrationEmoji: mascot,
+            tabPracticeIcon: "pencil.and.list.clipboard",
+            tabDashboardIcon: "chart.bar.fill",
+            tabSettingsIcon: "gearshape.fill"
+        )
+    }
+
     static func == (lhs: AppTheme, rhs: AppTheme) -> Bool {
         lhs.name == rhs.name
     }

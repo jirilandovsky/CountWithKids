@@ -8,6 +8,16 @@ struct SettingsView: View {
     @Query(sort: \PracticeSession.completedAt, order: .reverse) private var sessions: [PracticeSession]
     @State private var showResetConfirmation = false
 
+    private var streakResult: StreakResult {
+        StreakCalculator.compute(sessions: sessions)
+    }
+
+    private let emojiChoices = [
+        "⭐", "🌈", "🔥", "💎", "🚀", "🎯", "🍀", "🌸",
+        "🐱", "🐶", "🐰", "🦊", "🐻", "🐼", "🐸", "🦋",
+        "⚽", "🎸", "🎨", "🧩", "🍕", "🍩", "🌍", "❤️"
+    ]
+
     private let countingRanges = [10, 20, 100, 1000]
     private let languages = [
         ("en", "English"),
@@ -128,15 +138,27 @@ struct SettingsView: View {
                 }
                 .tag("penguin")
 
-                if StreakCalculator.compute(sessions: sessions).lionUnlocked {
+                if streakResult.lionUnlocked {
                     HStack {
                         Text("🦁")
                         Text(loc("Lion"))
                     }
                     .tag("lion")
                 }
+
+                if streakResult.emojiThemeUnlocked {
+                    HStack {
+                        Text(settings.customEmojiRaw)
+                        Text(loc("Emoji"))
+                    }
+                    .tag("emoji")
+                }
             }
             .playfulFont(size: 16, weight: .medium)
+
+            if settings.themeRaw == "emoji" {
+                emojiPicker
+            }
 
             Picker(loc("Mode"), selection: $settings.appearanceModeRaw) {
                 Text(loc("System")).tag("system")
@@ -147,6 +169,40 @@ struct SettingsView: View {
         } header: {
             Text(loc("Appearance"))
                 .playfulFont(size: 14, weight: .bold)
+        }
+    }
+
+    private var emojiPicker: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(loc("Choose your emoji"))
+                .playfulFont(size: 14, weight: .medium)
+                .foregroundColor(.secondary)
+
+            LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 8), count: 8), spacing: 8) {
+                ForEach(emojiChoices, id: \.self) { emoji in
+                    Button {
+                        settings.customEmojiRaw = emoji
+                    } label: {
+                        Text(emoji)
+                            .font(.system(size: 28))
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 6)
+                            .background(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .fill(settings.customEmojiRaw == emoji
+                                          ? theme.primaryColor.opacity(0.2)
+                                          : Color.clear)
+                            )
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(settings.customEmojiRaw == emoji
+                                            ? theme.primaryColor
+                                            : Color.clear, lineWidth: 2)
+                            )
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
         }
     }
 

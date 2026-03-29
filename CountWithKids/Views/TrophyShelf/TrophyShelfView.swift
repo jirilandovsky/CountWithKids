@@ -72,6 +72,10 @@ struct TrophyShelfView: View {
                 // Lion unlock progress
                 lionProgressView
                     .padding(.horizontal)
+
+                // Emoji theme unlock progress
+                emojiThemeProgressView
+                    .padding(.horizontal)
             }
             .padding(.vertical)
             .frame(maxWidth: horizontalSizeClass == .regular ? 600 : .infinity)
@@ -196,6 +200,59 @@ struct TrophyShelfView: View {
                     .fill(theme.cardBackgroundColor)
                     .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
             )
+        }
+    }
+
+    @ViewBuilder
+    private var emojiThemeProgressView: some View {
+        if streak.lionUnlocked {
+            if streak.emojiThemeUnlocked {
+                HStack(spacing: 12) {
+                    Text("🎨")
+                        .font(.system(size: 40))
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(loc("Emoji theme unlocked!"))
+                            .playfulFont(size: 18)
+                            .foregroundColor(theme.accentColor)
+                        Text(loc("Go to Settings to select the Emoji theme"))
+                            .playfulFont(size: 13, weight: .regular)
+                            .foregroundColor(.secondary)
+                    }
+                    Spacer()
+                    Image(systemName: "checkmark.seal.fill")
+                        .foregroundColor(theme.accentColor)
+                        .font(.title2)
+                }
+                .padding()
+                .background(
+                    RoundedRectangle(cornerRadius: 16)
+                        .fill(theme.cardBackgroundColor)
+                        .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
+                )
+            } else {
+                VStack(spacing: 12) {
+                    HStack(spacing: 8) {
+                        Text("🎨")
+                            .font(.title)
+                        Text(loc("Emoji theme"))
+                            .playfulFont(size: 18)
+                            .foregroundColor(.primary)
+                        Spacer()
+                        Text("\(streak.totalGoldCups) / 15 🏆")
+                            .playfulFont(size: 16, weight: .medium)
+                            .foregroundColor(.secondary)
+                    }
+
+                    ProgressView(value: Double(min(streak.totalGoldCups, 15)), total: 15)
+                        .tint(theme.accentColor)
+                }
+                .padding()
+                .background(
+                    RoundedRectangle(cornerRadius: 16)
+                        .fill(theme.cardBackgroundColor)
+                        .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
+                )
+            }
         }
     }
 }

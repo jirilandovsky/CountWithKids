@@ -46,6 +46,7 @@ struct ContentView: View {
             case "unicorn": return .unicorn
             case "penguin": return .penguin
             case "lion": return .lion
+            case "emoji": return .emoji(mascot: settings.customEmojiRaw)
             default: return .dinosaur
             }
         }()

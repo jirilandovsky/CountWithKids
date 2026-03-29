@@ -10,6 +10,7 @@ final class AppSettings {
     var themeRaw: String = "dinosaur"
     var appearanceModeRaw: String = "system"
     var languageRaw: String = "en"
+    var customEmojiRaw: String = "⭐"
     var createdAt: Date = Date()
 
     init() {}
