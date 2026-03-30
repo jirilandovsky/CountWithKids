@@ -208,6 +208,9 @@
         .screenshot-item {
             flex: 0 0 auto;
             scroll-snap-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .screenshot-item img {
@@ -215,6 +218,7 @@
             width: auto;
             border-radius: 24px;
             box-shadow: 0 8px 40px rgba(0,0,0,0.25);
+            display: block;
         }
 
         .screenshot-label {
@@ -223,6 +227,7 @@
             font-size: 0.9rem;
             font-weight: 500;
             margin-top: 12px;
+            width: 100%;
         }
 
         /* ========== Features ========== */
@@ -332,8 +337,8 @@
             background: var(--bg-card);
             border-radius: var(--radius-sm);
             padding: 16px;
-            flex: 1 1 140px;
-            max-width: 200px;
+            flex: 1 1 0;
+            min-width: 140px;
             box-shadow: var(--shadow-sm);
         }
 
@@ -545,6 +550,7 @@
             .screenshot-item img { height: 340px; }
             .cta-group { flex-direction: column; align-items: center; }
             .btn { width: 100%; max-width: 280px; justify-content: center; }
+            .btn-primary { font-size: 0.85rem; padding: 12px 18px; white-space: nowrap; }
             .privacy-badges { flex-direction: column; align-items: center; }
         }
     </style>
@@ -562,11 +568,12 @@
                     <p class="description">Math doesn't have to be boring! Count with Kids turns everyday practice into a colorful adventure — with friendly dinosaurs, magical unicorns, and trophies to earn along the way. Watch your little one go from counting on fingers to solving problems like a pro, all while having a blast. No ads, no distractions — just pure learning fun for ages 4 and up.</p>
 
                     <div class="cta-group">
-                        <a href="https://apps.apple.com/us/app/count-with-kids/id6759628377" class="btn btn-primary" target="_blank" rel="noopener">
+                        <a href="https://apps.apple.com/us/app/count-with-kids/id6759628377" class="btn btn-primary" target="_blank" rel="noopener" style="white-space: nowrap;">
                             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
                             Download on the App Store
                         </a>
                     </div>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: -16px;">Available for iPhone and iPad</p>
                 </div>
                 <div class="hero-video-wrap">
                     <video class="hero-video" autoplay muted loop playsinline>
@@ -642,7 +649,7 @@
                 <div class="feature-card">
                     <div class="feature-icon">&#127942;</div>
                     <h3>Trophies &amp; Streaks</h3>
-                    <p>Earn gold cups, silver medals, and track daily streaks to stay motivated.</p>
+                    <p>Earn gold cups, silver medals, and track daily streaks to stay motivated. Trophies also unlock the premium Lion theme and eventually a custom theme you can design yourself!</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">&#9200;</div>
