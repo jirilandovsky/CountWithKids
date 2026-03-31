@@ -7,6 +7,20 @@
     <meta name="description" content="Help your child master math with fun themes, instant feedback, and progress tracking. No ads, no data collection — just pure learning. Perfect for ages 4+.">
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Count with Kids — Fun Math Practice for Kids">
+    <meta property="og:description" content="Turn math practice into a colorful adventure with dinosaurs, unicorns, trophies and more. No ads, no tracking. Ages 4+.">
+    <meta property="og:image" content="https://countwithkids.com/assets/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:url" content="https://countwithkids.com/">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Count with Kids — Fun Math Practice for Kids">
+    <meta name="twitter:description" content="Turn math practice into a colorful adventure with dinosaurs, unicorns, trophies and more. No ads, no tracking. Ages 4+.">
+    <meta name="twitter:image" content="https://countwithkids.com/assets/og-image.png">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Comic+Neue:wght@300;400;700&display=swap" rel="stylesheet">
@@ -67,6 +81,53 @@
             position: relative;
         }
 
+        /* ========== Language Switcher ========== */
+        .lang-switcher {
+            position: absolute;
+            top: 16px;
+            right: 24px;
+            z-index: 10;
+            display: flex;
+            background: var(--bg-card);
+            border: 2px solid #e0e0e0;
+            border-radius: 50px;
+            padding: 2px;
+            box-shadow: var(--shadow-clay-sm);
+            gap: 1px;
+        }
+
+        .lang-btn {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 3px 10px;
+            border: none;
+            border-radius: 50px;
+            background: transparent;
+            font-family: 'Baloo 2', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .lang-btn:hover {
+            color: var(--text);
+        }
+
+        .lang-btn.active {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .lang-btn svg {
+            width: 14px;
+            height: 10px;
+            border-radius: 1px;
+            flex-shrink: 0;
+        }
+
         /* ========== Decorative Floating Shapes ========== */
         .deco {
             position: absolute;
@@ -84,10 +145,6 @@
             opacity: 0.12;
         }
 
-        .deco-squiggle {
-            opacity: 0.1;
-        }
-
         @keyframes float {
             0%, 100% { transform: translateY(0) rotate(0deg); }
             50% { transform: translateY(-12px) rotate(5deg); }
@@ -96,11 +153,6 @@
         @keyframes float-alt {
             0%, 100% { transform: translateY(0) rotate(0deg); }
             50% { transform: translateY(-8px) rotate(-5deg); }
-        }
-
-        @keyframes wiggle {
-            0%, 100% { transform: rotate(-3deg); }
-            50% { transform: rotate(3deg); }
         }
 
         .deco-float {
@@ -758,6 +810,17 @@
 
     <!-- Hero -->
     <section class="hero">
+        <!-- Language Switcher -->
+        <div class="lang-switcher" role="navigation" aria-label="Language selection">
+            <button class="lang-btn active" data-lang="en" aria-label="English">
+                <svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0,0 L60,40 M60,0 L0,40" stroke="#fff" stroke-width="6"/><path d="M0,0 L60,40 M60,0 L0,40" stroke="#C8102E" stroke-width="4"/><path d="M30,0 V40 M0,20 H60" stroke="#fff" stroke-width="10"/><path d="M30,0 V40 M0,20 H60" stroke="#C8102E" stroke-width="6"/></svg>
+                EN
+            </button>
+            <button class="lang-btn" data-lang="cs" aria-label="Čeština">
+                <svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#D7141A"/><rect width="60" height="20" fill="#fff"/><polygon points="0,0 30,20 0,40" fill="#11457E"/></svg>
+                CZ
+            </button>
+        </div>
         <!-- Decorative shapes -->
         <div class="deco deco-circle deco-float" style="width:80px;height:80px;border-color:var(--accent);top:30px;right:8%;"></div>
         <div class="deco deco-circle deco-float-alt" style="width:50px;height:50px;border-color:var(--secondary-light);top:60%;left:5%;"></div>
@@ -770,16 +833,16 @@
                 <div class="hero-content">
                     <img src="assets/app-icon.png" alt="Count with Kids app icon" class="hero-icon">
                     <h1>Count with <span class="highlight">Kids</span></h1>
-                    <p class="tagline">Fun Math Practice for Kids</p>
-                    <p class="description">Math doesn't have to be boring! Count with Kids turns everyday practice into a colorful adventure — with friendly dinosaurs, magical unicorns, and trophies to earn along the way. Watch your little one go from counting on fingers to solving problems like a pro, all while having a blast. No ads, no distractions — just pure learning fun for ages 4 and up.</p>
+                    <p class="tagline" data-i18n="tagline">Fun Math Practice for Kids</p>
+                    <p class="description" data-i18n="description">Math doesn't have to be boring! Count with Kids turns everyday practice into a colorful adventure — with friendly dinosaurs, magical unicorns, and trophies to earn along the way. Watch your little one go from counting on fingers to solving problems like a pro, all while having a blast. No ads, no distractions — just pure learning fun for ages 4 and up.</p>
 
                     <div class="cta-group">
                         <a href="https://apps.apple.com/us/app/count-with-kids/id6759628377" class="btn btn-primary" target="_blank" rel="noopener" style="white-space: nowrap;">
                             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-                            Download on the App Store
+                            <span data-i18n="cta_appstore">Download on the App Store</span>
                         </a>
                     </div>
-                    <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: -12px;">Available for iPhone and iPad</p>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: -12px;" data-i18n="available">Available for iPhone and iPad</p>
                 </div>
                 <div class="hero-video-wrap">
                     <video class="hero-video" autoplay muted loop playsinline>
@@ -797,27 +860,27 @@
                 <path d="M0,48 C200,0 400,40 600,20 C800,0 1000,40 1200,10 L1200,0 L0,0 Z"/>
             </svg>
         </div>
-        <h2>See It in Action</h2>
+        <h2 data-i18n="screenshots_title">See It in Action</h2>
         <div class="screenshots-scroll">
             <div class="screenshot-item">
                 <img src="assets/screenshot-home.png" alt="Count with Kids home screen" loading="lazy">
-                <p class="screenshot-label">Ready, Set, Count!</p>
+                <p class="screenshot-label" data-i18n="ss_home">Ready, Set, Count!</p>
             </div>
             <div class="screenshot-item">
                 <img src="assets/screenshot-practice.png" alt="Math practice session in progress" loading="lazy">
-                <p class="screenshot-label">Instant Feedback on Every Answer</p>
+                <p class="screenshot-label" data-i18n="ss_practice">Instant Feedback on Every Answer</p>
             </div>
             <div class="screenshot-item">
                 <img src="assets/screenshot-dashboard.png" alt="Progress dashboard with charts" loading="lazy">
-                <p class="screenshot-label">Track Progress Day by Day</p>
+                <p class="screenshot-label" data-i18n="ss_dashboard">Track Progress Day by Day</p>
             </div>
             <div class="screenshot-item">
                 <img src="assets/screenshot-trophies.png" alt="Trophies and achievements" loading="lazy">
-                <p class="screenshot-label">Earn Trophies &amp; Build Streaks</p>
+                <p class="screenshot-label" data-i18n="ss_trophies">Earn Trophies &amp; Build Streaks</p>
             </div>
             <div class="screenshot-item">
                 <img src="assets/screenshot-settings.png" alt="App settings and customization" loading="lazy">
-                <p class="screenshot-label">Grows with Your Child</p>
+                <p class="screenshot-label" data-i18n="ss_settings">Grows with Your Child</p>
             </div>
         </div>
         <div class="wave-divider wave-bottom">
@@ -835,70 +898,70 @@
             <div class="deco deco-circle deco-float-alt" style="width:44px;height:44px;border-color:var(--pink);opacity:0.1;bottom:15%;left:3%;"></div>
             <svg class="deco deco-star deco-float" style="top:5%;left:8%;width:28px;height:28px;" viewBox="0 0 24 24" fill="var(--accent)"><path d="M12 2l2.09 6.26L20.18 9.27l-5.09 3.9L16.82 20 12 16.27 7.18 20l1.73-6.83L3.82 9.27l6.09-1.01z"/></svg>
 
-            <h2>Everything Your Child Needs to Master Math</h2>
+            <h2 data-i18n="features_title">Everything Your Child Needs to Master Math</h2>
             <div class="features-grid">
                 <div class="feature-card">
                     <div class="feature-icon-wrap fi-teal">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/><line x1="5" y1="5" x2="19" y2="19" opacity="0.4"/><line x1="19" y1="5" x2="5" y2="19" opacity="0.4"/></svg>
                     </div>
-                    <h3>Four Math Operations</h3>
-                    <p>Addition, subtraction, multiplication, and division — pick any combination to practice.</p>
+                    <h3 data-i18n="f1_title">Four Math Operations</h3>
+                    <p data-i18n="f1_desc">Addition, subtraction, multiplication, and division — pick any combination to practice.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon-wrap fi-purple">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
                     </div>
-                    <h3>Adjustable Difficulty</h3>
-                    <p>Counting ranges from 10 up to 1,000. The app grows with your child's abilities.</p>
+                    <h3 data-i18n="f2_title">Adjustable Difficulty</h3>
+                    <p data-i18n="f2_desc">Counting ranges from 10 up to 1,000. The app grows with your child's abilities.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon-wrap fi-yellow">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
                     </div>
-                    <h3>Instant Feedback</h3>
-                    <p>Correct answers appear right away so kids learn from their mistakes in real time.</p>
+                    <h3 data-i18n="f3_title">Instant Feedback</h3>
+                    <p data-i18n="f3_desc">Correct answers appear right away so kids learn from their mistakes in real time.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon-wrap fi-red">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5.8 11.3L2 22l10.7-3.8"/><path d="M4 3h.01"/><path d="M22 8h.01"/><path d="M15 2h.01"/><path d="M22 20h.01"/><path d="M22 2l-2.24.75a2.9 2.9 0 00-1.96 3.12v0c.1.86-.57 1.63-1.45 1.63h-.38c-.86 0-1.6.6-1.76 1.44L14 10"/><path d="M22 13l-1.34-.45a2.9 2.9 0 01-1.78-1.78L18 8"/><path d="M2 2l2.24.75a2.9 2.9 0 011.96 3.12v0c-.1.86.57 1.63 1.45 1.63h.38c.86 0 1.6.6 1.76 1.44L10 10"/></svg>
                     </div>
-                    <h3>Clean Sheet Celebrations</h3>
-                    <p>Get every answer right and earn a special celebration page — a rewarding moment your child will look forward to!</p>
+                    <h3 data-i18n="f4_title">Clean Sheet Celebrations</h3>
+                    <p data-i18n="f4_desc">Get every answer right and earn a special celebration page — a rewarding moment your child will look forward to!</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon-wrap fi-blue">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
                     </div>
-                    <h3>Progress Dashboard</h3>
-                    <p>Bar charts track average errors, completion time, and clean sheet streaks — by day, week, month, or year.</p>
+                    <h3 data-i18n="f5_title">Progress Dashboard</h3>
+                    <p data-i18n="f5_desc">Bar charts track average errors, completion time, and clean sheet streaks — by day, week, month, or year.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon-wrap fi-pink">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 007.92 12.446A9 9 0 1112 3z" opacity="0.4"/><circle cx="16" cy="6" r="3"/></svg>
                     </div>
-                    <h3>Fun Themes</h3>
-                    <p>Choose from Dinosaur, Unicorn, Penguin, or unlock the premium Lion theme — and after that, create your own custom theme!</p>
+                    <h3 data-i18n="f6_title">Fun Themes</h3>
+                    <p data-i18n="f6_desc">Choose from Dinosaur, Unicorn, Penguin, or unlock the premium Lion theme — and after that, create your own custom theme!</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon-wrap fi-yellow">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 010-5C7 4 7 7 7 7"/><path d="M18 9h1.5a2.5 2.5 0 000-5C17 4 17 7 17 7"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0012 0V2Z"/></svg>
                     </div>
-                    <h3>Trophies &amp; Streaks</h3>
-                    <p>Earn gold cups, silver medals, and track daily streaks to stay motivated. Trophies also unlock the premium Lion theme and eventually a custom theme you can design yourself!</p>
+                    <h3 data-i18n="f7_title">Trophies &amp; Streaks</h3>
+                    <p data-i18n="f7_desc">Earn gold cups, silver medals, and track daily streaks to stay motivated. Trophies also unlock the premium Lion theme and eventually a custom theme you can design yourself!</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon-wrap fi-teal">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                     </div>
-                    <h3>Customizable Sessions</h3>
-                    <p>Set 1-10 problems per page with an optional countdown timer for extra challenge.</p>
+                    <h3 data-i18n="f8_title">Customizable Sessions</h3>
+                    <p data-i18n="f8_desc">Set 1-10 problems per page with an optional countdown timer for extra challenge.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon-wrap fi-purple">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
                     </div>
-                    <h3>Three Languages</h3>
-                    <p>Fully localized in English, Czech, and Hebrew with complete right-to-left support.</p>
+                    <h3 data-i18n="f9_title">Three Languages</h3>
+                    <p data-i18n="f9_desc">Fully localized in English, Czech, and Hebrew with complete right-to-left support.</p>
                 </div>
             </div>
         </div>
@@ -914,17 +977,17 @@
         <div class="container">
             <div class="print-scan-layout">
                 <div class="print-scan-text">
-                    <h2>Print. Practice. Scan. Done.</h2>
-                    <p class="print-scan-subtitle">Math practice doesn't have to be screen time.</p>
-                    <p>With the unique <strong>Print &amp; Scan</strong> feature, your child can work on printed worksheets with a pencil — just like at school. When they're done, simply scan the sheet with the app's camera. The answers are checked automatically, scores are tracked, and rewards are earned — all without your child needing to sit in front of a screen.</p>
+                    <h2 data-i18n="ps_title">Print. Practice. Scan. Done.</h2>
+                    <p class="print-scan-subtitle" data-i18n="ps_subtitle">Math practice doesn't have to be screen time.</p>
+                    <p data-i18n="ps_desc">With the unique <strong>Print &amp; Scan</strong> feature, your child can work on printed worksheets with a pencil — just like at school. When they're done, simply scan the sheet with the app's camera. The answers are checked automatically, scores are tracked, and rewards are earned — all without your child needing to sit in front of a screen.</p>
                     <div class="print-scan-steps">
                         <div class="step">
                             <div class="step-icon-wrap fi-blue">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
                             </div>
                             <div>
-                                <strong>Print</strong>
-                                <p>Generate a worksheet and print it out.</p>
+                                <strong data-i18n="step1_title">Print</strong>
+                                <p data-i18n="step1_desc">Generate a worksheet and print it out.</p>
                             </div>
                         </div>
                         <div class="step">
@@ -932,8 +995,8 @@
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 114 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>
                             </div>
                             <div>
-                                <strong>Solve</strong>
-                                <p>Your child writes answers by hand — screen-free practice.</p>
+                                <strong data-i18n="step2_title">Solve</strong>
+                                <p data-i18n="step2_desc">Your child writes answers by hand — screen-free practice.</p>
                             </div>
                         </div>
                         <div class="step">
@@ -941,8 +1004,8 @@
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 00-2 2v9a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
                             </div>
                             <div>
-                                <strong>Scan</strong>
-                                <p>Point the camera at the completed sheet — results are recorded instantly.</p>
+                                <strong data-i18n="step3_title">Scan</strong>
+                                <p data-i18n="step3_desc">Point the camera at the completed sheet — results are recorded instantly.</p>
                             </div>
                         </div>
                     </div>
@@ -965,28 +1028,28 @@
     <section class="privacy-section">
         <div class="container">
             <div class="privacy-inner">
-                <h2>Designed with Kids' Safety in Mind</h2>
-                <p class="subtitle">Your child's privacy is our top priority. Count with Kids is built to be a safe, distraction-free learning environment.</p>
+                <h2 data-i18n="privacy_title">Designed with Kids' Safety in Mind</h2>
+                <p class="subtitle" data-i18n="privacy_subtitle">Your child's privacy is our top priority. Count with Kids is built to be a safe, distraction-free learning environment.</p>
                 <div class="privacy-badges">
                     <div class="privacy-badge">
                         <svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-                        No Ads
+                        <span data-i18n="badge_ads">No Ads</span>
                     </div>
                     <div class="privacy-badge">
                         <svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
-                        No Tracking
+                        <span data-i18n="badge_tracking">No Tracking</span>
                     </div>
                     <div class="privacy-badge">
                         <svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="1" y1="1" x2="23" y2="23"/><path d="M16.72 11.06A10.94 10.94 0 0119 12.55"/><path d="M5 12.55a10.94 10.94 0 015.17-2.39"/><path d="M10.71 5.05A16 16 0 0122.56 9"/><path d="M1.42 9a15.91 15.91 0 014.7-2.88"/><path d="M8.53 16.11a6 6 0 016.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
-                        No Internet Required
+                        <span data-i18n="badge_internet">No Internet Required</span>
                     </div>
                     <div class="privacy-badge">
                         <svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
-                        No In-App Purchases
+                        <span data-i18n="badge_iap">No In-App Purchases</span>
                     </div>
                     <div class="privacy-badge">
                         <svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
-                        COPPA Compliant
+                        <span data-i18n="badge_coppa">COPPA Compliant</span>
                     </div>
                 </div>
             </div>
@@ -998,10 +1061,10 @@
         <div class="container">
             <div class="recognition-card">
                 <div class="stars-large">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-                <h2>Independently Evaluated. Five Stars.</h2>
-                <p>Count with Kids has been reviewed and awarded a 5-star rating by the Educational App Store — an independent organisation that evaluates educational apps for quality, engagement, and child safety.</p>
+                <h2 data-i18n="recognition_title">Independently Evaluated. Five Stars.</h2>
+                <p data-i18n="recognition_desc">Count with Kids has been reviewed and awarded a 5-star rating by the Educational App Store — an independent organisation that evaluates educational apps for quality, engagement, and child safety.</p>
                 <a href="https://www.educationalappstore.com/app/count-with-kids" class="btn btn-secondary" target="_blank" rel="noopener">
-                    Read the Full Review
+                    <span data-i18n="recognition_cta">Read the Full Review</span>
                 </a>
             </div>
         </div>
@@ -1016,14 +1079,167 @@
                     <span>Count with Kids</span>
                 </div>
                 <div class="footer-links">
-                    <a href="https://jirilandovsky.github.io/CountWithKids/privacy.html">Privacy Policy</a>
-                    <a href="https://jirilandovsky.github.io/CountWithKids/support.html">Support</a>
+                    <a href="https://jirilandovsky.github.io/CountWithKids/privacy.html" data-i18n="footer_privacy">Privacy Policy</a>
+                    <a href="https://jirilandovsky.github.io/CountWithKids/support.html" data-i18n="footer_support">Support</a>
                     <a href="https://apps.apple.com/us/app/count-with-kids/id6759628377" target="_blank" rel="noopener">App Store</a>
                 </div>
                 <p class="footer-copy">&copy; 2026 Count with Kids. All rights reserved.</p>
             </div>
         </div>
     </footer>
+
+    <script>
+    (function() {
+        var T = {
+            en: {
+                tagline: 'Fun Math Practice for Kids',
+                description: 'Math doesn\'t have to be boring! Count with Kids turns everyday practice into a colorful adventure — with friendly dinosaurs, magical unicorns, and trophies to earn along the way. Watch your little one go from counting on fingers to solving problems like a pro, all while having a blast. No ads, no distractions — just pure learning fun for ages 4 and up.',
+                cta_appstore: 'Download on the App Store',
+                available: 'Available for iPhone and iPad',
+                screenshots_title: 'See It in Action',
+                ss_home: 'Ready, Set, Count!',
+                ss_practice: 'Instant Feedback on Every Answer',
+                ss_dashboard: 'Track Progress Day by Day',
+                ss_trophies: 'Earn Trophies & Build Streaks',
+                ss_settings: 'Grows with Your Child',
+                features_title: 'Everything Your Child Needs to Master Math',
+                f1_title: 'Four Math Operations',
+                f1_desc: 'Addition, subtraction, multiplication, and division — pick any combination to practice.',
+                f2_title: 'Adjustable Difficulty',
+                f2_desc: 'Counting ranges from 10 up to 1,000. The app grows with your child\'s abilities.',
+                f3_title: 'Instant Feedback',
+                f3_desc: 'Correct answers appear right away so kids learn from their mistakes in real time.',
+                f4_title: 'Clean Sheet Celebrations',
+                f4_desc: 'Get every answer right and earn a special celebration page — a rewarding moment your child will look forward to!',
+                f5_title: 'Progress Dashboard',
+                f5_desc: 'Bar charts track average errors, completion time, and clean sheet streaks — by day, week, month, or year.',
+                f6_title: 'Fun Themes',
+                f6_desc: 'Choose from Dinosaur, Unicorn, Penguin, or unlock the premium Lion theme — and after that, create your own custom theme!',
+                f7_title: 'Trophies & Streaks',
+                f7_desc: 'Earn gold cups, silver medals, and track daily streaks to stay motivated. Trophies also unlock the premium Lion theme and eventually a custom theme you can design yourself!',
+                f8_title: 'Customizable Sessions',
+                f8_desc: 'Set 1\u201310 problems per page with an optional countdown timer for extra challenge.',
+                f9_title: 'Three Languages',
+                f9_desc: 'Fully localized in English, Czech, and Hebrew with complete right-to-left support.',
+                ps_title: 'Print. Practice. Scan. Done.',
+                ps_subtitle: 'Math practice doesn\'t have to be screen time.',
+                ps_desc: 'With the unique <strong>Print &amp; Scan</strong> feature, your child can work on printed worksheets with a pencil — just like at school. When they\'re done, simply scan the sheet with the app\'s camera. The answers are checked automatically, scores are tracked, and rewards are earned — all without your child needing to sit in front of a screen.',
+                step1_title: 'Print',
+                step1_desc: 'Generate a worksheet and print it out.',
+                step2_title: 'Solve',
+                step2_desc: 'Your child writes answers by hand — screen-free practice.',
+                step3_title: 'Scan',
+                step3_desc: 'Point the camera at the completed sheet — results are recorded instantly.',
+                privacy_title: 'Designed with Kids\' Safety in Mind',
+                privacy_subtitle: 'Your child\'s privacy is our top priority. Count with Kids is built to be a safe, distraction-free learning environment.',
+                badge_ads: 'No Ads',
+                badge_tracking: 'No Tracking',
+                badge_internet: 'No Internet Required',
+                badge_iap: 'No In-App Purchases',
+                badge_coppa: 'COPPA Compliant',
+                recognition_title: 'Independently Evaluated. Five Stars.',
+                recognition_desc: 'Count with Kids has been reviewed and awarded a 5-star rating by the Educational App Store — an independent organisation that evaluates educational apps for quality, engagement, and child safety.',
+                recognition_cta: 'Read the Full Review',
+                footer_privacy: 'Privacy Policy',
+                footer_support: 'Support',
+                page_title: 'Count with Kids \u2014 Fun Math Practice for Kids',
+                meta_desc: 'Help your child master math with fun themes, instant feedback, and progress tracking. No ads, no data collection \u2014 just pure learning. Perfect for ages 4+.'
+            },
+            cs: {
+                tagline: 'Z\u00E1bavn\u00E9 po\u010D\u00EDt\u00E1n\u00ED pro d\u011Bti',
+                description: 'Matematika nemus\u00ED b\u00FDt nuda! Count with Kids prom\u011Bn\u00ED ka\u017Edodenn\u00ED cvi\u010Den\u00ED v barevn\u00E9 dobrodru\u017Estv\u00ED \u2014 s p\u0159\u00E1telsk\u00FDmi dinosaury, kou\u017Eeln\u00FDmi jednoro\u017Eci a trofejemi, kter\u00E9 mohou z\u00EDskat. Sledujte, jak va\u0161e d\u00EDt\u011B p\u0159ejde od po\u010D\u00EDt\u00E1n\u00ED na prstech k \u0159e\u0161en\u00ED p\u0159\u00EDklad\u016F jako profes\u00E1k \u2014 a u\u017E si to u\u017Eije. \u017D\u00E1dn\u00E9 reklamy, \u017E\u00E1dn\u00E9 rozptylkov\u00E1n\u00ED \u2014 jen \u010Dist\u00E9 u\u010Den\u00ED hrou pro d\u011Bti od 4 let.',
+                cta_appstore: 'St\u00E1hnout z App Store',
+                available: 'Dostupn\u00E9 pro iPhone a iPad',
+                screenshots_title: 'Pod\u00EDvejte se, jak to funguje',
+                ss_home: 'P\u0159ipravit, pozor, po\u010D\u00EDtej!',
+                ss_practice: 'Okam\u017Eit\u00E1 zp\u011Btn\u00E1 vazba na ka\u017Edou odpov\u011B\u010F',
+                ss_dashboard: 'Sledujte pokroky den po dni',
+                ss_trophies: 'Z\u00EDskejte trofeje a budujte s\u00E9rie',
+                ss_settings: 'Roste s va\u0161\u00EDm d\u00EDt\u011Btem',
+                features_title: 'V\u0161e, co va\u0161e d\u00EDt\u011B pot\u0159ebuje k zvl\u00E1dnut\u00ED matematiky',
+                f1_title: '\u010Cty\u0159i po\u010Detn\u00ED operace',
+                f1_desc: 'S\u010D\u00EDt\u00E1n\u00ED, od\u010D\u00EDt\u00E1n\u00ED, n\u00E1soben\u00ED a d\u011Blen\u00ED \u2014 vyberte si libovolnou kombinaci k procvi\u010Den\u00ED.',
+                f2_title: 'Nastaviteln\u00E1 obt\u00ED\u017Enost',
+                f2_desc: 'Rozsah \u010D\u00EDsel od 10 a\u017E do 1 000. Aplikace roste se schopnostmi va\u0161eho d\u00EDt\u011Bte.',
+                f3_title: 'Okam\u017Eit\u00E1 zp\u011Btn\u00E1 vazba',
+                f3_desc: 'Spr\u00E1vn\u00E9 odpov\u011Bdi se zobraz\u00ED ihned, tak\u017Ee se d\u011Bti u\u010D\u00ED ze sv\u00FDch chyb v re\u00E1ln\u00E9m \u010Dase.',
+                f4_title: 'Oslava bez chybi\u010Dky',
+                f4_desc: 'Odpov\u011Bzte na v\u0161echny p\u0159\u00EDklady spr\u00E1vn\u011B a z\u00EDskejte speci\u00E1ln\u00ED oslavu \u2014 moment, na kter\u00FD se va\u0161e d\u00EDt\u011B bude t\u011B\u0161it!',
+                f5_title: 'P\u0159ehled pokrok\u016F',
+                f5_desc: 'Sloupcov\u00E9 grafy sleduj\u00ED pr\u016Fm\u011Brn\u00E9 chyby, \u010Das dokon\u010Den\u00ED a s\u00E9rie bez chyb \u2014 po dnech, t\u00FDdnech, m\u011Bs\u00EDc\u00EDch i letech.',
+                f6_title: 'Z\u00E1bavn\u00E9 motivy',
+                f6_desc: 'Vyberte si z motiv\u016F Dinosaurus, Jednoro\u017Eec, Tu\u0148\u00E1k, nebo odemkn\u011Bte pr\u00E9miov\u00FD motiv Lev \u2014 a pot\u00E9 si vytvo\u0159te vlastn\u00ED motiv!',
+                f7_title: 'Trofeje a s\u00E9rie',
+                f7_desc: 'Z\u00EDskejte zlat\u00E9 poh\u00E1ry, st\u0159\u00EDbrn\u00E9 medaile a sledujte denn\u00ED s\u00E9rie. Trofeje tak\u00E9 odemykaj\u00ED pr\u00E9miov\u00FD motiv Lev a nakonec vlastn\u00ED motiv, kter\u00FD si m\u016F\u017Eete sami navrhnout!',
+                f8_title: 'P\u0159izp\u016Fsobiteln\u00E9 cvi\u010Den\u00ED',
+                f8_desc: 'Nastavte 1\u201310 p\u0159\u00EDklad\u016F na str\u00E1nku s voliteln\u00FDm odpo\u010D\u00EDtav\u00E1n\u00EDm pro extra v\u00FDzvu.',
+                f9_title: 'T\u0159i jazyky',
+                f9_desc: 'Pln\u011B lokalizov\u00E1no do angli\u010Dtiny, \u010De\u0161tiny a hebrej\u0161tiny v\u010Detn\u011B podpory zprava doleva.',
+                ps_title: 'Tiskni. Po\u010D\u00EDtej. Skenuj. Hotovo.',
+                ps_subtitle: 'Cvi\u010Den\u00ED matematiky nemus\u00ED znamenat \u010Das u obrazovky.',
+                ps_desc: 'D\u00EDky unik\u00E1tn\u00ED funkci <strong>Tisk a skenov\u00E1n\u00ED</strong> m\u016F\u017Ee va\u0161e d\u00EDt\u011B pracovat na vyti\u0161t\u011Bn\u00FDch pracovn\u00EDch listech s tu\u017Ekou \u2014 stejn\u011B jako ve \u0161kole. A\u017E bude hotov\u00E9, sta\u010D\u00ED list naskenovat kamerou aplikace. Odpov\u011Bdi se zkontroluj\u00ED automaticky, sk\u00F3re se zaznamen\u00E1 a odm\u011Bny se po\u010D\u00EDtaj\u00ED \u2014 to v\u0161e bez toho, aby va\u0161e d\u00EDt\u011B muselo sed\u011Bt u obrazovky.',
+                step1_title: 'Tisk',
+                step1_desc: 'Vygenerujte pracovn\u00ED list a vytiskn\u011Bte ho.',
+                step2_title: '\u0158e\u0161en\u00ED',
+                step2_desc: 'Va\u0161e d\u00EDt\u011B p\u00ED\u0161e odpov\u011Bdi ru\u010Dn\u011B \u2014 cvi\u010Den\u00ED bez obrazovky.',
+                step3_title: 'Skenov\u00E1n\u00ED',
+                step3_desc: 'Nami\u0159te kameru na vypln\u011Bn\u00FD list \u2014 v\u00FDsledky se zaznamenaj\u00ED okam\u017Eit\u011B.',
+                privacy_title: 'Navr\u017Eeno s ohledem na bezpe\u010Dnost d\u011Bt\u00ED',
+                privacy_subtitle: 'Soukrom\u00ED va\u0161eho d\u00EDt\u011Bte je na\u0161\u00ED nejvy\u0161\u0161\u00ED prioritou. Count with Kids je vytvo\u0159eno jako bezpe\u010Dn\u00E9 prost\u0159ed\u00ED pro u\u010Den\u00ED bez rozptylkov\u00E1n\u00ED.',
+                badge_ads: 'Bez reklam',
+                badge_tracking: 'Bez sledov\u00E1n\u00ED',
+                badge_internet: 'Bez pot\u0159eby internetu',
+                badge_iap: 'Bez n\u00E1kup\u016F v aplikaci',
+                badge_coppa: 'COPPA kompatibiln\u00ED',
+                recognition_title: 'Nez\u00E1visle hodnoceno. P\u011Bt hv\u011Bzd.',
+                recognition_desc: 'Count with Kids bylo hodnoceno a ocen\u011Bno 5 hv\u011Bzdi\u010Dkami od Educational App Store \u2014 nez\u00E1visl\u00E9 organizace, kter\u00E1 hodnot\u00ED vzd\u011Bl\u00E1vac\u00ED aplikace z hlediska kvality, zapojivosti a bezpe\u010Dnosti d\u011Bt\u00ED.',
+                recognition_cta: 'P\u0159e\u010D\u00EDst celou recenzi',
+                footer_privacy: 'Z\u00E1sady ochrany soukrom\u00ED',
+                footer_support: 'Podpora',
+                page_title: 'Count with Kids \u2014 Z\u00E1bavn\u00E9 po\u010D\u00EDt\u00E1n\u00ED pro d\u011Bti',
+                meta_desc: 'Pomozte sv\u00E9mu d\u00EDt\u011Bti zvl\u00E1dnout matematiku se z\u00E1bavn\u00FDmi motivy, okam\u017Eitou zp\u011Btnou vazbou a sledov\u00E1n\u00EDm pokroku. Bez reklam, bez sb\u011Bru dat \u2014 \u010Dist\u00E9 u\u010Den\u00ED. Pro d\u011Bti od 4 let.'
+            }
+        };
+
+        var currentLang = localStorage.getItem('cwk-lang') || 'en';
+
+        function setLang(lang) {
+            currentLang = lang;
+            localStorage.setItem('cwk-lang', lang);
+            document.documentElement.lang = lang;
+            document.title = T[lang].page_title;
+            var metaDesc = document.querySelector('meta[name="description"]');
+            if (metaDesc) metaDesc.content = T[lang].meta_desc;
+
+            document.querySelectorAll('[data-i18n]').forEach(function(el) {
+                var key = el.getAttribute('data-i18n');
+                if (T[lang][key] !== undefined) {
+                    if (el.tagName === 'A' && !el.querySelector('[data-i18n]')) {
+                        el.textContent = T[lang][key];
+                    } else if (key === 'ps_desc') {
+                        el.innerHTML = T[lang][key];
+                    } else {
+                        el.textContent = T[lang][key];
+                    }
+                }
+            });
+
+            document.querySelectorAll('.lang-btn').forEach(function(btn) {
+                btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+            });
+        }
+
+        document.querySelectorAll('.lang-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                setLang(this.getAttribute('data-lang'));
+            });
+        });
+
+        if (currentLang !== 'en') {
+            setLang(currentLang);
+        }
+    })();
+    </script>
 
 </body>
 </html>
