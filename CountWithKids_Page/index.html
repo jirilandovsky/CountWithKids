@@ -87,20 +87,71 @@
             top: 16px;
             right: 24px;
             z-index: 10;
+        }
+
+        .lang-active {
             display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
             background: var(--bg-card);
             border: 2px solid #e0e0e0;
             border-radius: 50px;
-            padding: 2px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text);
+            cursor: pointer;
             box-shadow: var(--shadow-clay-sm);
-            gap: 1px;
+            transition: box-shadow 0.2s;
+        }
+
+        .lang-active:hover {
+            box-shadow: var(--shadow-clay);
+        }
+
+        .lang-active svg {
+            width: 14px;
+            height: 10px;
+            border-radius: 1px;
+            flex-shrink: 0;
+        }
+
+        .lang-active .lang-arrow {
+            width: 10px;
+            height: 10px;
+            margin-left: 2px;
+            transition: transform 0.2s;
+        }
+
+        .lang-switcher.open .lang-arrow {
+            transform: rotate(180deg);
+        }
+
+        .lang-dropdown {
+            position: absolute;
+            top: calc(100% + 4px);
+            right: 0;
+            background: var(--bg-card);
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 4px;
+            box-shadow: var(--shadow-clay-sm);
+            display: none;
+            flex-direction: column;
+            gap: 2px;
+            min-width: 100%;
+        }
+
+        .lang-switcher.open .lang-dropdown {
+            display: flex;
         }
 
         .lang-btn {
             display: flex;
             align-items: center;
             gap: 4px;
-            padding: 3px 10px;
+            padding: 4px 10px;
             border: none;
             border-radius: 50px;
             background: transparent;
@@ -109,16 +160,13 @@
             font-weight: 700;
             color: var(--text-muted);
             cursor: pointer;
-            transition: background 0.2s, color 0.2s;
+            transition: background 0.15s, color 0.15s;
+            white-space: nowrap;
         }
 
         .lang-btn:hover {
+            background: #f0f0f0;
             color: var(--text);
-        }
-
-        .lang-btn.active {
-            background: var(--primary);
-            color: #fff;
         }
 
         .lang-btn svg {
@@ -834,18 +882,25 @@
     <section class="hero">
         <!-- Language Switcher -->
         <div class="lang-switcher" role="navigation" aria-label="Language selection">
-            <button class="lang-btn active" data-lang="en" aria-label="English">
-                <svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0,0 L60,40 M60,0 L0,40" stroke="#fff" stroke-width="6"/><path d="M0,0 L60,40 M60,0 L0,40" stroke="#C8102E" stroke-width="4"/><path d="M30,0 V40 M0,20 H60" stroke="#fff" stroke-width="10"/><path d="M30,0 V40 M0,20 H60" stroke="#C8102E" stroke-width="6"/></svg>
-                EN
-            </button>
-            <button class="lang-btn" data-lang="cs" aria-label="Čeština">
-                <svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#D7141A"/><rect width="60" height="20" fill="#fff"/><polygon points="0,0 30,20 0,40" fill="#11457E"/></svg>
-                CZ
-            </button>
-            <button class="lang-btn" data-lang="he" aria-label="עברית">
-                <svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#fff"/><rect y="4" width="60" height="8" fill="#0038B8"/><rect y="28" width="60" height="8" fill="#0038B8"/><polygon points="30,12 34.5,22 25.5,22" fill="none" stroke="#0038B8" stroke-width="1.5"/><polygon points="30,24 25.5,14 34.5,14" fill="none" stroke="#0038B8" stroke-width="1.5"/></svg>
-                HE
-            </button>
+            <div class="lang-active" role="button" tabindex="0" aria-expanded="false" aria-label="Change language">
+                <svg class="lang-active-flag" viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0,0 L60,40 M60,0 L0,40" stroke="#fff" stroke-width="6"/><path d="M0,0 L60,40 M60,0 L0,40" stroke="#C8102E" stroke-width="4"/><path d="M30,0 V40 M0,20 H60" stroke="#fff" stroke-width="10"/><path d="M30,0 V40 M0,20 H60" stroke="#C8102E" stroke-width="6"/></svg>
+                <span class="lang-active-label">EN</span>
+                <svg class="lang-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="lang-dropdown">
+                <button class="lang-btn" data-lang="en" aria-label="English">
+                    <svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0,0 L60,40 M60,0 L0,40" stroke="#fff" stroke-width="6"/><path d="M0,0 L60,40 M60,0 L0,40" stroke="#C8102E" stroke-width="4"/><path d="M30,0 V40 M0,20 H60" stroke="#fff" stroke-width="10"/><path d="M30,0 V40 M0,20 H60" stroke="#C8102E" stroke-width="6"/></svg>
+                    EN
+                </button>
+                <button class="lang-btn" data-lang="cs" aria-label="Čeština">
+                    <svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#D7141A"/><rect width="60" height="20" fill="#fff"/><polygon points="0,0 30,20 0,40" fill="#11457E"/></svg>
+                    CZ
+                </button>
+                <button class="lang-btn" data-lang="he" aria-label="עברית">
+                    <svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#fff"/><rect y="4" width="60" height="8" fill="#0038B8"/><rect y="28" width="60" height="8" fill="#0038B8"/><polygon points="30,12 34.5,22 25.5,22" fill="none" stroke="#0038B8" stroke-width="1.5"/><polygon points="30,24 25.5,14 34.5,14" fill="none" stroke="#0038B8" stroke-width="1.5"/></svg>
+                    HE
+                </button>
+            </div>
         </div>
         <!-- Decorative shapes -->
         <div class="deco deco-circle deco-float" style="width:80px;height:80px;border-color:var(--accent);top:30px;right:8%;"></div>
@@ -1305,10 +1360,36 @@
                 }
             });
 
-            document.querySelectorAll('.lang-btn').forEach(function(btn) {
-                btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
-            });
+            // Update active button display
+            var activeBtn = document.querySelector('.lang-btn[data-lang="' + lang + '"]');
+            if (activeBtn) {
+                var activeFlag = document.querySelector('.lang-active-flag');
+                var activeLabel = document.querySelector('.lang-active-label');
+                activeFlag.outerHTML = activeBtn.querySelector('svg').outerHTML.replace('<svg', '<svg class="lang-active-flag"');
+                activeLabel.textContent = activeBtn.textContent.trim();
+            }
+
+            // Close dropdown
+            document.querySelector('.lang-switcher').classList.remove('open');
+            document.querySelector('.lang-active').setAttribute('aria-expanded', 'false');
         }
+
+        // Toggle dropdown
+        var langActive = document.querySelector('.lang-active');
+        var langSwitcher = document.querySelector('.lang-switcher');
+
+        langActive.addEventListener('click', function() {
+            var isOpen = langSwitcher.classList.toggle('open');
+            this.setAttribute('aria-expanded', isOpen);
+        });
+
+        // Close on click outside
+        document.addEventListener('click', function(e) {
+            if (!langSwitcher.contains(e.target)) {
+                langSwitcher.classList.remove('open');
+                langActive.setAttribute('aria-expanded', 'false');
+            }
+        });
 
         document.querySelectorAll('.lang-btn').forEach(function(btn) {
             btn.addEventListener('click', function() {
@@ -1316,9 +1397,8 @@
             });
         });
 
-        if (currentLang !== 'en') {
-            setLang(currentLang);
-        }
+        // Initialize
+        setLang(currentLang);
     })();
     </script>
 
