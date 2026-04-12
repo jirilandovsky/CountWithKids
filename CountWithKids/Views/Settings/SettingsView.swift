@@ -4,9 +4,11 @@ import SwiftData
 struct SettingsView: View {
     @Environment(\.appTheme) var theme
     @Environment(\.modelContext) private var modelContext
+    @Environment(StoreManager.self) private var store
     @Bindable var settings: AppSettings
     @Query(sort: \PracticeSession.completedAt, order: .reverse) private var sessions: [PracticeSession]
     @State private var showResetConfirmation = false
+    @State private var showPaywall = false
 
     private var streakResult: StreakResult {
         StreakCalculator.compute(sessions: sessions)
@@ -31,6 +33,7 @@ struct SettingsView: View {
                 theme.backgroundColor.ignoresSafeArea()
 
                 Form {
+                    unlockSection
                     difficultySection
                     appearanceSection
                     languageSection
@@ -42,18 +45,83 @@ struct SettingsView: View {
             }
             .navigationTitle(loc("Settings"))
             .navigationBarTitleDisplayMode(.large)
+            .sheet(isPresented: $showPaywall) {
+                PaywallView(settings: settings, store: store)
+                    .environment(\.appTheme, theme)
+            }
+            .alert(
+                store.restoreMessage ?? "",
+                isPresented: Binding(
+                    get: { store.restoreMessage != nil },
+                    set: { if !$0 { store.restoreMessage = nil } }
+                )
+            ) {
+                Button(loc("OK"), role: .cancel) { store.restoreMessage = nil }
+            }
         }
+    }
+
+    @ViewBuilder
+    private var unlockSection: some View {
+        if settings.isUnlocked {
+            Section {
+                HStack {
+                    Image(systemName: "checkmark.seal.fill")
+                        .foregroundColor(.green)
+                    Text(loc("Full version unlocked"))
+                        .playfulFont(size: 16, weight: .medium)
+                    Spacer()
+                }
+            }
+        } else {
+            Section {
+                Button {
+                    showPaywall = true
+                } label: {
+                    HStack(spacing: 12) {
+                        Image(systemName: "lock.open.fill")
+                            .foregroundColor(theme.primaryColor)
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(loc("Unlock full version"))
+                                .playfulFont(size: 16, weight: .bold)
+                                .foregroundColor(theme.primaryColor)
+                            Text(loc("All operations, themes, print & scan"))
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                        }
+                        Spacer()
+                        Text(store.displayPrice)
+                            .playfulFont(size: 15, weight: .bold)
+                            .foregroundColor(theme.primaryColor)
+                    }
+                }
+                .buttonStyle(.plain)
+
+                Button(loc("Restore Purchases")) {
+                    Task { await store.restore() }
+                }
+                .playfulFont(size: 14, weight: .medium)
+            }
+        }
+    }
+
+    private var availableRanges: [Int] {
+        settings.isUnlocked ? countingRanges : [10, 20]
     }
 
     private var difficultySection: some View {
         Section {
             // Counting range
             Picker(loc("Counting range"), selection: $settings.countingRange) {
-                ForEach(countingRanges, id: \.self) { range in
+                ForEach(availableRanges, id: \.self) { range in
                     Text(loc("To") + " \(range)").tag(range)
                 }
             }
             .playfulFont(size: 16, weight: .medium)
+
+            if !settings.isUnlocked {
+                lockedRow(loc("Larger ranges (to 100, 1000)"))
+            }
 
             // Operations
             VStack(alignment: .leading, spacing: 8) {
@@ -75,6 +143,12 @@ struct SettingsView: View {
                 in: 1...10
             )
             .playfulFont(size: 16, weight: .medium)
+            .disabled(!settings.isUnlocked)
+            .opacity(settings.isUnlocked ? 1 : 0.5)
+
+            if !settings.isUnlocked {
+                lockedRow(loc("Custom examples per page"))
+            }
 
             // Deadline
             VStack(alignment: .leading, spacing: 4) {
@@ -87,6 +161,8 @@ struct SettingsView: View {
                     step: 10
                 )
                 .playfulFont(size: 16, weight: .medium)
+                .disabled(!settings.isUnlocked)
+                .opacity(settings.isUnlocked ? 1 : 0.5)
 
                 if settings.deadlineSeconds > 0 {
                     Text(loc("Page must be completed in") + " \(settings.deadlineSeconds) " + loc("seconds"))
@@ -94,25 +170,63 @@ struct SettingsView: View {
                         .foregroundColor(.secondary)
                 }
             }
+
+            if !settings.isUnlocked {
+                lockedRow(loc("Custom deadline"))
+            }
         } header: {
             Text(loc("Difficulty"))
                 .playfulFont(size: 14, weight: .bold)
         }
     }
 
+    private func lockedRow(_ text: String) -> some View {
+        Button {
+            showPaywall = true
+        } label: {
+            HStack {
+                Image(systemName: "lock.fill")
+                    .foregroundColor(.secondary)
+                Text(text)
+                    .playfulFont(size: 14, weight: .medium)
+                    .foregroundColor(.secondary)
+                Spacer()
+                Text(loc("Unlock"))
+                    .playfulFont(size: 13, weight: .bold)
+                    .foregroundColor(theme.primaryColor)
+            }
+        }
+        .buttonStyle(.plain)
+    }
+
     private func operationToggle(_ op: MathOperation) -> some View {
         let isSelected = settings.operationsRaw.contains(op.rawValue)
+        let isLocked = !settings.isUnlocked && op.rawValue != "+"
         return Button(action: {
-            settings.toggleOperation(op)
+            if isLocked {
+                showPaywall = true
+            } else {
+                settings.toggleOperation(op)
+            }
         }) {
-            Text(op.rawValue)
-                .playfulFont(size: 22)
-                .foregroundColor(isSelected ? .white : theme.primaryColor)
-                .frame(width: 50, height: 50)
-                .background(
-                    RoundedRectangle(cornerRadius: 12)
-                        .fill(isSelected ? theme.primaryColor : theme.primaryColor.opacity(0.1))
-                )
+            ZStack(alignment: .topTrailing) {
+                Text(op.rawValue)
+                    .playfulFont(size: 22)
+                    .foregroundColor(isSelected ? .white : theme.primaryColor)
+                    .frame(width: 50, height: 50)
+                    .background(
+                        RoundedRectangle(cornerRadius: 12)
+                            .fill(isSelected ? theme.primaryColor : theme.primaryColor.opacity(0.1))
+                    )
+                    .opacity(isLocked ? 0.5 : 1)
+
+                if isLocked {
+                    Image(systemName: "lock.fill")
+                        .font(.system(size: 10))
+                        .foregroundColor(.secondary)
+                        .padding(3)
+                }
+            }
         }
         .buttonStyle(.plain)
     }
@@ -132,13 +246,15 @@ struct SettingsView: View {
                 }
                 .tag("unicorn")
 
-                HStack {
-                    Text("🐧")
-                    Text(loc("Penguin"))
+                if settings.isUnlocked {
+                    HStack {
+                        Text("🐧")
+                        Text(loc("Penguin"))
+                    }
+                    .tag("penguin")
                 }
-                .tag("penguin")
 
-                if streakResult.lionUnlocked {
+                if streakResult.lionUnlocked && settings.isUnlocked {
                     HStack {
                         Text("🦁")
                         Text(loc("Lion"))
@@ -146,7 +262,7 @@ struct SettingsView: View {
                     .tag("lion")
                 }
 
-                if streakResult.emojiThemeUnlocked {
+                if streakResult.emojiThemeUnlocked && settings.isUnlocked {
                     HStack {
                         Text(settings.customEmojiRaw)
                         Text(loc("Emoji"))
@@ -155,6 +271,10 @@ struct SettingsView: View {
                 }
             }
             .playfulFont(size: 16, weight: .medium)
+
+            if !settings.isUnlocked {
+                lockedRow(loc("Penguin theme"))
+            }
 
             if settings.themeRaw == "emoji" {
                 emojiPicker
@@ -226,7 +346,7 @@ struct SettingsView: View {
                 Text(loc("Version"))
                     .playfulFont(size: 16, weight: .medium)
                 Spacer()
-                Text("1.4.0")
+                Text("2.0")
                     .foregroundColor(.secondary)
             }
         } header: {

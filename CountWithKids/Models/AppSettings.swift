@@ -11,7 +11,10 @@ final class AppSettings {
     var appearanceModeRaw: String = "system"
     var languageRaw: String = "en"
     var customEmojiRaw: String = "⭐"
+    var hasDiscoveredChallenge: Bool = false
+    var challengeWins: Int = 0
     var createdAt: Date = Date()
+    var isUnlocked: Bool = false
 
     init() {}
 

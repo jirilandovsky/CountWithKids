@@ -8,7 +8,9 @@ struct PracticeView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @Environment(\.requestReview) private var requestReview
+    @Environment(StoreManager.self) private var store
     @Bindable var settings: AppSettings
+    @State private var showPaywall = false
     @Query(sort: \PracticeSession.completedAt, order: .reverse) private var sessions: [PracticeSession]
     @State private var viewModel = PracticeViewModel()
     @FocusState private var focusedProblemId: UUID?
@@ -17,6 +19,8 @@ struct PracticeView: View {
     @State private var scanDetectedAnswers: [Int?]?
     @State private var showScanError = false
     @State private var milestoneInfo: MilestoneInfo?
+    @State private var showChallenge = false
+    @State private var mascotWiggle = false
 
     private var showingScanResult: Bool {
         scanProblems != nil
@@ -104,6 +108,19 @@ struct PracticeView: View {
                 )
                 .environment(\.appTheme, theme)
             }
+            .sheet(isPresented: $showPaywall) {
+                PaywallView(settings: settings, store: store)
+                    .environment(\.appTheme, theme)
+            }
+            .fullScreenCover(isPresented: $showChallenge) {
+                ChallengeView(
+                    settings: settings,
+                    onDismiss: {
+                        showChallenge = false
+                    }
+                )
+                .environment(\.appTheme, theme)
+            }
         }
     }
 
@@ -113,6 +130,33 @@ struct PracticeView: View {
 
             Text(theme.mascotEmoji)
                 .font(.system(size: 100))
+                .rotationEffect(.degrees(mascotWiggle ? 8 : 0))
+                .animation(
+                    mascotWiggle
+                        ? .easeInOut(duration: 0.15).repeatCount(5, autoreverses: true)
+                        : .default,
+                    value: mascotWiggle
+                )
+                .onTapGesture {
+                    if !settings.isUnlocked {
+                        showPaywall = true
+                        return
+                    }
+                    showChallenge = true
+                    if !settings.hasDiscoveredChallenge {
+                        settings.hasDiscoveredChallenge = true
+                    }
+                }
+                .onAppear {
+                    if !settings.hasDiscoveredChallenge {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                            mascotWiggle = true
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                                mascotWiggle = false
+                            }
+                        }
+                    }
+                }
 
             Text(loc("Ready to practice?"))
                 .playfulFont(size: 28)
@@ -145,16 +189,24 @@ struct PracticeView: View {
 
             HStack(spacing: 16) {
                 Button {
-                    printPracticePage()
+                    if settings.isUnlocked {
+                        printPracticePage()
+                    } else {
+                        showPaywall = true
+                    }
                 } label: {
-                    Label(loc("Print"), systemImage: "printer")
+                    Label(loc("Print"), systemImage: settings.isUnlocked ? "printer" : "lock.fill")
                 }
                 .buttonStyle(PlayfulButtonStyle(color: theme.accentColor))
 
                 Button {
-                    showScanner = true
+                    if settings.isUnlocked {
+                        showScanner = true
+                    } else {
+                        showPaywall = true
+                    }
                 } label: {
-                    Label(loc("Scan"), systemImage: "doc.viewfinder")
+                    Label(loc("Scan"), systemImage: settings.isUnlocked ? "doc.viewfinder" : "lock.fill")
                 }
                 .buttonStyle(PlayfulButtonStyle(color: theme.secondaryColor))
             }

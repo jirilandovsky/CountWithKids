@@ -5,6 +5,12 @@ struct TrophyShelfView: View {
     @Environment(\.appTheme) var theme
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @Query(sort: \PracticeSession.completedAt, order: .reverse) private var sessions: [PracticeSession]
+    @Query private var settingsArray: [AppSettings]
+    var challengeWins: Int = 0
+
+    private var isUnlocked: Bool {
+        settingsArray.first?.isUnlocked ?? false
+    }
 
     private var streak: StreakResult {
         StreakCalculator.compute(sessions: sessions)
@@ -60,6 +66,12 @@ struct TrophyShelfView: View {
                     )
                 }
                 .padding(.horizontal)
+
+                // Challenge victories
+                if challengeWins > 0 {
+                    challengeVictoriesView
+                        .padding(.horizontal)
+                }
 
                 // Emoji theme unlock progress (most ambitious goal — always visible)
                 emojiThemeProgressView
@@ -158,13 +170,15 @@ struct TrophyShelfView: View {
                     Text(loc("Lion unlocked!"))
                         .playfulFont(size: 18)
                         .foregroundColor(theme.accentColor)
-                    Text(loc("Go to Settings to select the Lion theme"))
+                    Text(isUnlocked
+                         ? loc("Go to Settings to select the Lion theme")
+                         : loc("Requires full version to equip"))
                         .playfulFont(size: 13, weight: .regular)
                         .foregroundColor(.secondary)
                 }
                 Spacer()
-                Image(systemName: "checkmark.seal.fill")
-                    .foregroundColor(theme.accentColor)
+                Image(systemName: isUnlocked ? "checkmark.seal.fill" : "lock.fill")
+                    .foregroundColor(isUnlocked ? theme.accentColor : .secondary)
                     .font(.title2)
             }
             .padding()
@@ -181,6 +195,11 @@ struct TrophyShelfView: View {
                     Text(loc("Lion theme"))
                         .playfulFont(size: 18)
                         .foregroundColor(.primary)
+                    if !isUnlocked {
+                        Image(systemName: "lock.fill")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
                     Spacer()
                     Text("\(streak.totalGoldCups) / 5 🏆")
                         .playfulFont(size: 16, weight: .medium)
@@ -189,6 +208,13 @@ struct TrophyShelfView: View {
 
                 ProgressView(value: Double(min(streak.totalGoldCups, 5)), total: 5)
                     .tint(theme.accentColor)
+
+                if !isUnlocked {
+                    Text(loc("Requires full version to equip"))
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
             }
             .padding()
             .background(
@@ -210,7 +236,9 @@ struct TrophyShelfView: View {
                         Text(loc("Emoji theme unlocked!"))
                             .playfulFont(size: 18)
                             .foregroundColor(theme.accentColor)
-                        Text(loc("Go to Settings to select the Emoji theme"))
+                        Text(isUnlocked
+                             ? loc("Go to Settings to select the Emoji theme")
+                             : loc("Requires full version to equip"))
                             .playfulFont(size: 13, weight: .regular)
                             .foregroundColor(.secondary)
                     }
@@ -233,6 +261,11 @@ struct TrophyShelfView: View {
                         Text(loc("Emoji theme"))
                             .playfulFont(size: 18)
                             .foregroundColor(.primary)
+                        if !isUnlocked {
+                            Image(systemName: "lock.fill")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                        }
                         Spacer()
                         Text("\(streak.totalGoldCups) / 15 🏆")
                             .playfulFont(size: 16, weight: .medium)
@@ -241,6 +274,13 @@ struct TrophyShelfView: View {
 
                     ProgressView(value: Double(min(streak.totalGoldCups, 15)), total: 15)
                         .tint(theme.accentColor)
+
+                    if !isUnlocked {
+                        Text(loc("Requires full version to equip"))
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                    }
                 }
                 .padding()
                 .background(
@@ -250,5 +290,30 @@ struct TrophyShelfView: View {
                 )
             }
         }
+    }
+
+    private var challengeVictoriesView: some View {
+        HStack(spacing: 12) {
+            Text("💪")
+                .font(.system(size: 40))
+            VStack(alignment: .leading, spacing: 4) {
+                Text(loc("Mascot victories"))
+                    .playfulFont(size: 18)
+                    .foregroundColor(theme.primaryColor)
+                Text(loc("Tap the mascot to challenge it again!"))
+                    .playfulFont(size: 13, weight: .regular)
+                    .foregroundColor(.secondary)
+            }
+            Spacer()
+            Text("\(challengeWins)")
+                .playfulFont(size: 32)
+                .foregroundColor(theme.accentColor)
+        }
+        .padding()
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(theme.cardBackgroundColor)
+                .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
+        )
     }
 }

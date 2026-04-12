@@ -4,6 +4,7 @@ import SwiftData
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    @Environment(StoreManager.self) private var store
     @Query private var settingsArray: [AppSettings]
     @State private var languageRefreshId = UUID()
     @State private var selectedTab: Tab = .practice
@@ -69,6 +70,9 @@ struct ContentView: View {
             AppLanguageManager.shared.currentLanguage = newLang
             languageRefreshId = UUID()
         }
+        .onAppear {
+            store.start(settings: settings)
+        }
     }
 
     private var iPhoneLayout: some View {
@@ -85,7 +89,7 @@ struct ContentView: View {
                 }
                 .tag(Tab.dashboard)
 
-            TrophyShelfView()
+            TrophyShelfView(challengeWins: settings.challengeWins)
                 .tabItem {
                     Label(loc("Trophies"), systemImage: "trophy.fill")
                 }
@@ -119,7 +123,7 @@ struct ContentView: View {
             case .dashboard:
                 DashboardView(settings: settings)
             case .trophyShelf:
-                TrophyShelfView()
+                TrophyShelfView(challengeWins: settings.challengeWins)
             case .settings:
                 SettingsView(settings: settings)
             }

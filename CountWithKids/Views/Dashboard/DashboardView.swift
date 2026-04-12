@@ -4,9 +4,11 @@ import SwiftData
 struct DashboardView: View {
     @Environment(\.appTheme) var theme
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    @Environment(StoreManager.self) private var store
     @Bindable var settings: AppSettings
     @Query(sort: \PracticeSession.completedAt, order: .reverse) private var sessions: [PracticeSession]
     @State private var viewModel = DashboardViewModel()
+    @State private var showPaywall = false
 
     var body: some View {
         NavigationStack {
@@ -21,6 +23,10 @@ struct DashboardView: View {
             }
             .navigationTitle(loc("Dashboard"))
             .navigationBarTitleDisplayMode(.large)
+            .sheet(isPresented: $showPaywall) {
+                PaywallView(settings: settings, store: store)
+                    .environment(\.appTheme, theme)
+            }
             .onAppear { viewModel.refresh(sessions: sessions, currentSettings: settings) }
             .onChange(of: viewModel.selectedDifficultyKey) { _, _ in
                 viewModel.refresh(sessions: sessions, currentSettings: settings)
@@ -95,13 +101,15 @@ struct DashboardView: View {
 
     @ViewBuilder
     private var metricCards: some View {
-        MetricCardView(
-            title: loc("Average Errors"),
-            value: String(format: "%.1f", viewModel.metrics.averageErrors),
-            subtitle: "\(viewModel.metrics.totalSessions) " + loc("sessions"),
-            chartData: viewModel.metrics.errorChartData,
-            chartColor: theme.secondaryColor,
-            chartUnit: "Errors"
+        lockedIfNeeded(
+            MetricCardView(
+                title: loc("Average Errors"),
+                value: String(format: "%.1f", viewModel.metrics.averageErrors),
+                subtitle: "\(viewModel.metrics.totalSessions) " + loc("sessions"),
+                chartData: viewModel.metrics.errorChartData,
+                chartColor: theme.secondaryColor,
+                chartUnit: "Errors"
+            )
         )
 
         MetricCardView(
@@ -113,14 +121,41 @@ struct DashboardView: View {
             chartUnit: "Seconds"
         )
 
-        MetricCardView(
-            title: loc("Clean Sheets"),
-            value: "\(viewModel.metrics.cleanSheetCount)",
-            subtitle: loc("pages with zero errors"),
-            chartData: viewModel.metrics.cleanSheetChartData,
-            chartColor: theme.accentColor,
-            chartUnit: "Count"
+        lockedIfNeeded(
+            MetricCardView(
+                title: loc("Clean Sheets"),
+                value: "\(viewModel.metrics.cleanSheetCount)",
+                subtitle: loc("pages with zero errors"),
+                chartData: viewModel.metrics.cleanSheetChartData,
+                chartColor: theme.accentColor,
+                chartUnit: "Count"
+            )
         )
+    }
+
+    @ViewBuilder
+    private func lockedIfNeeded<Content: View>(_ content: Content) -> some View {
+        if settings.isUnlocked {
+            content
+        } else {
+            ZStack {
+                content
+                    .blur(radius: 6)
+                    .allowsHitTesting(false)
+                RoundedRectangle(cornerRadius: 16)
+                    .fill(.ultraThinMaterial)
+                VStack(spacing: 8) {
+                    Image(systemName: "lock.fill")
+                        .font(.system(size: 28))
+                        .foregroundColor(theme.primaryColor)
+                    Text(loc("Unlock full version"))
+                        .playfulFont(size: 14, weight: .bold)
+                        .foregroundColor(theme.primaryColor)
+                }
+            }
+            .contentShape(Rectangle())
+            .onTapGesture { showPaywall = true }
+        }
     }
 
     private func formatTime(_ seconds: Double) -> String {

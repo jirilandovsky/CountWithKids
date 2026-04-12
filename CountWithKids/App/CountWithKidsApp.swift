@@ -3,6 +3,8 @@ import SwiftData
 
 @main
 struct CountWithKidsApp: App {
+    @State private var store = StoreManager()
+
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             AppSettings.self,
@@ -20,6 +22,7 @@ struct CountWithKidsApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environment(store)
         }
         .modelContainer(sharedModelContainer)
     }

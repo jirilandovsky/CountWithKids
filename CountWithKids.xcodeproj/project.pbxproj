@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CC5555555555555555555555 /* ChallengeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC6666666666666666666666 /* ChallengeView.swift */; };
+		CC7777777777777777777777 /* ChallengeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC8888888888888888888888 /* ChallengeViewModel.swift */; };
 		05FB314D75B30AA271B5A7CD /* MathProblem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2628B7EC7AEE6A50E02339 /* MathProblem.swift */; };
 		08B532D958FA1EC63539D4DE /* TestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32BBD77EAD694F82B8D7C0C /* TestHelpers.swift */; };
 		CC0000000000000000000002 /* MilestoneCelebrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0000000000000000000001 /* MilestoneCelebrationView.swift */; };
@@ -29,6 +31,8 @@
 		AA2222222222222222222222 /* ScanEvaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2222222222222222222222 /* ScanEvaluator.swift */; };
 		AA3333333333333333333333 /* ScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3333333333333333333333 /* ScannerView.swift */; };
 		AA4444444444444444444444 /* ScanResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4444444444444444444444 /* ScanResultView.swift */; };
+		DD1111111111111111111111 /* StoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE1111111111111111111111 /* StoreManager.swift */; };
+		DD2222222222222222222222 /* PaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE2222222222222222222222 /* PaywallView.swift */; };
 		B8A5EAF2BEE9958CE5DB8A0B /* DashboardAggregatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65461AD870FE2949EF367B5D /* DashboardAggregatorTests.swift */; };
 		C1D20A1FC2245C9DAEF0B3AA /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F14B728F4B2B7D5F28D83982 /* ContentView.swift */; };
 		C3A332762F71EBF7001A9A98 /* StreakCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A332752F71EBF7001A9A98 /* StreakCalculator.swift */; };
@@ -64,6 +68,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CC6666666666666666666666 /* ChallengeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeView.swift; sourceTree = "<group>"; };
+		CC8888888888888888888888 /* ChallengeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeViewModel.swift; sourceTree = "<group>"; };
 		01E053BCA7FFFF053A171E75 /* PracticeResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeResultView.swift; sourceTree = "<group>"; };
 		084E1F87FBA1293402F35F8A /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
 		CC0000000000000000000001 /* MilestoneCelebrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MilestoneCelebrationView.swift; sourceTree = "<group>"; };
@@ -85,6 +91,9 @@
 		BB2222222222222222222222 /* ScanEvaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanEvaluator.swift; sourceTree = "<group>"; };
 		BB3333333333333333333333 /* ScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerView.swift; sourceTree = "<group>"; };
 		BB4444444444444444444444 /* ScanResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanResultView.swift; sourceTree = "<group>"; };
+		DE1111111111111111111111 /* StoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreManager.swift; sourceTree = "<group>"; };
+		DE2222222222222222222222 /* PaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallView.swift; sourceTree = "<group>"; };
+		EF1111111111111111111111 /* Configuration.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = Configuration.storekit; sourceTree = "<group>"; };
 		BBBFB4FF555F00787FF1FA86 /* ProblemGeneratorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemGeneratorTests.swift; sourceTree = "<group>"; };
 		C03271E940A5548265484F6E /* ScreenshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotTests.swift; sourceTree = "<group>"; };
 		C28CFBFD606EAF82CFB3A1E3 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
@@ -113,6 +122,7 @@
 				AB0CD32D4BAA159D6D5A33E7 /* CountWithKids */,
 				26631805195F68446E0B9FF1 /* CountWithKidsTests */,
 				815844C4DFC3DB445378D64C /* CountWithKidsUITests */,
+				EF1111111111111111111111 /* Configuration.storekit */,
 				4C4C8CB4E56414929F1613CF /* Products */,
 			);
 			sourceTree = "<group>";
@@ -164,14 +174,24 @@
 				BB1111111111111111111111 /* PrintablePageRenderer.swift */,
 				E5BCE62D8A8EB747B96D6EB4 /* ProblemGenerator.swift */,
 				BB2222222222222222222222 /* ScanEvaluator.swift */,
+				DE1111111111111111111111 /* StoreManager.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		DD3333333333333333333333 /* Paywall */ = {
+			isa = PBXGroup;
+			children = (
+				DE2222222222222222222222 /* PaywallView.swift */,
+			);
+			path = Paywall;
 			sourceTree = "<group>";
 		};
 		70B63F2CFE90E1D1653431B4 /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				45D59F61AE3A42F61F2F9144 /* Dashboard */,
+				DD3333333333333333333333 /* Paywall */,
 				B842C882806DB43A313B7463 /* Practice */,
 				F638657036C041D2B0F90436 /* Settings */,
 				AABB00112233445566778899 /* TrophyShelf */,
@@ -252,6 +272,7 @@
 		B842C882806DB43A313B7463 /* Practice */ = {
 			isa = PBXGroup;
 			children = (
+				CC6666666666666666666666 /* ChallengeView.swift */,
 				CC0000000000000000000001 /* MilestoneCelebrationView.swift */,
 				01E053BCA7FFFF053A171E75 /* PracticeResultView.swift */,
 				F02E2175653C64E613AD301A /* PracticeView.swift */,
@@ -266,6 +287,7 @@
 		DAF26A4007384A240D2344AA /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				CC8888888888888888888888 /* ChallengeViewModel.swift */,
 				6AFFF015C1D217B32818C4E6 /* DashboardViewModel.swift */,
 				DA8120997F6E84C8035C2921 /* PracticeViewModel.swift */,
 			);
@@ -432,6 +454,8 @@
 				F7986085C952AFC82F0BFC29 /* AppSettings.swift in Sources */,
 				FF09F3FC617EB5FC771ABD5B /* AppTheme.swift in Sources */,
 				09FA530FD59669AF3702D596 /* BarChartView.swift in Sources */,
+				CC5555555555555555555555 /* ChallengeView.swift in Sources */,
+				CC7777777777777777777777 /* ChallengeViewModel.swift in Sources */,
 				CC0000000000000000000002 /* MilestoneCelebrationView.swift in Sources */,
 				C1D20A1FC2245C9DAEF0B3AA /* ContentView.swift in Sources */,
 				09DDFAC1270747F276856C3F /* CountWithKidsApp.swift in Sources */,
@@ -455,6 +479,8 @@
 				AA2222222222222222222222 /* ScanEvaluator.swift in Sources */,
 				AA3333333333333333333333 /* ScannerView.swift in Sources */,
 				AA4444444444444444444444 /* ScanResultView.swift in Sources */,
+				DD1111111111111111111111 /* StoreManager.swift in Sources */,
+				DD2222222222222222222222 /* PaywallView.swift in Sources */,
 				C3A3327E2F71EC25001A9A98 /* StreakBannerView.swift in Sources */,
 				9A18D15A860152B212AFA555 /* SettingsView.swift in Sources */,
 				76A8523D3D13D29C2B2D20CF /* ThemeEnvironment.swift in Sources */,
@@ -512,7 +538,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 14;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 7PL4QQ4G6R;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -532,7 +558,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 2.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -598,7 +624,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 14;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 7PL4QQ4G6R;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -612,7 +638,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 2.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
