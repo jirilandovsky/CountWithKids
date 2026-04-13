@@ -55,6 +55,12 @@ struct PaywallView: View {
                             .playfulFont(size: 15, weight: .medium)
                             .foregroundColor(theme.primaryColor)
                             .padding(.top, 4)
+
+                            Text(loc("Bought this app before it went free? Tap Restore."))
+                                .font(.footnote)
+                                .foregroundColor(.secondary)
+                                .multilineTextAlignment(.center)
+                                .padding(.horizontal)
                         }
                         .padding(.horizontal)
                         .padding(.top, 8)

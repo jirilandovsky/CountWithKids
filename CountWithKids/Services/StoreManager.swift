@@ -123,15 +123,26 @@ final class StoreManager {
     private func checkLegacyPurchase() async {
         do {
             let shared = try await AppTransaction.shared
-            if case .verified(let appTransaction) = shared {
+            switch shared {
+            case .verified(let appTransaction):
                 let original = appTransaction.originalAppVersion
-                if let major = Int(original.split(separator: ".").first ?? ""),
-                   major < Self.firstFreeMajorVersion {
-                    unlock()
+                print("[StoreManager] legacy check: originalAppVersion=\(original) threshold=\(Self.firstFreeMajorVersion)")
+                guard let major = Int(original.split(separator: ".").first ?? "") else {
+                    print("[StoreManager] legacy check: could not parse major version from '\(original)'")
+                    return
                 }
+                if major < Self.firstFreeMajorVersion {
+                    print("[StoreManager] legacy check: unlocking (pre-freemium purchase)")
+                    unlock()
+                } else {
+                    print("[StoreManager] legacy check: no unlock (originalAppVersion >= \(Self.firstFreeMajorVersion))")
+                }
+            case .unverified(_, let error):
+                print("[StoreManager] legacy check: AppTransaction unverified: \(error.localizedDescription)")
             }
         } catch {
-            // Non-fatal: legacy check unavailable (e.g., sandbox). Ignore.
+            // Non-fatal: legacy check unavailable (e.g., sandbox/TestFlight quirks).
+            print("[StoreManager] legacy check failed: \(error.localizedDescription)")
         }
     }
 

@@ -393,6 +393,23 @@
         }
       }
     },
+    "Bought this app before it went free? Tap Restore." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Koupili jste aplikaci dřív, než se stala zdarma? Klepněte na Obnovit."
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "קניתם את האפליקציה לפני שהפכה לחינמית? הקישו על שחזור."
+          }
+        }
+      }
+    },
     "Brilliant! You solved them all without a single mistake!" : {
       "extractionState" : "stale",
       "localizations" : {
