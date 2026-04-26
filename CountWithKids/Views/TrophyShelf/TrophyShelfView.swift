@@ -13,7 +13,7 @@ struct TrophyShelfView: View {
     }
 
     private var streak: StreakResult {
-        StreakCalculator.compute(sessions: sessions)
+        StreakCalculator.compute(sessions: sessions, challengeWins: challengeWins)
     }
 
     var body: some View {
@@ -293,16 +293,21 @@ struct TrophyShelfView: View {
     }
 
     private var challengeVictoriesView: some View {
-        HStack(spacing: 12) {
+        let toNextCup = 10 - (challengeWins % 10)
+        return HStack(spacing: 12) {
             Text("💪")
                 .font(.system(size: 40))
             VStack(alignment: .leading, spacing: 4) {
                 Text(loc("Mascot victories"))
                     .playfulFont(size: 18)
                     .foregroundColor(theme.primaryColor)
-                Text(loc("Tap the mascot to challenge it again!"))
-                    .playfulFont(size: 13, weight: .regular)
-                    .foregroundColor(.secondary)
+                HStack(spacing: 6) {
+                    Text("🏆")
+                        .font(.system(size: 14))
+                    Text(String(format: loc("%d more for a gold cup!"), toNextCup))
+                        .playfulFont(size: 13, weight: .regular)
+                        .foregroundColor(.secondary)
+                }
             }
             Spacer()
             Text("\(challengeWins)")

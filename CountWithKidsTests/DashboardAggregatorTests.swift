@@ -115,8 +115,8 @@ final class DashboardAggregatorTests: XCTestCase {
     }
 
     func testDisplayName() {
-        XCTAssertEqual(DashboardAggregator.displayName(for: "20_+_5"), "To 20, +, 5/page")
-        XCTAssertEqual(DashboardAggregator.displayName(for: "100_+-_10"), "To 100, + -, 10/page")
+        XCTAssertEqual(DashboardAggregator.displayName(for: "20_+_5"), "To 20, +, 5 per page")
+        XCTAssertEqual(DashboardAggregator.displayName(for: "100_+-_10"), "To 100, + -, 10 per page")
     }
 
     func testDisplayNameInvalidKey() {

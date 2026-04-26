@@ -23,9 +23,12 @@ struct StreakResult {
 struct StreakCalculator {
 
     /// Compute streak results from sessions sorted by completedAt descending (most recent first).
-    static func compute(sessions: [PracticeSession]) -> StreakResult {
+    /// `challengeWins` adds 1 gold cup per 10 mascot victories on top of clean-sheet cups.
+    static func compute(sessions: [PracticeSession], challengeWins: Int = 0) -> StreakResult {
+        let challengeGold = max(0, challengeWins) / 10
+
         guard !sessions.isEmpty else {
-            return StreakResult(currentStreak: 0, maxStreak: 0, totalGoldCups: 0, totalSilverCups: 0)
+            return StreakResult(currentStreak: 0, maxStreak: 0, totalGoldCups: challengeGold, totalSilverCups: 0)
         }
 
         var currentStreak = 0
@@ -64,7 +67,7 @@ struct StreakCalculator {
         return StreakResult(
             currentStreak: currentStreak,
             maxStreak: maxStreak,
-            totalGoldCups: totalGold,
+            totalGoldCups: totalGold + challengeGold,
             totalSilverCups: totalSilver
         )
     }

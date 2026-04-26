@@ -37,12 +37,14 @@ extension Date {
 
     var shortDayName: String {
         let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: AppLanguageManager.shared.currentLanguage)
         formatter.dateFormat = "EEE"
         return formatter.string(from: self)
     }
 
     var shortMonthName: String {
         let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: AppLanguageManager.shared.currentLanguage)
         formatter.dateFormat = "MMM"
         return formatter.string(from: self)
     }

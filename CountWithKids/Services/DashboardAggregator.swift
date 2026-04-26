@@ -172,6 +172,6 @@ struct DashboardAggregator {
         let range = parts[0]
         let ops = String(parts[1]).map { String($0) }.joined(separator: " ")
         let count = parts[2]
-        return "To \(range), \(ops), \(count)/page"
+        return loc("To") + " \(range), \(ops), \(count) " + loc("per page")
     }
 }
