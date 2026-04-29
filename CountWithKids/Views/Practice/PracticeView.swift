@@ -8,6 +8,7 @@ struct PracticeView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @Environment(\.requestReview) private var requestReview
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(StoreManager.self) private var store
     @Bindable var settings: AppSettings
     @State private var showPaywall = false
@@ -21,6 +22,8 @@ struct PracticeView: View {
     @State private var milestoneInfo: MilestoneInfo?
     @State private var showChallenge = false
     @State private var mascotWiggle = false
+    @State private var mascotBreathing = false
+    @State private var didFireDeadlineWarning = false
 
     private var showingScanResult: Bool {
         scanProblems != nil
@@ -98,6 +101,21 @@ struct PracticeView: View {
                         }
                     }
                 }
+                if newState != .inProgress {
+                    didFireDeadlineWarning = false
+                }
+            }
+            .onChange(of: viewModel.deadlineProgress) { _, progress in
+                guard viewModel.state == .inProgress, viewModel.deadlineSeconds > 0 else { return }
+                if progress >= 0.8 && !didFireDeadlineWarning {
+                    didFireDeadlineWarning = true
+                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                }
+            }
+            .onChange(of: viewModel.showDeadlineExpired) { _, expired in
+                if expired {
+                    UINotificationFeedbackGenerator().notificationOccurred(.warning)
+                }
             }
             .fullScreenCover(item: $milestoneInfo) { info in
                 MilestoneCelebrationView(
@@ -109,7 +127,10 @@ struct PracticeView: View {
                 .environment(\.appTheme, theme)
             }
             .sheet(isPresented: $showPaywall) {
-                PaywallView(settings: settings, store: store)
+                // All paywall triggers in this view (mascot challenge, Print, Scan)
+                // gate features tied to the one-time $3.99 unlock — never the
+                // Guided subscription.
+                PaywallView(settings: settings, store: store, focus: .fullUnlockOnly)
                     .environment(\.appTheme, theme)
             }
             .fullScreenCover(isPresented: $showChallenge) {
@@ -130,6 +151,13 @@ struct PracticeView: View {
 
             Text(theme.mascotEmoji)
                 .font(.system(size: 100))
+                .scaleEffect(mascotBreathing ? 1.03 : 1.0)
+                .animation(
+                    reduceMotion
+                        ? .default
+                        : .easeInOut(duration: 2.4).repeatForever(autoreverses: true),
+                    value: mascotBreathing
+                )
                 .rotationEffect(.degrees(mascotWiggle ? 8 : 0))
                 .animation(
                     mascotWiggle
@@ -137,6 +165,8 @@ struct PracticeView: View {
                         : .default,
                     value: mascotWiggle
                 )
+                .accessibilityLabel(loc("Mascot. Tap to race against the mascot."))
+                .accessibilityAddTraits(.isButton)
                 .onTapGesture {
                     if !settings.isUnlocked {
                         showPaywall = true
@@ -148,7 +178,10 @@ struct PracticeView: View {
                     }
                 }
                 .onAppear {
-                    if !settings.hasDiscoveredChallenge {
+                    if !reduceMotion {
+                        mascotBreathing = true
+                    }
+                    if !settings.hasDiscoveredChallenge && !reduceMotion {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                             mascotWiggle = true
                             DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
@@ -159,17 +192,17 @@ struct PracticeView: View {
                 }
 
             Text(loc("Ready to practice?"))
-                .playfulFont(size: 28)
+                .playfulFont(.title)
                 .foregroundColor(theme.primaryColor)
 
             VStack(spacing: 8) {
                 Text(settings.difficultyDisplayName)
-                    .playfulFont(size: 16, weight: .medium)
+                    .playfulFont(.callout, weight: .medium)
                     .foregroundColor(.secondary)
 
                 if settings.deadlineSeconds > 0 {
                     Text(loc("Time limit:") + " \(settings.deadlineSeconds)s")
-                        .playfulFont(size: 14, weight: .regular)
+                        .playfulFont(.footnote, weight: .regular)
                         .foregroundColor(.secondary)
                 }
             }
@@ -340,13 +373,13 @@ struct PracticeView: View {
                 Text(theme.celebrationEmoji)
                     .font(.system(size: 50))
                 Text(loc("Clean Sheet!"))
-                    .playfulFont(size: 24)
+                    .playfulFont(.title2)
                     .foregroundColor(theme.accentColor)
             }
 
             if viewModel.showDeadlineExpired {
                 Text(loc("Time's up!"))
-                    .playfulFont(size: 18)
+                    .playfulFont(.headline)
                     .foregroundColor(theme.secondaryColor)
             }
 
@@ -355,7 +388,7 @@ struct PracticeView: View {
                     Image(systemName: "clock")
                         .foregroundColor(theme.primaryColor)
                     Text(viewModel.timeString)
-                        .playfulFont(size: 18)
+                        .playfulFont(.headline)
                         .foregroundColor(theme.primaryColor)
                         .monospacedDigit()
                 }
@@ -364,7 +397,7 @@ struct PracticeView: View {
                     Image(systemName: viewModel.errorCount == 0 ? "checkmark.circle" : "xmark.circle")
                         .foregroundColor(viewModel.errorCount == 0 ? .green : theme.secondaryColor)
                     Text(loc("Errors") + ": \(viewModel.errorCount) / \(viewModel.problems.count)")
-                        .playfulFont(size: 18)
+                        .playfulFont(.headline)
                         .foregroundColor(.primary)
                 }
             }

@@ -48,17 +48,24 @@ class PracticeViewModel {
     }
 
     func startPractice(settings: AppSettings) {
-        problems = ProblemGenerator.generate(
+        let generated = ProblemGenerator.generate(
             count: settings.examplesPerPage,
             range: settings.countingRange,
             operations: settings.operations
         )
+        startPractice(problems: generated, deadlineSeconds: settings.deadlineSeconds)
+    }
+
+    /// Used by Guided Learning sessions, where problems come from the adaptive
+    /// generator instead of the user's free-practice settings.
+    func startPractice(problems newProblems: [MathProblem], deadlineSeconds: Int) {
+        problems = newProblems
         answers = [:]
         results = [:]
         isNegative = [:]
         elapsedSeconds = 0
         errorCount = 0
-        deadlineSeconds = settings.deadlineSeconds
+        self.deadlineSeconds = deadlineSeconds
         showDeadlineExpired = false
         state = .inProgress
         startTime = Date()

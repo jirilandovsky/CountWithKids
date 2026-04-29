@@ -32,8 +32,18 @@ class ChallengeViewModel {
     /// Index for rotating encouraging messages (randomized per race)
     var messageIndex: Int = 0
 
+    /// Scaffolded hint shown to Guided Learning subscribers when the kid stalls.
+    /// Nil if hints are disabled or the timer hasn't yet reached the first tier.
+    var currentHint: String?
+    var currentHintTier: HintLibrary.Tier?
+
+    /// True when this race should serve scaffolded hints. Set by the caller.
+    var hintsEnabled: Bool = false
+
     private var mascotTimer: Timer?
     private var clockTimer: Timer?
+    private var hintTimer: Timer?
+    private var problemStartTime: Date?
     private var startTime: Date?
     private var mascotInterval: TimeInterval = 5.0
 
@@ -96,6 +106,7 @@ class ChallengeViewModel {
 
         state = .racing
         startTime = Date()
+        startProblemTimer()
 
         clockTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] _ in
             guard let self, let start = self.startTime else { return }
@@ -129,6 +140,7 @@ class ChallengeViewModel {
         currentProblemIndex += 1
         currentAnswer = ""
         isCurrentNegative = false
+        startProblemTimer()
 
         // Record player finish time when all problems answered
         if currentProblemIndex >= Self.problemCount && playerFinishTime == nil {
@@ -145,8 +157,13 @@ class ChallengeViewModel {
     func reset() {
         mascotTimer?.invalidate()
         clockTimer?.invalidate()
+        hintTimer?.invalidate()
         mascotTimer = nil
         clockTimer = nil
+        hintTimer = nil
+        problemStartTime = nil
+        currentHint = nil
+        currentHintTier = nil
         state = .prompt
         problems = []
         currentProblemIndex = 0
@@ -226,9 +243,62 @@ class ChallengeViewModel {
         self.result = result
         mascotTimer?.invalidate()
         clockTimer?.invalidate()
+        hintTimer?.invalidate()
         mascotTimer = nil
         clockTimer = nil
+        hintTimer = nil
+        currentHint = nil
+        currentHintTier = nil
         state = .finished
+    }
+
+    // MARK: - Hint timer (Guided Learning only)
+
+    /// Restarts the per-problem timer that escalates hints at 5/10/20 seconds.
+    /// No-op when hints are disabled (free-tier or paywalled flow).
+    private func startProblemTimer() {
+        hintTimer?.invalidate()
+        hintTimer = nil
+        problemStartTime = Date()
+        currentHint = nil
+        currentHintTier = nil
+
+        guard hintsEnabled else { return }
+
+        #if DEBUG
+        if let forced = HintLibrary.Tier(rawValue: DebugFlags.shared.forceHintTier),
+           let problem = currentProblem {
+            currentHint = HintLibrary.hint(tier: forced, for: problem)
+            currentHintTier = forced
+            return
+        }
+        #endif
+
+        hintTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] _ in
+            self?.advanceHint()
+        }
+    }
+
+    private func advanceHint() {
+        guard hintsEnabled, state == .racing,
+              let problem = currentProblem,
+              let start = problemStartTime else { return }
+        let stallSeconds = Date().timeIntervalSince(start)
+        let nextTier: HintLibrary.Tier?
+        switch stallSeconds {
+        case 20...:
+            nextTier = .workedExample
+        case 10..<20:
+            nextTier = .strategy
+        case 5..<10:
+            nextTier = .nudge
+        default:
+            nextTier = nil
+        }
+        guard let nextTier else { return }
+        if currentHintTier == nextTier { return } // already showing this tier
+        currentHintTier = nextTier
+        currentHint = HintLibrary.hint(tier: nextTier, for: problem)
     }
 
     // MARK: - Speed calibration

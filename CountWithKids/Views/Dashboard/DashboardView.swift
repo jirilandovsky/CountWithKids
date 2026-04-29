@@ -24,7 +24,7 @@ struct DashboardView: View {
             .navigationTitle(loc("Dashboard"))
             .navigationBarTitleDisplayMode(.large)
             .sheet(isPresented: $showPaywall) {
-                PaywallView(settings: settings, store: store)
+                PaywallView(settings: settings, store: store, focus: .fullUnlockOnly)
                     .environment(\.appTheme, theme)
             }
             .onAppear { viewModel.refresh(sessions: sessions, currentSettings: settings) }
@@ -45,10 +45,10 @@ struct DashboardView: View {
             Text(theme.mascotEmoji)
                 .font(.system(size: 60))
             Text(loc("No practice sessions yet"))
-                .playfulFont(size: 20)
+                .playfulFont(.title3)
                 .foregroundColor(.secondary)
             Text(loc("Complete a practice page to see your stats!"))
-                .playfulFont(size: 14, weight: .regular)
+                .playfulFont(.footnote, weight: .regular)
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
         }
@@ -149,7 +149,7 @@ struct DashboardView: View {
                         .font(.system(size: 28))
                         .foregroundColor(theme.primaryColor)
                     Text(loc("Unlock full version"))
-                        .playfulFont(size: 14, weight: .bold)
+                        .playfulFont(.footnote, weight: .bold)
                         .foregroundColor(theme.primaryColor)
                 }
             }

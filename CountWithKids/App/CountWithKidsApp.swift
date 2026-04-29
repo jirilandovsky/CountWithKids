@@ -9,6 +9,8 @@ struct CountWithKidsApp: App {
         let schema = Schema([
             AppSettings.self,
             PracticeSession.self,
+            MasteryProgress.self,  // legacy (pre-curriculum-rewrite); kept so existing installs migrate
+            SkillProgress.self,
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 

@@ -16,6 +16,31 @@ final class AppSettings {
     var createdAt: Date = Date()
     var isUnlocked: Bool = false
 
+    /// Whether the kid uses Guided mode (adaptive plan, hints) when a subscription
+    /// is active. NOT a substitute for the live `StoreManager.isGuidedActive`
+    /// entitlement — it's a UX preference layered on top of it. Defaults to ON
+    /// after a successful subscription per GUIDED_LEARNING_DEV_PLAN.md §3.5.
+    var guidedModeEnabled: Bool = true
+
+    /// One-time flag so the post-purchase onboarding sheet only shows once.
+    var hasSeenGuidedOnboarding: Bool = false
+
+    // MARK: - Curriculum (skill-graph rewrite)
+
+    /// Parent-declared age (5–10). Used as a starting estimate when no school
+    /// grade is provided.
+    var kidAge: Int = 6
+
+    /// Parent-declared school grade (1–5). 0 = none/preschool.
+    var schoolGradeRaw: Int = 0
+
+    /// Set after the placement warmup completes for the first time. While
+    /// false, opening the Guide tab routes to the onboarding flow.
+    var placementCompleted: Bool = false
+
+    /// Stable Skill.id of the current focus skill. Empty until placement runs.
+    var activeSkillID: String = ""
+
     init() {}
 
     var operations: Set<MathOperation> {
