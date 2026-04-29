@@ -14,15 +14,15 @@ struct MetricCardView: View {
             HStack {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(title)
-                        .playfulFont(size: 14, weight: .medium)
+                        .playfulFont(.footnote, weight: .medium)
                         .foregroundColor(.secondary)
 
                     Text(value)
-                        .playfulFont(size: 32)
+                        .playfulFont(.title)
                         .foregroundColor(.primary)
 
                     Text(subtitle)
-                        .playfulFont(size: 12, weight: .regular)
+                        .playfulFont(.caption2, weight: .regular)
                         .foregroundColor(.secondary)
                 }
                 Spacer()
@@ -31,10 +31,6 @@ struct MetricCardView: View {
             BarChartView(data: chartData, color: chartColor, unit: chartUnit)
         }
         .padding()
-        .background(
-            RoundedRectangle(cornerRadius: 16)
-                .fill(theme.cardBackgroundColor)
-                .shadow(color: .black.opacity(0.06), radius: 6, x: 0, y: 2)
-        )
+        .clayCard(cornerRadius: 22, elevation: .resting)
     }
 }

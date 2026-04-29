@@ -16,12 +16,12 @@ struct ProblemRowView: View {
     var body: some View {
         HStack(spacing: 12) {
             Text("\(index).")
-                .playfulFont(size: 16, weight: .medium)
+                .playfulFont(.callout, weight: .medium)
                 .foregroundColor(.secondary)
                 .frame(width: 30, alignment: .trailing)
 
             Text(problem.displayString)
-                .playfulFont(size: 24)
+                .playfulFont(.title2)
                 .foregroundColor(.primary)
                 .environment(\.layoutDirection, .leftToRight)
 
@@ -29,14 +29,15 @@ struct ProblemRowView: View {
             if problem.operation == .subtract {
                 Button(action: onToggleNegative) {
                     Text(isNegative ? "−" : "+/−")
-                        .playfulFont(size: 14)
+                        .playfulFont(.callout)
                         .foregroundColor(isNegative ? theme.secondaryColor : .secondary)
-                        .frame(width: 36, height: 36)
+                        .frame(width: 48, height: 48)
                         .background(
-                            RoundedRectangle(cornerRadius: 8)
+                            RoundedRectangle(cornerRadius: 10)
                                 .fill(isNegative ? theme.secondaryColor.opacity(0.15) : Color.gray.opacity(0.1))
                         )
                 }
+                .accessibilityLabel(loc(isNegative ? "Negative answer on" : "Toggle negative answer"))
                 .disabled(isLocked)
             }
 
@@ -44,16 +45,16 @@ struct ProblemRowView: View {
             HStack(spacing: 2) {
                 if isNegative {
                     Text("−")
-                        .playfulFont(size: 24)
+                        .playfulFont(.title)
                         .foregroundColor(theme.secondaryColor)
                 }
 
                 TextField("?", text: $answer)
-                    .accessibilityLabel("Answer for problem \(index)")
-                    .playfulFont(size: 24)
+                    .accessibilityLabel(String(format: loc("Answer for problem %d"), index))
+                    .playfulFont(.title)
                     .keyboardType(.numberPad)
                     .multilineTextAlignment(.center)
-                    .frame(width: 70, height: 44)
+                    .frame(width: 80, height: 52)
                     .background(
                         RoundedRectangle(cornerRadius: 10)
                             .fill(isFocused && !isLocked ? theme.primaryColor.opacity(0.15) : resultBackgroundColor)
@@ -79,21 +80,21 @@ struct ProblemRowView: View {
 
             if let result = result, !result {
                 Text("\(problem.correctAnswer)")
-                    .playfulFont(size: 18)
+                    .playfulFont(.headline)
                     .foregroundColor(.green)
             }
 
             Spacer()
         }
-        .padding(.horizontal, 8)
-        .padding(.vertical, 6)
-        .background(
-            RoundedRectangle(cornerRadius: 12)
-                .fill(isFocused ? theme.primaryColor.opacity(0.08) : theme.cardBackgroundColor)
-                .shadow(color: isFocused ? theme.primaryColor.opacity(0.25) : .black.opacity(0.05), radius: isFocused ? 6 : 2, x: 0, y: isFocused ? 2 : 1)
+        .padding(.horizontal, 10)
+        .padding(.vertical, 8)
+        .clayCard(
+            cornerRadius: 20,
+            elevation: isFocused ? .raised : .resting,
+            fill: isFocused ? theme.primaryColor.opacity(0.08) : theme.cardBackgroundColor
         )
         .overlay(
-            RoundedRectangle(cornerRadius: 12)
+            RoundedRectangle(cornerRadius: 20, style: .continuous)
                 .stroke(isFocused ? theme.primaryColor : .clear, lineWidth: 2.5)
         )
         .animation(.easeInOut(duration: 0.2), value: isFocused)

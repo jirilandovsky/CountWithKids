@@ -12,7 +12,7 @@ struct StreakBannerView: View {
                         .font(.footnote)
                         .foregroundColor(theme.accentColor)
                     Text(loc("Clean sheets in a row:") + " \(streak.currentStreak)")
-                        .playfulFont(size: 14, weight: .medium)
+                        .playfulFont(.footnote, weight: .medium)
                         .foregroundColor(.primary)
                 }
 
@@ -20,11 +20,8 @@ struct StreakBannerView: View {
             }
             .multilineTextAlignment(.center)
             .frame(maxWidth: .infinity)
-            .padding(12)
-            .background(
-                RoundedRectangle(cornerRadius: 12)
-                    .fill(theme.accentColor.opacity(0.08))
-            )
+            .padding(14)
+            .clayCard(cornerRadius: 20, elevation: .resting, fill: theme.accentColor.opacity(0.10))
         }
     }
 
@@ -36,12 +33,12 @@ struct StreakBannerView: View {
         if toGold <= toSilver {
             let key = streak.totalGoldCups > 0 ? "%d more for another gold cup!" : "%d more for a gold cup!"
             Text(String(format: loc(key), toGold) + " 🏆")
-                .playfulFont(size: 12, weight: .regular)
+                .playfulFont(.caption2, weight: .regular)
                 .foregroundColor(.secondary)
         } else {
             let key = streak.totalSilverCups > 0 ? "%d more for another silver medal!" : "%d more for a silver medal!"
             Text(String(format: loc(key), toSilver) + " 🥈")
-                .playfulFont(size: 12, weight: .regular)
+                .playfulFont(.caption2, weight: .regular)
                 .foregroundColor(.secondary)
         }
     }

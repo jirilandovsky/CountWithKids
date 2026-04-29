@@ -46,11 +46,11 @@ struct ScanResultView: View {
             .padding(.horizontal)
 
             Text(loc("Review answers"))
-                .playfulFont(size: 20)
+                .playfulFont(.title3)
                 .foregroundColor(theme.primaryColor)
 
             Text(loc("Correct any answers the scanner may have misread"))
-                .playfulFont(size: 14, weight: .regular)
+                .playfulFont(.footnote, weight: .regular)
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal)
@@ -76,18 +76,18 @@ struct ScanResultView: View {
     private func answerRow(index: Int, problem: MathProblem) -> some View {
         HStack(spacing: 12) {
             Text("\(index + 1).")
-                .playfulFont(size: 16, weight: .medium)
+                .playfulFont(.callout, weight: .medium)
                 .foregroundColor(.secondary)
                 .frame(width: 30, alignment: .trailing)
 
             Text(problem.displayString)
-                .playfulFont(size: 20)
+                .playfulFont(.title3)
 
             TextField("?", text: $answers[index])
                 .keyboardType(.numberPad)
                 .frame(width: 70)
                 .multilineTextAlignment(.center)
-                .playfulFont(size: 20)
+                .playfulFont(.title3)
                 .padding(8)
                 .background(
                     RoundedRectangle(cornerRadius: 8)
@@ -112,7 +112,7 @@ struct ScanResultView: View {
 
             if isCleanSheet {
                 Text(loc("Clean Sheet!"))
-                    .playfulFont(size: 32)
+                    .playfulFont(.title)
                     .foregroundColor(theme.accentColor)
             }
 
@@ -133,11 +133,11 @@ struct ScanResultView: View {
                         .foregroundColor(theme.primaryColor)
                         .frame(width: 30)
                     Text(loc("Errors"))
-                        .playfulFont(size: 18, weight: .medium)
+                        .playfulFont(.headline, weight: .medium)
                         .foregroundColor(.secondary)
                     Spacer()
                     Text("\(errorCount) / \(problems.count)")
-                        .playfulFont(size: 22)
+                        .playfulFont(.title3)
                         .monospacedDigit()
                 }
             }
@@ -172,20 +172,20 @@ struct ScanResultView: View {
 
         return HStack(spacing: 12) {
             Text("\(index + 1).")
-                .playfulFont(size: 16, weight: .medium)
+                .playfulFont(.callout, weight: .medium)
                 .foregroundColor(.secondary)
                 .frame(width: 30, alignment: .trailing)
 
             Text(problem.displayString)
-                .playfulFont(size: 18)
+                .playfulFont(.headline)
 
             Text(answers[index].isEmpty ? "—" : answers[index])
-                .playfulFont(size: 18)
+                .playfulFont(.headline)
                 .foregroundColor(correct ? .green : .red)
 
             if !correct {
                 Text("(\(problem.correctAnswer))")
-                    .playfulFont(size: 16, weight: .medium)
+                    .playfulFont(.callout, weight: .medium)
                     .foregroundColor(.green)
             }
 

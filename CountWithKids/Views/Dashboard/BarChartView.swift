@@ -9,7 +9,7 @@ struct BarChartView: View {
     var body: some View {
         if data.isEmpty || data.allSatisfy({ $0.value == 0 }) {
             Text(loc("No data yet"))
-                .playfulFont(size: 14, weight: .regular)
+                .playfulFont(.footnote, weight: .regular)
                 .foregroundColor(.secondary)
                 .frame(height: 120)
                 .frame(maxWidth: .infinity)

@@ -21,13 +21,13 @@ struct PracticeResultView: View {
 
             if isCleanSheet {
                 Text(loc("Clean Sheet!"))
-                    .playfulFont(size: 32)
+                    .playfulFont(.title)
                     .foregroundColor(theme.accentColor)
             }
 
             if viewModel.showDeadlineExpired {
                 Text(loc("Time's up!"))
-                    .playfulFont(size: 24)
+                    .playfulFont(.title2)
                     .foregroundColor(theme.secondaryColor)
             }
 
@@ -94,13 +94,13 @@ struct PracticeResultView: View {
                 .frame(width: 30)
 
             Text(label)
-                .playfulFont(size: 18, weight: .medium)
+                .playfulFont(.headline, weight: .medium)
                 .foregroundColor(.secondary)
 
             Spacer()
 
             Text(value)
-                .playfulFont(size: 22)
+                .playfulFont(.title3)
                 .foregroundColor(.primary)
                 .monospacedDigit()
         }

@@ -9,7 +9,7 @@ struct CupShelfView: View {
         VStack(spacing: 16) {
             if goldCups == 0 && silverCups == 0 {
                 Text(loc("No cups yet — keep going!"))
-                    .playfulFont(size: 16, weight: .regular)
+                    .playfulFont(.callout, weight: .regular)
                     .foregroundColor(.secondary)
             } else {
                 if goldCups > 0 {
@@ -42,7 +42,7 @@ struct CupShelfView: View {
                 }
                 if overflow > 0 {
                     Text("+\(overflow)")
-                        .playfulFont(size: 18, weight: .bold)
+                        .playfulFont(.headline, weight: .bold)
                         .foregroundColor(.secondary)
                 }
             }
@@ -63,7 +63,7 @@ struct CupShelfView: View {
                 .cornerRadius(2)
 
             Text("\(label): \(count)")
-                .playfulFont(size: 14, weight: .medium)
+                .playfulFont(.footnote, weight: .medium)
                 .foregroundColor(.secondary)
         }
     }
