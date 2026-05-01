@@ -374,7 +374,7 @@ struct PracticeView: View {
                     .font(.system(size: 50))
                 Text(loc("Clean Sheet!"))
                     .playfulFont(.title2)
-                    .foregroundColor(theme.accentColor)
+                    .foregroundColor(theme.primaryColor)
             }
 
             if viewModel.showDeadlineExpired {

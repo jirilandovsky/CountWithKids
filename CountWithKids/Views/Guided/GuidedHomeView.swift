@@ -46,35 +46,16 @@ struct GuidedHomeView: View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 20) {
+                    customHeader
                     streakBanner
                     dailyPlanSection
                     gradeProgressSection
-                    weeklyReportButton
                     Spacer(minLength: 12)
                 }
                 .padding()
             }
             .background(theme.backgroundColor.ignoresSafeArea())
-            .navigationTitle(loc("Guide"))
-            .navigationBarTitleDisplayMode(.large)
-            .toolbar {
-                if showsCloseButton {
-                    ToolbarItem(placement: .topBarTrailing) {
-                        Button {
-                            dismiss()
-                        } label: {
-                            Image(systemName: "xmark")
-                                .font(.system(size: 16, weight: .semibold))
-                                .foregroundColor(.secondary)
-                                .frame(width: 32, height: 32)
-                                .background(
-                                    Circle().fill(Color.secondary.opacity(0.12))
-                                )
-                        }
-                        .accessibilityLabel(loc("Close"))
-                    }
-                }
-            }
+            .toolbar(.hidden, for: .navigationBar)
             .sheet(item: $activeCard) { card in
                 GuidedSessionView(
                     settings: settings,
@@ -104,27 +85,65 @@ struct GuidedHomeView: View {
         }
     }
 
+    // MARK: - Custom header (large title + trailing actions)
+
+    private var customHeader: some View {
+        HStack(alignment: .firstTextBaseline, spacing: 12) {
+            if showsCloseButton {
+                Button {
+                    dismiss()
+                } label: {
+                    Image(systemName: "xmark")
+                        .font(.system(size: 16, weight: .semibold))
+                        .foregroundColor(.secondary)
+                        .frame(width: 36, height: 36)
+                        .background(Circle().fill(Color.secondary.opacity(0.12)))
+                }
+                .accessibilityLabel(loc("Close"))
+            }
+
+            Text(loc("Guide"))
+                .font(.system(.largeTitle, design: .rounded).weight(.bold))
+                .foregroundColor(.primary)
+
+            Spacer()
+
+            Button {
+                showWeeklyReport = true
+            } label: {
+                Image(systemName: "chart.line.uptrend.xyaxis")
+                    .font(.system(size: 17, weight: .semibold))
+                    .foregroundColor(theme.primaryColor)
+                    .frame(width: 40, height: 40)
+                    .background(Circle().fill(theme.primaryColor.opacity(0.12)))
+            }
+            .accessibilityLabel(loc("Weekly report"))
+        }
+        .padding(.top, 4)
+    }
+
     // MARK: - Streak banner
 
     private var streakBanner: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            HStack(spacing: 12) {
-                Text("🔥").font(.system(size: 32))
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(loc("Daily plan streak"))
-                        .playfulFont(.caption, weight: .medium)
-                        .foregroundColor(.secondary)
-                    Text("\(dailyPlanStreak)")
-                        .playfulFont(.title2, weight: .bold)
-                        .foregroundColor(theme.primaryColor)
-                }
-                Spacer()
-                Text("\(completedToday.count)/\(DailyPlanBuilder.Slot.allCases.count)")
-                    .playfulFont(.footnote, weight: .medium)
+        HStack(alignment: .top, spacing: 12) {
+            Text("🔥")
+                .font(.system(size: 32))
+                .accessibilityHidden(true)
+            VStack(alignment: .leading, spacing: 2) {
+                Text(loc("Daily plan streak"))
+                    .playfulFont(.caption, weight: .medium)
                     .foregroundColor(.secondary)
+                Text("\(dailyPlanStreak)")
+                    .playfulFont(.title2, weight: .bold)
+                    .foregroundColor(theme.primaryColor)
+                Text(loc("Finish at least one session from all three tasks below"))
+                    .playfulFont(.caption2, weight: .medium)
+                    .foregroundColor(.secondary)
+                    .padding(.top, 4)
             }
-            Text(loc("Finish at least one session from all three tasks below"))
-                .playfulFont(.caption2, weight: .medium)
+            Spacer(minLength: 8)
+            Text("\(completedToday.count)/\(DailyPlanBuilder.Slot.allCases.count)")
+                .playfulFont(.footnote, weight: .medium)
                 .foregroundColor(.secondary)
         }
         .padding()
@@ -143,7 +162,7 @@ struct GuidedHomeView: View {
                 if completedToday.count == DailyPlanBuilder.Slot.allCases.count {
                     Text(loc("All done!"))
                         .playfulFont(.caption, weight: .bold)
-                        .foregroundColor(theme.accentColor)
+                        .foregroundColor(theme.primaryColor)
                 }
             }
 
@@ -232,26 +251,6 @@ struct GuidedHomeView: View {
         let mastered = CurriculumService.masteredSkillIDs(in: modelContext)
         let done = skills.filter { mastered.contains($0.id) }.count
         return "\(done)/\(skills.count)"
-    }
-
-    // MARK: - Weekly report
-
-    private var weeklyReportButton: some View {
-        Button { showWeeklyReport = true } label: {
-            HStack(spacing: 12) {
-                Image(systemName: "envelope.fill")
-                    .foregroundColor(theme.primaryColor)
-                Text(loc("Weekly report"))
-                    .playfulFont(.callout, weight: .bold)
-                    .foregroundColor(theme.primaryColor)
-                Spacer()
-                Image(systemName: "chevron.right")
-                    .foregroundColor(.secondary)
-            }
-            .padding()
-            .clayCard(cornerRadius: 22, elevation: .resting)
-        }
-        .buttonStyle(.plain)
     }
 
     // MARK: - Slot copy

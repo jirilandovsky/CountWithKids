@@ -117,7 +117,7 @@ struct TrophyShelfView: View {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(loc("Lion unlocked!"))
                         .playfulFont(.headline)
-                        .foregroundColor(theme.accentColor)
+                        .foregroundColor(theme.primaryColor)
                     Text(isUnlocked
                          ? loc("Go to Settings to select the Lion theme")
                          : loc("Requires full version to equip"))
@@ -175,7 +175,7 @@ struct TrophyShelfView: View {
                     VStack(alignment: .leading, spacing: 4) {
                         Text(loc("Emoji theme unlocked!"))
                             .playfulFont(.headline)
-                            .foregroundColor(theme.accentColor)
+                            .foregroundColor(theme.primaryColor)
                         Text(isUnlocked
                              ? loc("Go to Settings to select the Emoji theme")
                              : loc("Requires full version to equip"))
@@ -244,7 +244,7 @@ struct TrophyShelfView: View {
             Spacer()
             Text("\(challengeWins)")
                 .playfulFont(.title)
-                .foregroundColor(theme.accentColor)
+                .foregroundColor(theme.primaryColor)
         }
         .padding()
         .clayCard(cornerRadius: 22, elevation: .resting)

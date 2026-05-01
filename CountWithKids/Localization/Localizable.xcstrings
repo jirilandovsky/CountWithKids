@@ -2151,7 +2151,7 @@
         "cs": {
           "stringUnit": {
             "state": "translated",
-            "value": "Nejvíc se zlepšil(a) v"
+            "value": "Největší zlepšení:"
           }
         },
         "he": {
@@ -3168,7 +3168,7 @@
         "cs": {
           "stringUnit": {
             "state": "translated",
-            "value": "Týdenní zpráva je připravená. Klepni a podívej se, jak se dítěti daří."
+            "value": "Týdenní report je připravený. Klepni a podívej se, jak se dítěti daří."
           }
         },
         "he": {
@@ -3566,7 +3566,7 @@
         "cs": {
           "stringUnit": {
             "state": "translated",
-            "value": "Týdenní zpráva pro rodiče"
+            "value": "Týdenní report pro rodiče"
           }
         },
         "he": {
@@ -3582,7 +3582,7 @@
         "cs": {
           "stringUnit": {
             "state": "translated",
-            "value": "Týdenní zpráva"
+            "value": "Týdenní report"
           }
         },
         "he": {
@@ -3698,7 +3698,7 @@
         "cs": {
           "stringUnit": {
             "state": "translated",
-            "value": "Dokončil(a) jsi"
+            "value": "Dokončeno:"
           }
         },
         "he": {

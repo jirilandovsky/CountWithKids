@@ -179,7 +179,7 @@ struct GuidedSessionView: View {
                 Text(theme.celebrationEmoji).font(.system(size: 50))
                 Text(loc("Clean Sheet!"))
                     .playfulFont(.title2)
-                    .foregroundColor(theme.accentColor)
+                    .foregroundColor(theme.primaryColor)
             }
             Text(loc("Errors") + ": \(viewModel.errorCount) / \(viewModel.problems.count)")
                 .playfulFont(.callout, weight: .medium)
@@ -195,7 +195,7 @@ struct GuidedSessionView: View {
         VStack(spacing: 8) {
             Text(masteredEvents.count > 1 ? loc("Skills mastered!") : loc("Skill mastered!"))
                 .playfulFont(.title3)
-                .foregroundColor(theme.accentColor)
+                .foregroundColor(theme.primaryColor)
             ForEach(masteredEvents) { ev in
                 Text("✨ \(ev.label)")
                     .playfulFont(.subheadline, weight: .medium)

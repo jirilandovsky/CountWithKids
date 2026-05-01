@@ -113,7 +113,7 @@ struct ScanResultView: View {
             if isCleanSheet {
                 Text(loc("Clean Sheet!"))
                     .playfulFont(.title)
-                    .foregroundColor(theme.accentColor)
+                    .foregroundColor(theme.primaryColor)
             }
 
             // Results list
