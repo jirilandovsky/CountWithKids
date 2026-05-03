@@ -148,21 +148,33 @@ struct ChallengeView: View {
                             .playfulFont(.title)
                             .foregroundColor(.primary)
                             .environment(\.layoutDirection, .leftToRight)
+                            .accessibilityLabel(problem.spokenLabel)
 
                         if problem.operation == .subtract {
+                            let isNeg = viewModel.isCurrentNegative
                             Button {
                                 viewModel.toggleNegative()
                             } label: {
-                                Text(viewModel.isCurrentNegative ? "−" : "+/−")
-                                    .playfulFont(.callout)
-                                    .foregroundColor(viewModel.isCurrentNegative ? theme.secondaryColor : .secondary)
-                                    .frame(width: 48, height: 48)
-                                    .background(
-                                        RoundedRectangle(cornerRadius: 10)
-                                            .fill(viewModel.isCurrentNegative ? theme.secondaryColor.opacity(0.15) : Color.gray.opacity(0.1))
-                                    )
+                                HStack(spacing: 0) {
+                                    Text("+")
+                                        .playfulFont(.title3)
+                                        .frame(width: 26, height: 44)
+                                        .foregroundColor(isNeg ? .secondary : theme.primaryColor)
+                                        .background(isNeg ? Color.clear : theme.primaryColor.opacity(0.20))
+                                    Text("−")
+                                        .playfulFont(.title3)
+                                        .frame(width: 26, height: 44)
+                                        .foregroundColor(isNeg ? Color.appWrong : .secondary)
+                                        .background(isNeg ? Color.appWrong.opacity(0.18) : Color.clear)
+                                }
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .stroke(Color.gray.opacity(0.25), lineWidth: 1)
+                                )
                             }
-                            .accessibilityLabel(loc(viewModel.isCurrentNegative ? "Negative answer on" : "Toggle negative answer"))
+                            .accessibilityLabel(loc("Sign of answer"))
+                            .accessibilityValue(loc(isNeg ? "negative" : "positive"))
                         }
 
                         HStack(spacing: 2) {

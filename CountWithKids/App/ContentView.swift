@@ -9,6 +9,10 @@ struct ContentView: View {
     @State private var languageRefreshId = UUID()
     @State private var selectedTab: Tab = .practice
     @State private var showGuidedOnboarding = false
+    /// Bumped whenever the Daily Plan state changes so the Guide tab badge
+    /// re-evaluates immediately. Daily Plan state lives in UserDefaults,
+    /// which SwiftUI doesn't observe, so we route it through a notification.
+    @State private var dailyPlanTick: Int = 0
 
     enum Tab: String, CaseIterable {
         case practice, dashboard, trophyShelf, guide, settings
@@ -81,6 +85,9 @@ struct ContentView: View {
                 showGuidedOnboarding = true
             }
         }
+        .onReceive(NotificationCenter.default.publisher(for: .dailyPlanStateChanged)) { _ in
+            dailyPlanTick &+= 1
+        }
         .sheet(isPresented: $showGuidedOnboarding) {
             GuidedOnboardingSheet {
                 settings.hasSeenGuidedOnboarding = true
@@ -117,6 +124,7 @@ struct ContentView: View {
                 .tabItem {
                     Label(loc("Guide"), systemImage: "graduationcap.fill")
                 }
+                .badge(guideTabBadgeCount)
                 .tag(Tab.guide)
 
             SettingsView(settings: settings)
@@ -175,6 +183,17 @@ struct ContentView: View {
         } else {
             GuidedTeaserView(settings: settings, store: store)
         }
+    }
+
+    /// Unfinished daily-plan slots for active Guided subscribers. Hidden for
+    /// free users (returns 0 → SwiftUI omits the badge). The `_ = dailyPlanTick`
+    /// read forces re-evaluation when DailyPlanState posts its change
+    /// notification (UserDefaults isn't observed by SwiftUI).
+    private var guideTabBadgeCount: Int {
+        _ = dailyPlanTick
+        guard store.isGuidedActive else { return 0 }
+        let remaining = DailyPlanBuilder.Slot.allCases.count - DailyPlanState.completedSlots().count
+        return max(0, remaining)
     }
 
     private var preferredColorScheme: ColorScheme? {

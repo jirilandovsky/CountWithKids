@@ -6,6 +6,13 @@ import Foundation
 // Backed by UserDefaults: a single `[String: [Int]]` map of
 //   "yyyy-MM-dd" → [slot.rawValue.hash]
 // Only the last ~30 days are retained to keep the dictionary bounded.
+extension Notification.Name {
+    /// Posted whenever a Daily Plan slot is marked complete, so observers
+    /// (e.g. ContentView's tab badge) can refresh state that's read from
+    /// UserDefaults rather than from observable storage.
+    static let dailyPlanStateChanged = Notification.Name("dailyPlanStateChanged")
+}
+
 @MainActor
 enum DailyPlanState {
     private static let storeKey = "guided.dailyPlan.completion"
@@ -26,6 +33,7 @@ enum DailyPlanState {
         map[key] = Array(slots)
         prune(&map, today: date)
         save(map)
+        NotificationCenter.default.post(name: .dailyPlanStateChanged, object: nil)
     }
 
     static func completedSlots(on date: Date = Date()) -> Set<DailyPlanBuilder.Slot> {

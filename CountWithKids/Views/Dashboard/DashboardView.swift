@@ -92,11 +92,52 @@ struct DashboardView: View {
                     }
                     .padding(.horizontal)
                 }
+
+                // Single soft upsell footer for non-paid users — replaces the
+                // per-card harsh blur/lock previously used.
+                if !settings.isUnlocked {
+                    upsellFooter
+                        .padding(.horizontal)
+                        .padding(.top, 4)
+                }
             }
             .padding(.vertical)
             .frame(maxWidth: horizontalSizeClass == .regular ? 900 : .infinity)
             .frame(maxWidth: .infinity)
         }
+    }
+
+    private var upsellFooter: some View {
+        Button {
+            showPaywall = true
+        } label: {
+            HStack(spacing: 12) {
+                Image(systemName: "lock.open.fill")
+                    .font(.title3)
+                    .foregroundColor(.white)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(loc("See all stats"))
+                        .playfulFont(.callout, weight: .bold)
+                        .foregroundColor(.white)
+                    Text(loc("Unlock the full version"))
+                        .playfulFont(.caption, weight: .medium)
+                        .foregroundColor(.white.opacity(0.85))
+                }
+                Spacer()
+                Text(store.displayPrice)
+                    .playfulFont(.callout, weight: .bold)
+                    .foregroundColor(.white)
+            }
+            .padding(.horizontal, 18)
+            .padding(.vertical, 14)
+            .frame(maxWidth: .infinity)
+            .background(
+                RoundedRectangle(cornerRadius: 22, style: .continuous)
+                    .fill(theme.primaryColor)
+                    .shadow(color: theme.primaryColor.opacity(0.30), radius: 10, x: 0, y: 6)
+            )
+        }
+        .buttonStyle(.plain)
     }
 
     @ViewBuilder
@@ -138,23 +179,27 @@ struct DashboardView: View {
         if settings.isUnlocked {
             content
         } else {
-            ZStack {
-                content
-                    .blur(radius: 6)
-                    .allowsHitTesting(false)
-                RoundedRectangle(cornerRadius: 16)
-                    .fill(.ultraThinMaterial)
-                VStack(spacing: 8) {
-                    Image(systemName: "lock.fill")
-                        .font(.system(size: 28))
-                        .foregroundColor(theme.primaryColor)
-                    Text(loc("Unlock full version"))
-                        .playfulFont(.footnote, weight: .bold)
-                        .foregroundColor(theme.primaryColor)
+            content
+                .opacity(0.55)
+                .overlay(alignment: .topTrailing) {
+                    HStack(spacing: 4) {
+                        Image(systemName: "lock.fill")
+                            .font(.system(size: 11, weight: .semibold))
+                        Text(loc("Premium"))
+                            .playfulFont(.caption2, weight: .bold)
+                    }
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 5)
+                    .background(
+                        Capsule().fill(theme.primaryColor)
+                    )
+                    .padding(10)
                 }
-            }
-            .contentShape(Rectangle())
-            .onTapGesture { showPaywall = true }
+                .contentShape(Rectangle())
+                .onTapGesture { showPaywall = true }
+                .accessibilityAddTraits(.isButton)
+                .accessibilityHint(loc("Locked, tap to unlock full version"))
         }
     }
 

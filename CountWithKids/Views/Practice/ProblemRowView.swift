@@ -24,20 +24,41 @@ struct ProblemRowView: View {
                 .playfulFont(.title2)
                 .foregroundColor(.primary)
                 .environment(\.layoutDirection, .leftToRight)
+                .accessibilityLabel(problem.spokenLabel)
 
-            // Negative toggle button
+            // Sign toggle. Single button, but visually shows BOTH signs side
+            // by side so the kid can read which one is currently active.
+            // Replaces the older cryptic "+/−" meta-syntax label.
             if problem.operation == .subtract {
                 Button(action: onToggleNegative) {
-                    Text(isNegative ? "−" : "+/−")
-                        .playfulFont(.callout)
-                        .foregroundColor(isNegative ? theme.secondaryColor : .secondary)
-                        .frame(width: 48, height: 48)
-                        .background(
-                            RoundedRectangle(cornerRadius: 10)
-                                .fill(isNegative ? theme.secondaryColor.opacity(0.15) : Color.gray.opacity(0.1))
-                        )
+                    HStack(spacing: 0) {
+                        Text("+")
+                            .playfulFont(.title3)
+                            .frame(width: 26, height: 44)
+                            .foregroundColor(isNegative ? .secondary : theme.primaryColor)
+                            .background(
+                                isNegative
+                                    ? Color.clear
+                                    : theme.primaryColor.opacity(0.20)
+                            )
+                        Text("−")
+                            .playfulFont(.title3)
+                            .frame(width: 26, height: 44)
+                            .foregroundColor(isNegative ? Color.appWrong : .secondary)
+                            .background(
+                                isNegative
+                                    ? Color.appWrong.opacity(0.18)
+                                    : Color.clear
+                            )
+                    }
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(Color.gray.opacity(0.25), lineWidth: 1)
+                    )
                 }
-                .accessibilityLabel(loc(isNegative ? "Negative answer on" : "Toggle negative answer"))
+                .accessibilityLabel(loc("Sign of answer"))
+                .accessibilityValue(loc(isNegative ? "negative" : "positive"))
                 .disabled(isLocked)
             }
 
@@ -70,10 +91,11 @@ struct ProblemRowView: View {
                     }
             }
 
-            // Result indicator
+            // Result indicator. Correct/wrong use fixed semantic colors (not
+            // theme.secondaryColor) so meaning stays stable across themes.
             if let result = result {
                 Image(systemName: result ? "checkmark.circle.fill" : "xmark.circle.fill")
-                    .foregroundColor(result ? .green : theme.secondaryColor)
+                    .foregroundColor(result ? Color.appCorrect : Color.appWrong)
                     .font(.title2)
                     .transition(.scale.combined(with: .opacity))
             }
@@ -81,7 +103,7 @@ struct ProblemRowView: View {
             if let result = result, !result {
                 Text("\(problem.correctAnswer)")
                     .playfulFont(.headline)
-                    .foregroundColor(.green)
+                    .foregroundColor(Color.appCorrect)
             }
 
             Spacer()
@@ -105,11 +127,11 @@ struct ProblemRowView: View {
 
     private var resultBackgroundColor: Color {
         guard let result = result else { return Color.gray.opacity(0.08) }
-        return result ? Color.green.opacity(0.1) : theme.secondaryColor.opacity(0.1)
+        return result ? Color.appCorrect.opacity(0.12) : Color.appWrong.opacity(0.12)
     }
 
     private var resultBorderColor: Color {
         guard let result = result else { return Color.gray.opacity(0.2) }
-        return result ? Color.green : theme.secondaryColor
+        return result ? Color.appCorrect : Color.appWrong
     }
 }

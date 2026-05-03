@@ -11,6 +11,31 @@ extension EnvironmentValues {
     }
 }
 
+// MARK: - Semantic colors (theme-independent)
+
+extension Color {
+    /// Fixed wrong-answer red. Stays consistent across all themes so kids
+    /// learn the signal regardless of which mascot is selected. Tested for
+    /// 4.5:1 contrast on cream and dark backgrounds.
+    static let appWrong = Color(
+        light: Color(red: 0.83, green: 0.18, blue: 0.22),
+        dark: Color(red: 1.00, green: 0.42, blue: 0.45)
+    )
+
+    /// Fixed correct-answer green for parity (currently we use .green which
+    /// is fine, but having a token simplifies any future tuning).
+    static let appCorrect = Color(
+        light: Color(red: 0.20, green: 0.65, blue: 0.32),
+        dark: Color(red: 0.40, green: 0.85, blue: 0.50)
+    )
+
+    fileprivate init(light: Color, dark: Color) {
+        self.init(uiColor: UIColor { traits in
+            traits.userInterfaceStyle == .dark ? UIColor(dark) : UIColor(light)
+        })
+    }
+}
+
 extension View {
     func themedBackground() -> some View {
         modifier(ThemedBackgroundModifier())
