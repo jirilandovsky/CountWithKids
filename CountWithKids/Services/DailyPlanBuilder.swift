@@ -75,8 +75,12 @@ enum DailyPlanBuilder {
     ///      or the catalog floor if active is the very first skill).
     private static func warmupCard(for active: Skill, mastered: Set<String>) -> Card {
         if let op = active.primaryOperation {
+            // Exclude the active skill itself — otherwise Warmup ends up
+            // identical to Focus (active can land in `mastered` mid-advance).
             let sameOp = SkillCatalog.allSkills.filter {
-                mastered.contains($0.id) && $0.primaryOperation == op
+                $0.id != active.id
+                    && mastered.contains($0.id)
+                    && $0.primaryOperation == op
             }
             if let pick = sameOp.last {
                 return Card(slot: .warmup, label: pick.localizedLabel, skillIDs: [pick.id], problemCount: problemsPerSession)
@@ -93,7 +97,11 @@ enum DailyPlanBuilder {
     ///      (stretch goal). For a brand-new kid this surfaces the level
     ///      *after* their active skill — never the same skill as Focus.
     private static func challengeCard(for active: Skill, mastered: Set<String>) -> Card {
-        let masteredSkills = SkillCatalog.allSkills.filter { mastered.contains($0.id) }
+        // Exclude the active skill from the review pool so Challenge never
+        // duplicates Focus, even if active.id sits in `mastered`.
+        let masteredSkills = SkillCatalog.allSkills.filter {
+            $0.id != active.id && mastered.contains($0.id)
+        }
         let recent = Array(masteredSkills.suffix(4))
         if recent.count >= 2 {
             return Card(

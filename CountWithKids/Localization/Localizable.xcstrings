@@ -178,6 +178,9 @@
         }
       }
     },
+    "+" : {
+
+    },
     "+ within 10" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -646,13 +649,29 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Adaptivní plán, nápovědy, týdenní zpráva"
+            "value" : "Adaptivní plán, nápovědy, týdenní report"
           }
         },
         "he" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "תוכנית יומית מותאמת, רמזים, דוח שבועי"
+          }
+        }
+      }
+    },
+    "Adaptive daily plan: Warmup, Focus, Challenge" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adaptivní plán: Rozcvička, Zaměření, Výzva"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "תוכנית יומית מותאמת: חימום, מיקוד, אתגר"
           }
         }
       }
@@ -1980,7 +1999,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Průvodce"
+            "value" : "Studium"
           }
         },
         "he" : {
@@ -1997,7 +2016,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Průvodce (předplatné) — Neaktivní"
+            "value" : "Studium (předplatné) — Neaktivní"
           }
         },
         "he" : {
@@ -2014,7 +2033,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Průvodce je zapnutý. Vypnout ho můžeš v Nastavení."
+            "value" : "Studium je zapnuté. Vypnout ho můžeš v Nastavení."
           }
         },
         "he" : {
@@ -2031,7 +2050,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Režim Průvodce"
+            "value" : "Režim studia"
           }
         },
         "he" : {
@@ -2099,7 +2118,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pojďme nastavit Průvodce pro vaše dítě"
+            "value" : "Pojďme nastavit studium pro vaše dítě"
           }
         },
         "he" : {
@@ -2745,7 +2764,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Otevřít Průvodce"
+            "value" : "Otevřít studium"
           }
         },
         "he" : {
@@ -3411,7 +3430,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Předplatit Průvodce"
+            "value" : "Předplatit studium"
           }
         },
         "he" : {
@@ -3785,7 +3804,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vyzkoušej Průvodce 7 dní zdarma"
+            "value" : "Vyzkoušej studium 7 dní zdarma"
           }
         },
         "he" : {

@@ -27,27 +27,46 @@ enum WeeklyReportService {
         return next
     }
 
-    /// Call once after a guided session completes. On the first call this
-    /// requests notification permission; on subsequent calls it (re)schedules
-    /// the next Sunday 19:00 notification when the threshold is met.
+    /// Call once after a guided session completes. NEVER requests notification
+    /// permission here — the system dialog interrupts active gameplay (the kid
+    /// just tapped Check All and is mid-scoring). Permission is requested
+    /// deliberately when the user opens the Weekly Report sheet for the first
+    /// time, where the request is contextually obvious.
     static func didCompleteGuidedSession(totalGuidedSessions: Int) async {
-        let center = UNUserNotificationCenter.current()
-        let asked = UserDefaults.standard.bool(forKey: permissionAskedKey)
-        if !asked {
-            UserDefaults.standard.set(true, forKey: permissionAskedKey)
-            do {
-                _ = try await center.requestAuthorization(options: [.alert, .badge, .sound])
-            } catch {
-                print("[WeeklyReportService] notification auth failed: \(error)")
-                return
-            }
-        }
         guard totalGuidedSessions >= minimumGuidedSessionsBeforeFirstReport else { return }
+        let center = UNUserNotificationCenter.current()
         let settings = await center.notificationSettings()
         guard settings.authorizationStatus == .authorized || settings.authorizationStatus == .provisional else {
             return
         }
         scheduleNextSundayEvening()
+    }
+
+    /// Requests notification permission ONCE on first open of the Weekly Report
+    /// sheet. Safe to call repeatedly — it's a no-op after the first prompt.
+    /// Returns true if (now or previously) authorized.
+    @discardableResult
+    static func requestNotificationPermissionIfNeeded() async -> Bool {
+        let center = UNUserNotificationCenter.current()
+        let settings = await center.notificationSettings()
+        switch settings.authorizationStatus {
+        case .authorized, .provisional, .ephemeral:
+            return true
+        case .denied:
+            return false
+        case .notDetermined:
+            UserDefaults.standard.set(true, forKey: permissionAskedKey)
+            do {
+                let granted = try await center.requestAuthorization(options: [.alert, .badge, .sound])
+                if granted { scheduleNextSundayEvening() }
+                return granted
+            } catch {
+                print("[WeeklyReportService] notification auth failed: \(error)")
+                return false
+            }
+        @unknown default:
+            return false
+        }
     }
 
     /// Replaces any existing scheduled report notification with one fired at

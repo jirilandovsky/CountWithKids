@@ -210,20 +210,31 @@ private struct PlacementWarmupStep: View {
                     Button {
                         isNegative.toggle()
                     } label: {
-                        Text(isNegative ? "−" : "+/−")
-                            .playfulFont(.footnote)
-                            .foregroundColor(isNegative ? theme.secondaryColor : .secondary)
-                            .frame(width: 36, height: 36)
-                            .background(
-                                RoundedRectangle(cornerRadius: 8)
-                                    .fill(isNegative ? theme.secondaryColor.opacity(0.15) : Color.gray.opacity(0.1))
-                            )
+                        HStack(spacing: 0) {
+                            Text("+")
+                                .playfulFont(.title3)
+                                .frame(width: 26, height: 44)
+                                .foregroundColor(isNegative ? .secondary : theme.primaryColor)
+                                .background(isNegative ? Color.clear : theme.primaryColor.opacity(0.20))
+                            Text("−")
+                                .playfulFont(.title3)
+                                .frame(width: 26, height: 44)
+                                .foregroundColor(isNegative ? Color.appWrong : .secondary)
+                                .background(isNegative ? Color.appWrong.opacity(0.18) : Color.clear)
+                        }
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(Color.gray.opacity(0.25), lineWidth: 1)
+                        )
                     }
+                    .accessibilityLabel(loc("Sign of answer"))
+                    .accessibilityValue(loc(isNegative ? "negative" : "positive"))
                 }
 
                 HStack(spacing: 2) {
                     if isNegative {
-                        Text("−").playfulFont(.title2).foregroundColor(theme.secondaryColor)
+                        Text("−").playfulFont(.title2).foregroundColor(Color.appWrong)
                     }
                     TextField("?", text: $currentAnswer)
                         .keyboardType(.numberPad)

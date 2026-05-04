@@ -298,13 +298,21 @@ struct PracticeView: View {
                             StreakBannerView(streak: effectiveStreak)
                                 .padding(.top, 8)
                         }
+
+                        // Bottom inset so the last problem can scroll above
+                        // the keyboard and Check All button — without this,
+                        // kids think the last visible row IS the last row.
+                        Color.clear
+                            .frame(height: 96)
                     }
                     .padding()
                 }
                 .onChange(of: focusedProblemId) { _, newId in
                     guard let newId else { return }
-                    withAnimation(.easeInOut(duration: 0.2)) {
-                        proxy.scrollTo(newId, anchor: .top)
+                    withAnimation(.easeInOut(duration: 0.25)) {
+                        // .center keeps surrounding rows visible — kid can see
+                        // both previous and next problem at once.
+                        proxy.scrollTo(newId, anchor: .center)
                     }
                 }
             }

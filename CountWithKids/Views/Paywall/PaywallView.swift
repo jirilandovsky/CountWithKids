@@ -50,13 +50,18 @@ struct PaywallView: View {
                             .multilineTextAlignment(.center)
                             .padding(.horizontal)
 
-                        if focus != .fullUnlockOnly {
+                        // Hide the one-time unlock when the user already owns it
+                        // (avoid offering them a product they've already paid for).
+                        let showGuided = focus != .fullUnlockOnly
+                        let showOneTime = focus != .guidedOnly && !settings.isUnlocked
+
+                        if showGuided {
                             guidedSection
                         }
-                        if focus == .both {
+                        if showGuided && showOneTime {
                             Divider().padding(.horizontal, 32)
                         }
-                        if focus != .guidedOnly {
+                        if showOneTime {
                             oneTimeSection
                         }
 

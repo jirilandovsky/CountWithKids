@@ -42,6 +42,11 @@ struct WeeklyReportView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(theme.backgroundColor.ignoresSafeArea())
         }
+        .task {
+            // Deferred to first open of this sheet — prompting at session
+            // completion interrupted active gameplay (kid mid-Check-All).
+            await WeeklyReportService.requestNotificationPermissionIfNeeded()
+        }
     }
 
     @ViewBuilder
