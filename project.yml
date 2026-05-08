@@ -23,6 +23,10 @@ schemes:
         CountWithKidsUITests: [test]
     run:
       config: Debug
+      # Use the local StoreKit configuration in Debug builds so Run from
+      # Xcode/simulator doesn't hit real App Store / require sandbox login.
+      # Has no effect on Release / TestFlight / App Store builds.
+      storeKitConfiguration: Configuration.storekit
     test:
       config: Debug
       targets:
@@ -38,6 +42,11 @@ targets:
       - path: CountWithKids
         excludes:
           - "**/.DS_Store"
+      # Dev-only StoreKit definitions used by the simulator's local store.
+      # buildPhase: none keeps it out of the bundled .app — it's a tooling
+      # file, not a resource.
+      - path: Configuration.storekit
+        buildPhase: none
     settings:
       base:
         INFOPLIST_GENERATION_MODE: GeneratedFile
