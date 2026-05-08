@@ -30,8 +30,8 @@ struct PaywallView: View {
         }
     }
 
-    private static let termsURL = URL(string: "https://countwithkids.com/terms")!
-    private static let privacyURL = URL(string: "https://countwithkids.com/privacy")!
+    private static let termsURL = URL(string: "https://countwithkids.com/terms.html")!
+    private static let privacyURL = URL(string: "https://countwithkids.com/privacy.html")!
 
     var body: some View {
         NavigationStack {

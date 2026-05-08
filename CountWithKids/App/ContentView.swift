@@ -88,6 +88,13 @@ struct ContentView: View {
         .onReceive(NotificationCenter.default.publisher(for: .dailyPlanStateChanged)) { _ in
             dailyPlanTick &+= 1
         }
+        .onChange(of: showGuideTab) { _, visible in
+            // If the kid was on Guide and a parent toggled it off in Settings,
+            // jump back to Practice so they aren't stranded on a hidden tab.
+            if !visible && selectedTab == .guide {
+                selectedTab = .practice
+            }
+        }
         .sheet(isPresented: $showGuidedOnboarding) {
             GuidedOnboardingSheet {
                 settings.hasSeenGuidedOnboarding = true
@@ -98,6 +105,13 @@ struct ContentView: View {
         .onAppear {
             store.start(settings: settings)
         }
+    }
+
+    /// Show the Guide tab when the user has an active subscription AND hasn't
+    /// switched the toggle off in Settings. Also keep it for free users (the
+    /// teaser) so they can discover and pay for it.
+    private var showGuideTab: Bool {
+        !store.isGuidedActive || settings.guidedModeEnabled
     }
 
     private var iPhoneLayout: some View {
@@ -120,12 +134,14 @@ struct ContentView: View {
                 }
                 .tag(Tab.trophyShelf)
 
-            guideTabContent
-                .tabItem {
-                    Label(loc("Guide"), systemImage: "graduationcap.fill")
-                }
-                .badge(guideTabBadgeCount)
-                .tag(Tab.guide)
+            if showGuideTab {
+                guideTabContent
+                    .tabItem {
+                        Label(loc("Guide"), systemImage: "graduationcap.fill")
+                    }
+                    .badge(guideTabBadgeCount)
+                    .tag(Tab.guide)
+            }
 
             SettingsView(settings: settings)
                 .tabItem {
@@ -145,9 +161,12 @@ struct ContentView: View {
             default: return .dinosaur
             }
         }()
+        let visibleTabs = Tab.allCases.filter { tab in
+            tab != .guide || showGuideTab
+        }
         return NavigationSplitView {
             List {
-                ForEach(Tab.allCases, id: \.self) { tab in
+                ForEach(visibleTabs, id: \.self) { tab in
                     Button {
                         selectedTab = tab
                     } label: {
@@ -185,13 +204,14 @@ struct ContentView: View {
         }
     }
 
-    /// Unfinished daily-plan slots for active Guided subscribers. Hidden for
-    /// free users (returns 0 → SwiftUI omits the badge). The `_ = dailyPlanTick`
-    /// read forces re-evaluation when DailyPlanState posts its change
-    /// notification (UserDefaults isn't observed by SwiftUI).
+    /// Unfinished daily-plan slots for active Guided subscribers who haven't
+    /// switched the toggle off. Hidden otherwise (returns 0 → SwiftUI omits
+    /// the badge). The `_ = dailyPlanTick` read forces re-evaluation when
+    /// DailyPlanState posts its change notification (UserDefaults isn't
+    /// observed by SwiftUI).
     private var guideTabBadgeCount: Int {
         _ = dailyPlanTick
-        guard store.isGuidedActive else { return 0 }
+        guard store.isGuidedActive, settings.guidedModeEnabled else { return 0 }
         let remaining = DailyPlanBuilder.Slot.allCases.count - DailyPlanState.completedSlots().count
         return max(0, remaining)
     }
