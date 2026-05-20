@@ -18,6 +18,12 @@ struct PaywallView: View {
     var focus: Focus = .both
 
     @State private var selectedPlan: GuidedPlan = .yearly
+    /// The App Store Kids category requires a parental gate in front of all
+    /// commerce. The paywall is the single place that surfaces purchase,
+    /// subscribe, restore, and the Terms/Privacy links, so gating the whole
+    /// view here covers every entry point (Settings, Dashboard, Practice,
+    /// Guide teaser) at once. The gate is always shown and cannot be disabled.
+    @State private var gatePassed = false
 
     enum GuidedPlan { case monthly, yearly }
     enum Focus { case both, fullUnlockOnly, guidedOnly }
@@ -34,6 +40,20 @@ struct PaywallView: View {
     private static let privacyURL = URL(string: "https://countwithkids.com/privacy.html")!
 
     var body: some View {
+        if gatePassed {
+            storeContent
+        } else {
+            ParentGateView(
+                title: loc("Ask a grown-up"),
+                message: loc("This is for grown-ups. Solve the problem to continue."),
+                onPass: { gatePassed = true },
+                onCancel: { dismiss() }
+            )
+            .environment(\.appTheme, theme)
+        }
+    }
+
+    private var storeContent: some View {
         NavigationStack {
             ZStack {
                 theme.backgroundColor.ignoresSafeArea()

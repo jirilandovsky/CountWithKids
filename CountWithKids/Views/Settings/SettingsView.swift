@@ -11,6 +11,8 @@ struct SettingsView: View {
     @Query(sort: \PracticeSession.completedAt, order: .reverse) private var sessions: [PracticeSession]
     @State private var showResetConfirmation = false
     @State private var showParentGate = false
+    @State private var showRestoreGate = false
+    @State private var showManageGate = false
     @State private var showPaywall = false
     @State private var paywallFocus: PaywallView.Focus = .both
     #if DEBUG
@@ -113,9 +115,16 @@ struct SettingsView: View {
                 .buttonStyle(.plain)
 
                 Button(loc("Restore Purchases")) {
-                    Task { await store.restore() }
+                    showRestoreGate = true
                 }
                 .playfulFont(.footnote, weight: .medium)
+                .parentGate(
+                    isPresented: $showRestoreGate,
+                    message: loc("This is for grown-ups. Solve the problem to continue."),
+                    theme: theme
+                ) {
+                    Task { await store.restore() }
+                }
             }
         }
     }
@@ -131,11 +140,18 @@ struct SettingsView: View {
                 .tint(theme.primaryColor)
 
                 Button {
-                    Task { await openManageSubscriptions() }
+                    showManageGate = true
                 } label: {
                     Label(loc("Manage subscription"), systemImage: "creditcard")
                         .playfulFont(.subheadline, weight: .medium)
                         .foregroundColor(theme.primaryColor)
+                }
+                .parentGate(
+                    isPresented: $showManageGate,
+                    message: loc("This is for grown-ups. Solve the problem to continue."),
+                    theme: theme
+                ) {
+                    Task { await openManageSubscriptions() }
                 }
             } header: {
                 Text(loc("Guide"))
@@ -483,126 +499,6 @@ struct SettingsView: View {
                 }
                 Button(loc("Cancel"), role: .cancel) { }
             }
-        }
-    }
-}
-
-// Parent gate: a two-digit multiplication problem only an adult is likely to solve quickly.
-// Used in front of destructive actions and any future purchase confirmations to comply
-// with App Store guidance for kids' apps.
-private struct ParentGateView: View {
-    @Environment(\.appTheme) var theme
-    @Environment(\.dismiss) private var dismiss
-    let title: String
-    let message: String
-    let onPass: () -> Void
-    let onCancel: () -> Void
-
-    @State private var a: Int = 0
-    @State private var b: Int = 0
-    @State private var input: String = ""
-    @State private var showError: Bool = false
-    @FocusState private var focused: Bool
-
-    var body: some View {
-        NavigationStack {
-            ZStack {
-                theme.backgroundColor.ignoresSafeArea()
-
-                VStack(spacing: 24) {
-                    Image(systemName: "lock.shield.fill")
-                        .font(.system(size: 56))
-                        .foregroundColor(theme.primaryColor)
-                        .padding(.top, 16)
-
-                    Text(title)
-                        .playfulFont(.title2)
-                        .foregroundColor(.primary)
-
-                    Text(message)
-                        .playfulFont(.subheadline, weight: .medium)
-                        .foregroundColor(.secondary)
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal, 24)
-
-                    HStack(spacing: 12) {
-                        Text("\(a) × \(b) =")
-                            .playfulFont(.title)
-                            .foregroundColor(.primary)
-                            .environment(\.layoutDirection, .leftToRight)
-
-                        TextField("?", text: $input)
-                            .keyboardType(.numberPad)
-                            .playfulFont(.title)
-                            .multilineTextAlignment(.center)
-                            .frame(width: 100, height: 56)
-                            .background(
-                                RoundedRectangle(cornerRadius: 12)
-                                    .fill(theme.primaryColor.opacity(0.1))
-                            )
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 12)
-                                    .stroke(showError ? Color.red : theme.primaryColor, lineWidth: 2)
-                            )
-                            .focused($focused)
-                            .onChange(of: input) { _, newValue in
-                                input = newValue.filter { $0.isNumber }
-                                showError = false
-                            }
-                            .accessibilityLabel(loc("Adult check answer"))
-                    }
-                    .padding(.top, 8)
-
-                    if showError {
-                        Text(loc("Not quite. Try again."))
-                            .playfulFont(.footnote, weight: .medium)
-                            .foregroundColor(.red)
-                    }
-
-                    Spacer()
-
-                    Button(loc("Continue")) {
-                        check()
-                    }
-                    .buttonStyle(PlayfulButtonStyle())
-                    .disabled(input.isEmpty)
-                    .padding(.horizontal, 24)
-
-                    Spacer().frame(height: 12)
-                }
-                .padding()
-            }
-            .navigationTitle("")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button(loc("Cancel")) { onCancel() }
-                }
-            }
-            .onAppear {
-                generateProblem()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                    focused = true
-                }
-            }
-        }
-    }
-
-    private func generateProblem() {
-        a = Int.random(in: 11...19)
-        b = Int.random(in: 11...19)
-        input = ""
-        showError = false
-    }
-
-    private func check() {
-        guard let value = Int(input) else { return }
-        if value == a * b {
-            onPass()
-        } else {
-            showError = true
-            input = ""
-            generateProblem()
         }
     }
 }
